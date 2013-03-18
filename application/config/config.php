@@ -1,5 +1,16 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * @param $classname This autoload function auto load the modded class from libraries
+ */
+function __autoload($classname){
+    if(strpos($classname, 'CI_')!==0){
+        $file= APPPATH  . 'libraries/' . $classname . ".php";
+        if(file_exists($file)&& is_file($file)){
+           @include_once($file);
+        }
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
