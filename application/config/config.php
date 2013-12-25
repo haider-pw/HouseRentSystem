@@ -25,7 +25,7 @@ function __autoload($classname){
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost:12/projects/HouseRentingSystem/RentalHouseManagement/';
+$config['base_url']	= 'http://localhost/projects/HouseRentSystem/';
 
 /*
 |--------------------------------------------------------------------------

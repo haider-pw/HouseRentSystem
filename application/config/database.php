@@ -49,8 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'admin';
-$db['default']['password'] = 'admin';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'houserentsystem';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

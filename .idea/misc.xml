@@ -343,9 +343,6 @@
       </general>
     </ddl-file-settings>
   </component>
-  <component name="ProjectResources">
-    <default-html-doctype>jar:file:\C:\Program Files (x86)\JetBrains\PhpStorm 5.0.4\lib\webide.jar!\resources\html5-schema\html5.rnc</default-html-doctype>
-  </component>
   <component name="ProjectRootManager" version="2" />
 </project>
 
