@@ -7,6 +7,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Dashboard extends Base_Controller{
+class Dashboard extends Admin_Controller{
     
 }
