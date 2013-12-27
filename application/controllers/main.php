@@ -7,6 +7,12 @@ class main extends Frontend_Controller{
 
     public function index()
     {
-        $this->smarty->view( 'home.tpl');
+        $myArray = array('Controller' => $this->router->fetch_class(), 'Method' => $this->router->fetch_method());
+        $this->smarty->assign('Fetch', $myArray);
+
+        $this->smarty->assign("lang", "english");
+        $data['template'] = "home.tpl";
+        $data['templateName'] = "Home template";
+        $this->smarty->view( 'main.tpl', $data);
     }
 }
