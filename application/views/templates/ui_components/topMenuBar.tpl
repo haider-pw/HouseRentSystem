@@ -35,6 +35,7 @@
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
             </form>
-        </div><!--/.navbar-collapse -->
+        </div>
+        <!--/.navbar-collapse -->
     </div>
 </div>

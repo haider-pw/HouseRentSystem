@@ -15,7 +15,7 @@
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;</pre>
  *
  * Demo data:
- * <pre>INSERT INTO `templates` (`name`, `modified`, `source`) VALUES ('test.tpl', "2010-12-25 22:00:00", '{$x="hello world"}{$x}');</pre>
+ * <pre>INSERT INTO `templates` (`name`, `modified`, `source`) VALUES ('top.tpl', "2010-12-25 22:00:00", '{$x="hello world"}{$x}');</pre>
  *
  * @package Resource-examples
  * @author Rodney Rehm

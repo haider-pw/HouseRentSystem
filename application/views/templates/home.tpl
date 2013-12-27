@@ -1,13 +1,6 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 {{ci_language file="label" lang="$lang"}}
-<div class="jumbotron">
-    <div class="container">
-        <h1>{{ci_language line="passconf"}}</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
-</div>
-
+{{include file="ui_components/mainSlider.tpl"}}
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
@@ -27,12 +20,7 @@
             <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
         </div>
     </div>
-
     <hr>
-
-    <footer>
-        <p>&copy; Company 2013</p>
-    </footer>
 </div>
 
 

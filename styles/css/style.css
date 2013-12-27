@@ -1,0 +1,138 @@
+
+/* ---------------------------------------------------------------------- */
+/*  Footer & Copyright
+/* ---------------------------------------------------------------------- */
+footer {
+    margin-top:60px;
+    padding:20px 0;
+    color:#000000;
+    -webkit-box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+    box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+}
+
+footer .social {
+    float:none;
+    padding-bottom:20px;
+}
+
+footer .social li a {
+    background:#8ec62f url(../images/social.png) no-repeat top left;
+}
+
+footer nav {
+    float:right;
+    margin:20px 0;
+}
+
+#copyright nav {
+    float:right;
+    margin:0;
+    margin-right:20px;
+}
+
+footer nav li, #copyright nav li {
+    list-style:none;
+    float:left;
+    margin-right:20px;
+}
+
+#copyright nav li {
+    margin-right:10px;
+}
+
+footer nav li a {
+    color:#000000;
+    text-decoration:none;
+    text-transform:uppercase;
+    font-family: "LeagueGothicRegular", "Helvetica Neue", Helvetica, Arial;
+    font-size:24px;
+    line-height:1.5em;
+}
+
+#copyright nav li a {
+    color:#fff;
+    text-decoration:none;
+    font-family: Arial;
+    font-size:13px;
+}
+
+footer nav li a:hover, #copyright nav li a:hover {
+    color: #FFBE00;
+}
+
+footer .address {
+    float:right;
+    border-top:1px solid #000000;
+    padding-top:20px;
+    margin-bottom:20px;
+    width:100%;
+    text-align:right;
+    padding-right:20px;
+}
+
+#copyright {
+    padding:12px 0 6px 0;
+    background:#ed6a3c;
+    color:#fff;
+    font-size:13px;
+}
+
+#copyright small a {
+    text-decoration:none !important;
+    color:#fff !important;
+}
+
+#copy-left {
+    float:left;
+    text-align:left;
+}
+
+#copy-left p {
+    margin:0;
+}
+
+.span4 {
+    width: 370px;
+}
+[class*="span"] {
+    float: left;
+    margin-left: 20px;
+}
+.span8 {
+    width: 770px;
+}
+
+
+
+/* ---------------------------------------------------------------------- */
+/*  Social
+/* ---------------------------------------------------------------------- */
+
+#social {
+    background:url(../img/textures/texture1.png); /* the texture can be changed see img/textures/ */
+    border-bottom:1px solid #ccc;
+    -webkit-box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+    box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+}
+
+.social li a, input, textarea {
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -ms-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+.social {
+    clear: right;
+    float: right;
+    list-style: none outside none;
+    margin: 20px 20px 20px 0;
+}
+.social li {
+    float: left;
+    text-indent: -999em;
+}
+
