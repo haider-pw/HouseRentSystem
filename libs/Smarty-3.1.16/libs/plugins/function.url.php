@@ -4,7 +4,7 @@
  */
 
 /**
- * Smarty {url} function plugin
+ * Smarty {{url}} function plugin
  *
  * Type:     function
  * Name:     url

@@ -7,13 +7,13 @@ class Common_Model extends MY_Model{
     }
 
     public function login($Where){
-        $UserTable = 'pbs_users';
+        $UserTable = 'sys_users';
         $user = $this->get($UserTable,$Where,TRUE);
         if(count($user)){
 //Log the User in if User Record is Returned
             $data=array(
                 'FullName' => $user['FullName'],
-                'email' => $user['Email'],
+                'Email' => $user['Email'],
                 'UserID' => $user['UserID'],
                 'LoggedIn' => TRUE
             );

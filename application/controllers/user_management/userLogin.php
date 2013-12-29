@@ -12,21 +12,31 @@ class userLogin extends My_Controller{
     }
 
 public function login(){
-/*    if(!$this->input->post()){// if nothing submitted then
-
-        $data['last_visited_page']='';
+    if(!$this->input->post()){
+    // if nothing submitted or this controller method is directly accessed then user will be redirected to the home page.
+        $data['template'] = "home.tpl";
         $this->smarty->view( 'main.tpl', $data);
     }else{
-        // This code verifies that the user has properly logged in
-        $this->load->model('user_management/Check_login_model');
-        if($this->Check_login_model->authenticate()>=1){
-            redirect('/main/'); // redirect to the main URI of the Site for the current
+/*        $this->form_validation->set_rules('Username', 'Username', 'trim|required|min_length[5]|max_length[50]|strtolower|xss_clean');
+        $this->form_validation->set_rules('Password', 'Password', 'trim|required|min_length[5]|max_length[50]|md5|do_hash');
+        $this->form_validation->run();*/
+        $sourcePage = $this->input->post('sourcePage');
+        $username = $this->input->post('Username');
+        $password = $this->input->post('Password');
+        $where = array(
+            'Username' => $username,
+            'Password' => $password
+        );
+        $result = $this->Common_Model->login($where);
+        // if the user successfully logged in, then result will be TRUE
+        if($result===TRUE){
+            redirect($sourcePage); // redirect to the main URI of the Site for the current
         }else{
-            redirect('/user_management/login_form?STATUS=LOGINFAILED');
+            //redirect('/user_management/login_form?STATUS=LOGINFAILED');
+            echo "wrong pass";
             exit();
         }
 
-    }*/
-echo "controller showing current url"; current_url();
+    }
 }
 }

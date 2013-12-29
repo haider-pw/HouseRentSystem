@@ -1,4 +1,5 @@
             <form class="navbar-form navbar-right" method="post" action="user_management/userLogin/Login">
+                <input type="hidden" value="{{url type="current"}}" name="sourcePage">
                 <div class="form-group">
                     <input type="text" placeholder="Username or Email" id="Username" name="Username" class="form-control">
                 </div>

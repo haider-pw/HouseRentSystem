@@ -15,7 +15,7 @@ class MY_Model extends CI_Model {
     function get($table,$where=array(),$single=FALSE) {
         $q = $this->db->get_where($table,$where);
         $result = $q->result_array();
-        if($single) {
+        if($single && !empty($result)) { //if the result is not empty and only single result is needed then this if statement runs.
             return $result[0];
         }
         return $result;

@@ -16,5 +16,6 @@ class My_Controller extends CI_Controller{
         $this->data['errors']=array();
         $this->data['site_name']=array();
         $this->load->library( 'Smarty.php' );
+        $this->load->model('Common_Model');
 } 
 }
