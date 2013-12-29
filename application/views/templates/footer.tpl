@@ -45,7 +45,6 @@
                             <a href="contact.html">Contact</a>
                         </li>
                     </ul>
-                    <select class="mobile-nav"><option value="">Navigate to...</option><option value="index.html"> Home</option><option value="about.html"> About Us</option><option value="services.html"> Services</option><option value="portfolio-videos.html"> Portfolio</option><option value="clients.html"> Clients</option><option value="blog.html"> Blog</option><option value="contact.html"> Contact</option></select></nav>
                 <div class="address">
                     <p><i class="icon-home"></i> FF-233 Deans Trade Center Peshawar, KPK, Pakistan, <i class="icon-phone"></i> +92(91) 560 3113, <i class="icon-envelope-alt"></i>info@telictech.com</p>
                 </div>
@@ -56,7 +55,7 @@
 <div id="copyright">
     <div class="container">
         <div id="copy-left">
-            <p>Copyright &copy; 2012 Telic Technologies (Pvt.) Ltd</p>
+            <p>Copyright &copy; 2014 Syed Haider Hassan</p>
         </div>
         <nav>
             <ul>
@@ -67,7 +66,6 @@
                     <a href="#">Terms</a>
                 </li>
             </ul>
-            <select class="mobile-nav"><option value="">Navigate to...</option><option value="index.html"> Home</option><option value="about.html"> About Us</option><option value="services.html"> Services</option><option value="portfolio-videos.html"> Portfolio</option><option value="clients.html"> Clients</option><option value="blog.html"> Blog</option><option value="contact.html"> Contact</option></select></nav>
     </div>
 </div>
 
