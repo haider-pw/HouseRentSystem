@@ -34,7 +34,7 @@ footer .social {
 }
 
 footer .social li a {
-    background:#8ec62f url(../images/social.png) no-repeat top left;
+    background:#285e8e url(../images/social.png) no-repeat top left;
 }
 
 footer nav {
@@ -90,7 +90,7 @@ footer .address {
 
 #copyright {
     padding:12px 0 6px 0;
-    background:#ed6a3c;
+    background-image:  linear-gradient(to bottom, #3C3C3C 0px, #222222 100%);
     color:#fff;
     font-size:13px;
 }

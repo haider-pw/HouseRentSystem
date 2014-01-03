@@ -2,7 +2,6 @@
 {{ci_language file="label" lang="$lang"}}
 {{include file="ui_components/mainSlider.tpl"}}
 <div class="container">
-{{url}}
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-lg-4">

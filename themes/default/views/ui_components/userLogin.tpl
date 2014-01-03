@@ -1,15 +1,5 @@
 {{if LoggedIn()}}
-    <script type="text/javascript">
-        $('document').ready(function (e) {
-            function logout() {
-                $.ajax({
-                    type: "POST",
-                    url: "{{url}}user_management/userLogin/logout",
-                    data: "JobID={{url type='current'}}"
-                });
-            }
-        });
-    </script>
+
     <div class="user-box navbar-right">
         <div class="user-id">
             <img class="user-picture"
@@ -28,6 +18,20 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function logout() {
+            $.ajax({
+                type: "POST",
+                url: "{{url}}user_management/userLogin/logout",
+                data: "sourcePage={{url type='current'}}",
+                success: function output(e){
+                    if(e=='true'){
+                        location.reload();
+                    }
+                }
+            });
+        }
+    </script>
 {{else}}
     <form class="navbar-form navbar-right" method="post" action="{{url}}user_management/userLogin/login">
         <input type="hidden" value="{{url type="current"}}" name="sourcePage">

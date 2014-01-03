@@ -79,17 +79,23 @@
 <!-- End WOWSlider.com BODY section -->
 {{/if}}
 {{literal}}
-<script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src='//www.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g,s)}(document,'script'));
-</script>
-<script type="text/javascript">
-        $(function() {
+    <script>
+        var _gaq = [
+            ['_setAccount', 'UA-XXXXX-X'],
+            ['_trackPageview']
+        ];
+        (function (d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.src = '//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        }(document, 'script'));
+    </script>
+    <script type="text/javascript">
+        $(function () {
             $('#da-slider').cslider();
         });
-</script>
+    </script>
+
 {{/literal}}
 </body>
 </html>

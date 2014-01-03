@@ -39,8 +39,13 @@ public function login(){
 
     }
 }
-    public function logout($sourcePage){
-        $result = $this->Common_Model->logout();
-        redirect($sourcePage);
+    public function logout(){
+        if($_POST){
+            $sourcePage = mysql_real_escape_string($_POST["sourcePage"]);
+            //redirect($sourcePage);
+            $this->Common_Model->logout();
+            echo "true";
+        }
+
     }
 }
