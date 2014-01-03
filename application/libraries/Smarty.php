@@ -1,92 +1,96 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Smarty Class
+ * CI Smarty
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Smarty
- * @author		Kepler Gelotte
- * @link		http://www.coolphptools.com/codeigniter-smarty
+ * Smarty templating for Codeigniter
+ *
+ * @package   CI Smarty
+ * @author       Dwayne Charrington
+ * @copyright  2013 Dwayne Charrington and Github contributors
+ * @link            http://ilikekillnerds.com
+ * @license     http://www.apache.org/licenses/LICENSE-2.0.html
+ * @version     2.0
  */
-require_once( 'libs/Smarty-3.1.16/libs/Smarty.class.php' );
+
+require_once APPPATH."third_party/Smarty/Smarty.class.php";
 
 class CI_Smarty extends Smarty {
 
-	function CI_Smarty()
-	{
-		parent::Smarty();
+    public $template_ext = '.php';
 
-		$this->compile_dir = APPPATH . "views/templates_c";
-		$this->template_dir = APPPATH . "views/templates";
-		$this->assign( 'APPPATH', APPPATH );
-		$this->assign( 'BASEPATH', BASEPATH );
+    public function __construct()
+    {
+        parent::__construct();
 
-		log_message('debug', "Smarty Class Initialized");
-	}
+        // Store the Codeigniter super global instance... whatever
+        $CI = get_instance();
 
-	function __construct()
-	{
-		parent::__construct();
+        // Load the Smarty config file
+        $CI->load->config('smarty');
 
-		$this->compile_dir = APPPATH . "views/templates_c";
-		$this->template_dir = APPPATH . "views/templates";
-		$this->assign( 'APPPATH', APPPATH );
-		$this->assign( 'BASEPATH', BASEPATH );
+        // Turn on/off debug
+        $this->debugging = config_item('smarty_debug');
 
-		// Assign CodeIgniter object by reference to CI
-		if ( method_exists( $this, 'assignByRef') )
-		{
-			$ci =& get_instance();
-			$this->assignByRef("ci", $ci);
-		}
+        // Set some pretty standard Smarty directories
+        $this->setCompileDir(config_item('compile_directory'));
+        $this->setCacheDir(config_item('cache_directory'));
+        $this->setConfigDir(config_item('config_directory'));
 
-		log_message('debug', "Smarty Class Initialized");
-	}
+        // Default template extension
+        $this->template_ext = config_item('template_ext');
 
+        // How long to cache templates for
+        $this->cache_lifetime = config_item('cache_lifetime');
 
-	/**
-	 *  Parse a template using the Smarty engine
-	 *
-	 * This is a convenience method that combines assign() and
-	 * display() into one step. 
-	 *
-	 * Values to assign are passed in an associative array of
-	 * name => value pairs.
-	 *
-	 * If the output is to be returned as a string to the caller
-	 * instead of being output, pass true as the third parameter.
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	array
-	 * @param	bool
-	 * @return	string
-	 */
-	function view($template, $data = array(), $return = FALSE)
-	{
-		foreach ($data as $key => $val)
-		{
-			$this->assign($key, $val);
-		}
-		
-		if ($return == FALSE)
-		{
-			$CI =& get_instance();
-			if (method_exists( $CI->output, 'set_output' ))
-			{
-				$CI->output->set_output( $this->fetch($template) );
-			}
-			else
-			{
-				$CI->output->final_output = $this->fetch($template);
-			}
-			return;
-		}
-		else
-		{
-			return $this->fetch($template);
-		}
-	}
+        // Disable Smarty security policy
+        $this->disableSecurity();
+
+        // If caching is enabled, then disable force compile and enable cache
+        if (config_item('cache_status') === TRUE)
+        {
+            $this->enable_caching();
+        }
+        else
+        {
+            $this->disable_caching();
+        }
+
+        // Set the error reporting level
+        $this->error_reporting   = config_item('template_error_reporting');
+
+        // This will fix various issues like filemtime errors that some people experience
+        // The cause of this is most likely setting the error_reporting value above
+        // This is a static function in the main Smarty class
+        Smarty::muteExpectedErrors();
+
+        // Should let us access Codeigniter stuff in views
+        // This means we can go for example {$this->session->userdata('item')}
+        // just like we normally would in standard CI views
+        $this->assign("this", $CI);
+
+    }
+
+    /**
+     * Enable Caching
+     *
+     * Allows you to enable caching on a page by page basis
+     * @example $this->smarty->enable_caching(); then do your parse call
+     */
+    public function enable_caching()
+    {
+        $this->caching = 1;
+    }
+
+    /**
+     * Disable Caching
+     *
+     * Allows you to disable caching on a page by page basis
+     * @example $this->smarty->disable_caching(); then do your parse call
+     */
+    public function disable_caching()
+    {
+        $this->caching = 0;
+    }
+
 }
-// END Smarty Class

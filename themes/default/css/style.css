@@ -1,0 +1,221 @@
+@import url("user_info_box");
+
+@font-face {
+    font-family: 'LeagueGothicRegular';
+    src: url('../fonts/league_gothic-webfont.eot');
+    src: url('../fonts/league_gothic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/league_gothic-webfont.woff') format('woff'),
+    url('../fonts/league_gothic-webfont.ttf') format('truetype'),
+    url('../fonts/league_gothic-webfont.svg#LeagueGothicRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/* ---------------------------------------------------------------------- */
+/*  Footer & Copyright
+/* ---------------------------------------------------------------------- */
+
+footer {
+    margin:0;
+    background:url(../images/footer-bg.png) repeat; /* here the texture can be changed: go in img/textures/ */
+}
+
+footer {
+    margin-top:60px;
+    padding:20px 0;
+    color:#000000;
+    -webkit-box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+    box-shadow: -10px 0px 5px rgba(0, 0, 0, .2);
+}
+
+footer .social {
+    float:none;
+    padding-bottom:20px;
+}
+
+footer .social li a {
+    background:#8ec62f url(../images/social.png) no-repeat top left;
+}
+
+footer nav {
+    float:right;
+    margin:20px 0;
+}
+
+#copyright nav {
+    float:right;
+    margin:0;
+    margin-right:20px;
+}
+
+footer nav li, #copyright nav li {
+    list-style:none;
+    float:left;
+    margin-right:20px;
+}
+
+#copyright nav li {
+    margin-right:10px;
+}
+
+footer nav li a {
+    color:#000000;
+    text-decoration:none;
+    text-transform:uppercase;
+    font-family: "LeagueGothicRegular", "Helvetica Neue", Helvetica, Arial;
+    font-size:24px;
+    line-height:1.5em;
+}
+
+#copyright nav li a {
+    color:#fff;
+    text-decoration:none;
+    font-family: Arial;
+    font-size:13px;
+}
+
+footer nav li a:hover, #copyright nav li a:hover {
+    color: #FFBE00;
+}
+
+footer .address {
+    float:right;
+    border-top:1px solid #000000;
+    padding-top:20px;
+    margin-bottom:20px;
+    width:100%;
+    text-align:right;
+    padding-right:20px;
+}
+
+#copyright {
+    padding:12px 0 6px 0;
+    background:#ed6a3c;
+    color:#fff;
+    font-size:13px;
+}
+
+#copyright small a {
+    text-decoration:none !important;
+    color:#fff !important;
+}
+
+#copy-left {
+    float:left;
+    text-align:left;
+}
+
+#copy-left p {
+    margin:0;
+}
+
+.span4 {
+    width: 360px;
+}
+[class*="span"] {
+    float: left;
+    margin-left: 20px;
+}
+.span8 {
+    width: 770px;
+}
+
+
+#back-top {
+    background: url("../img/arrow-up.png") no-repeat scroll center center #DEDEDE;
+    border-radius: 2px;
+    bottom: 100px;
+    display: none;
+    height: 32px;
+    overflow: hidden;
+    position: fixed;
+    right: 20px;
+    text-indent: -9000px;
+    width: 32px;
+    z-index: 10000;
+}
+
+ul {
+    list-style: disc outside none;
+}
+ul, ol {
+    margin: 0 0 20px 25px;
+    padding: 0;
+}
+li {
+    line-height: 18px;
+}
+/* ---------------------------------------------------------------------- */
+/*  Social
+/* ---------------------------------------------------------------------- */
+
+#social {
+    background:url(../img/textures/texture1.png); /* the texture can be changed see img/textures/ */
+    border-bottom:1px solid #ccc;
+    -webkit-box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+    box-shadow: 5px 0px 5px rgba(0, 0, 0, .2);
+}
+
+.social li a, input, textarea {
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -ms-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+/* --------------------------------------------------------------------------------- */
+/*  Social buttons: almost all the social networks are represented with their color
+/* --------------------------------------------------------------------------------- */
+
+.social { clear:right; float: right; list-style: none; margin: 20px 20px 20px 0; }
+.social li { text-indent: -999em; float:left; }
+.social li a{ background:#8ec62f url(../img/social.png) no-repeat top left; display: block; width: 32px; height: 32px; margin-left: 5px; -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;}
+.social li a:hover{ background-color:#999; }
+.social li a.aim{ background-position: 0 0;  }
+.social li a.aim:hover { background-color:#158698; }
+.social li a.behance{ background-position: -37px 0;  }
+.social li a.behance:hover { background-color:#18a3fd; }
+.social li a.digg{ background-position: -74px 0;  }
+.social li a.digg:hover { background-color:#14589d; }
+.social li a.dribbble{ background-position: -111px 0;  }
+.social li a.dribbble:hover { background-color:#bb3468; }
+.social li a.ember{ background-position: -148px 0;  }
+.social li a.ember:hover { background-color:red; }
+.social li a.evernote{ background-position: -185px 0;  }
+.social li a.evernote:hover { background-color:#66a82e; }
+.social li a.facebook{ background-position: -222px 0;  }
+.social li a.facebook:hover { background-color:#3b5997; }
+.social li a.flickr{ background-position: -259px 0;  }
+.social li a.flickr:hover { background-color:#fc0082 ; }
+.social li a.forrst{ background-position: -296px 0;  }
+.social li a.forrst:hover { background-color:#234417 ; }
+.social li a.github{ background-position: -333px 0;  }
+.social li a.github:hover { background-color:#485d6b ; }
+.social li a.google{ background-position: -370px 0;  }
+.social li a.google:hover { background-color:#d54a2e; }
+.social li a.last-fm{ background-position: -407px 0;  }
+.social li a.last-fm:hover { background-color:#c00d17; }
+.social li a.linkedin{ background-position: -444px 0;  }
+.social li a.linkedin:hover { background-color:#1b7daa; }
+.social li a.paypal{ background-position: -481px 0;  }
+.social li a.rss{ background-position: -518px 0;  }
+.social li a.rss:hover { background-color:#ea8b02; }
+.social li a.sharethis{ background-position: -555px 0;  }
+.social li a.sharethis:hover { background-color:#008651 ; }
+.social li a.skype{ background-position: -592px 0;  }
+.social li a.skype:hover { background-color:#00aeef ; }
+.social li a.tumblr{ background-position: -629px 0;  }
+.social li a.twitter{ background-position: -666px 0;  }
+.social li a.twitter:hover { background-color:#009bca; }
+.social li a.vimeo{ background-position: -703px 0;  }
+.social li a.vimeo:hover { background-color:#0093cb; }
+.social li a.wordpress{ background-position: -740px 0;  }
+.social li a.wordpress:hover { background-color:#be461e; }
+.social li a.yahoo{ background-position: -777px 0;  }
+.social li a.yahoo:hover { background-color:#7b0098; }
+.social li a.youtube{ background-position: -814px 0;  }
+.social li a.youtube:hover { background-color:#ac2b26; }
+.social li a.zerply{ background-position: -851px 0; }
+.social li a.zerply:hover { background-color:#99bd68; }

@@ -39,4 +39,8 @@ public function login(){
 
     }
 }
+    public function logout($sourcePage){
+        $result = $this->Common_Model->logout();
+        redirect($sourcePage);
+    }
 }

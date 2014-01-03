@@ -3,6 +3,7 @@
 class main extends Frontend_Controller{
     function __construct(){
         parent::__construct();
+        $this->load->library('parser');
     }
 
     public function index()
@@ -13,6 +14,10 @@ class main extends Frontend_Controller{
         $this->smarty->assign("lang", "english");
         $data['template'] = "home.tpl";
         $data['templateName'] = "Home template";
-        $this->smarty->view( 'main.tpl', $data);
+        $this->parser->parse( 'main.tpl', $data);
+        //echo "hello world";
+ /*       $data['title'] = "test";
+        $data['body'] = "babaji ka body";
+        $this->parser->parse("smartytest.tpl", $data);*/
     }
 }
