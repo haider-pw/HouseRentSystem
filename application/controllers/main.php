@@ -3,7 +3,6 @@
 class main extends Frontend_Controller{
     function __construct(){
         parent::__construct();
-        $this->load->library('parser');
     }
 
     public function index()

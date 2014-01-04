@@ -12,7 +12,7 @@
             <div class="dropdown-menu">
                 <ul>
                     <li>Settings</li>
-                    <li>Sports</li>
+                    <li onclick="adminPanelRequest()">Administration</li>
                     <li onclick="logout()">Log Out</li>
                 </ul>
             </div>
@@ -30,6 +30,10 @@
                     }
                 }
             });
+        }
+
+        function adminPanelRequest(){
+            window.location.href = "{{url}}admin/dashboard/adminHome";
         }
     </script>
 {{else}}

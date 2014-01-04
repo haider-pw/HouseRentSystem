@@ -8,5 +8,12 @@
  */
 
 class Dashboard extends Admin_Controller{
-    
+    function __construct(){
+        parent::__construct();
+    }
+
+    public function adminHome(){
+        $this->parser->parse('admin/dashboard.tpl');
+        //echo "admin Dashboard is here.";
+    }
 }
