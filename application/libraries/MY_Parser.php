@@ -255,13 +255,12 @@ class MY_Parser extends CI_Parser {
     {
         $defaults = array(
             'alt' => '',
-            'title' => ''
+            'title' => '',
+            'class' => ''
         );
 
         $attributes = array_merge($defaults, $attributes);
-
-        $return = '<img src ="'.base_url(config_item('theme_path').$this->get_theme()."/img/".$file).'" alt="'.$attributes['alt'].'" title="'.$attributes['title'].'" />';
-
+        $return = '<img src ="'.base_url(config_item('theme_path').$this->get_theme()."/img/".$file).'" alt="'.$attributes['alt'].'" title="'.$attributes['title'].'" class="'.$attributes['class'].'" />';
         return $return;
     }
 

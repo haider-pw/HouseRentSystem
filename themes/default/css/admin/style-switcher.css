@@ -116,7 +116,7 @@ body {
   margin-left: 6px;
 }
 .style-switcher .color-picker .color-picker-icon {
-  background: url("../../images/admin/cp.png") no-repeat scroll 0 0 transparent;
+  background: url("../../img/admin/cp.png") no-repeat scroll 0 0 transparent;
   height: 24px;
   left: -4px;
   position: absolute;

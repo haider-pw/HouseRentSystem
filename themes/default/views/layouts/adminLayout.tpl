@@ -54,7 +54,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="index.html" class="navbar-brand">
-                <img src="assets/img/logo.png" alt="">
+                {{image('admin/logo.png')}}
             </a>
         </header>
         <div class="topnav">
@@ -142,6 +142,8 @@
 <div id="left">
 <div class="media user-media">
     <a class="user-link" href="">
+        {{$imgAttribues = ['class' => 'media-object img-thumbnail user-img', 'alt' => 'User Picture', 'title' => 'User Picture']}}
+        {{image('admin/user.gif', $imgAttribues)}}
         <img class="media-object img-thumbnail user-img" alt="User Picture" src="assets/img/user.gif">
         <span class="label label-danger user-label">16</span>
     </a>
@@ -365,7 +367,7 @@
 <!-- end #content -->
 </div><!-- /#wrap -->
 <div id="footer">
-    <p>2013 &copy; Metis Admin</p>
+    <p>2013 &copy; Comfy Admin</p>
 </div>
 
 <!-- #helpModal -->
@@ -388,17 +390,17 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal --><!-- /#helpModal -->
-<script src="assets/lib/jquery.min.js"></script>
-<script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
+{{js('jQuery_v1.10.2.js')}}
+{{js('bootstrap/bootstrap.min.js')}}
 <script type="text/javascript" src="assets/js/style-switcher.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="assets/lib/fullcalendar-1.6.2/fullcalendar/fullcalendar.min.js"></script>
 <script src="assets/lib/tablesorter/js/jquery.tablesorter.min.js"></script>
 <script src="assets/lib/sparkline/jquery.sparkline.min.js"></script>
-<script src="assets/lib/flot/jquery.flot.js"></script>
-<script src="assets/lib/flot/jquery.flot.selection.js"></script>
-<script src="assets/lib/flot/jquery.flot.resize.js"></script>
-<script src="assets/js/main.min.js"></script>
+{{js('admin/flot/jquery.flot.js')}}
+{{js('admin/flot/jquery.flot.selection.js')}}
+{{js('admin/flot/jquery.flot.resize.js')}}
+{{js('admin/main.min.js')}}
 <script>
     $(function() {
         dashboard();

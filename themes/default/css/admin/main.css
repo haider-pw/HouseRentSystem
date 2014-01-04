@@ -672,7 +672,7 @@ body.padTop53 {
 /* END CONTENT STYLES */
 /* BEGIN FOOTER */
 #footer {
-  background-image: url("../../images/admin/pattern/px_by_Gre3g.png");
+  background-image: url("../../img/admin/pattern/px_by_Gre3g.png");
   background-repeat: repeat;
   color: #f9f9f9;
   margin: 0 auto;
@@ -2547,81 +2547,81 @@ fieldset[disabled] .btn-line.btn-metis-6.active {
   background-color: #ffffff;
 }
 .bg-brillant {
-  background: url("../../images/admin/pattern/brillant.png") repeat;
+  background: url("../../img/admin/pattern/brillant.png") repeat;
 }
 .bg-always_grey {
-  background: url("../../images/admin/pattern/always_grey.png") repeat;
+  background: url("../../img/admin/pattern/always_grey.png") repeat;
 }
 .bg-retina_wood {
-  background: url("../../images/admin/pattern/retina_wood.png") repeat;
+  background: url("../../img/admin/pattern/retina_wood.png") repeat;
 }
 .bg-low_contrast_linen {
-  background: url("../../images/admin/pattern/low_contrast_linen.png") repeat;
+  background: url("../../img/admin/pattern/low_contrast_linen.png") repeat;
 }
 .bg-egg_shell {
-  background: url("../../images/admin/pattern/egg_shell.png") repeat;
+  background: url("../../img/admin/pattern/egg_shell.png") repeat;
 }
 .bg-cartographer {
-  background: url("../../images/admin/pattern/cartographer.png") repeat;
+  background: url("../../img/admin/pattern/cartographer.png") repeat;
 }
 .bg-batthern {
-  background: url("../../images/admin/pattern/batthern.png") repeat;
+  background: url("../../img/admin/pattern/batthern.png") repeat;
 }
 .bg-noisy_grid {
-  background: url("../../images/admin/pattern/noisy_grid.png") repeat;
+  background: url("../../img/admin/pattern/noisy_grid.png") repeat;
 }
 .bg-diamond_upholstery {
-  background: url("../../images/admin/pattern/diamond_upholstery.png") repeat;
+  background: url("../../img/admin/pattern/diamond_upholstery.png") repeat;
 }
 .bg-greyfloral {
-  background: url("../../images/admin/pattern/greyfloral.png") repeat;
+  background: url("../../img/admin/pattern/greyfloral.png") repeat;
 }
 .bg-white_tiles {
-  background: url("../../images/admin/pattern/white_tiles.png") repeat;
+  background: url("../../img/admin/pattern/white_tiles.png") repeat;
 }
 .bg-gplaypattern {
-  background: url("../../images/admin/pattern/gplaypattern.png") repeat;
+  background: url("../../img/admin/pattern/gplaypattern.png") repeat;
 }
 .bg-arches {
-  background: url("../../images/admin/pattern/arches.png") repeat;
+  background: url("../../img/admin/pattern/arches.png") repeat;
 }
 .bg-purty_wood {
-  background: url("../../images/admin/pattern/purty_wood.png") repeat;
+  background: url("../../img/admin/pattern/purty_wood.png") repeat;
 }
 .bg-diagonal_striped_brick {
-  background: url("../../images/admin/pattern/diagonal_striped_brick.png") repeat;
+  background: url("../../img/admin/pattern/diagonal_striped_brick.png") repeat;
 }
 .bg-large_leather {
-  background: url("../../images/admin/pattern/large_leather.png") repeat;
+  background: url("../../img/admin/pattern/large_leather.png") repeat;
 }
 .bg-bo_play_pattern {
-  background: url("../../images/admin/pattern/bo_play_pattern.png") repeat;
+  background: url("../../img/admin/pattern/bo_play_pattern.png") repeat;
 }
 .bg-irongrip {
-  background: url("../../images/admin/pattern/irongrip.png") repeat;
+  background: url("../../img/admin/pattern/irongrip.png") repeat;
 }
 .bg-wood_1 {
-  background: url("../../images/admin/pattern/wood_1.png") repeat;
+  background: url("../../img/admin/pattern/wood_1.png") repeat;
 }
 .bg-pool_table {
-  background: url("../../images/admin/pattern/pool_table.png") repeat;
+  background: url("../../img/admin/pattern/pool_table.png") repeat;
 }
 .bg-crissXcross {
-  background: url("../../images/admin/pattern/crissXcross.png") repeat;
+  background: url("../../img/admin/pattern/crissXcross.png") repeat;
 }
 .bg-rip_jobs {
-  background: url("../../images/admin/pattern/rip_jobs.png") repeat;
+  background: url("../../img/admin/pattern/rip_jobs.png") repeat;
 }
 .bg-random_grey_variations {
-  background: url("../../images/admin/pattern/random_grey_variations.png") repeat;
+  background: url("../../img/admin/pattern/random_grey_variations.png") repeat;
 }
 .bg-carbon_fibre {
-  background: url("../../images/admin/pattern/carbon_fibre.png") repeat;
+  background: url("../../img/admin/pattern/carbon_fibre.png") repeat;
 }
 /* BEGIN ERROR PAGES STYLES */
 body.error {
   padding-top: 40px;
-  background: url("../../images/admin/pattern/always_grey.png") repeat rgba(68, 68, 68, 0.9);
+  background: url("../../img/admin/pattern/always_grey.png") repeat rgba(68, 68, 68, 0.9);
 }
 body.error .logo h1 {
   color: #FFFFFF;
@@ -2638,7 +2638,7 @@ body.error .logo h1 {
 .login {
   padding-top: 40px;
   padding-bottom: 40px;
-  background: url("../../images/admin/pattern/black_paper.png") repeat #444444;
+  background: url("../../img/admin/pattern/black_paper.png") repeat #444444;
 }
 .login .form-signin {
   max-width: 330px;

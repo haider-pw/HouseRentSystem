@@ -54,7 +54,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="index.html" class="navbar-brand">
-                <img src="assets/img/logo.png" alt="">
+                {{img()}}
+                <img src="{{url}}assets/img/logo.png" alt="">
             </a>
         </header>
         <div class="topnav">
@@ -365,7 +366,7 @@
 <!-- end #content -->
 </div><!-- /#wrap -->
 <div id="footer">
-    <p>2013 &copy; Metis Admin</p>
+    <p>2013 &copy; Comfy Admin</p>
 </div>
 
 <!-- #helpModal -->
@@ -395,10 +396,10 @@
 <script src="assets/lib/fullcalendar-1.6.2/fullcalendar/fullcalendar.min.js"></script>
 <script src="assets/lib/tablesorter/js/jquery.tablesorter.min.js"></script>
 <script src="assets/lib/sparkline/jquery.sparkline.min.js"></script>
-<script src="assets/lib/flot/jquery.flot.js"></script>
-<script src="assets/lib/flot/jquery.flot.selection.js"></script>
-<script src="assets/lib/flot/jquery.flot.resize.js"></script>
-<script src="assets/js/main.min.js"></script>
+{{js('admin/flot/jquery.flot.js')}}
+{{js('admin/flot/jquery.flot.selection.js')}}
+{{js('admin/flot/jquery.flot.resize.js')}}
+{{js('admin/main.min.js')}}
 <script>
     $(function() {
         dashboard();

@@ -16,7 +16,7 @@
 
 footer {
     margin:0;
-    background:url(../images/footer-bg.png) repeat; /* here the texture can be changed: go in img/textures/ */
+    background:url(../img/footer-bg.png) repeat; /* here the texture can be changed: go in img/textures/ */
 }
 
 footer {
@@ -34,7 +34,7 @@ footer .social {
 }
 
 footer .social li a {
-    background:#285e8e url(../images/social.png) no-repeat top left;
+    background:#285e8e url(../img/social.png) no-repeat top left;
 }
 
 footer nav {

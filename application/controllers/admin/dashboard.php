@@ -13,7 +13,8 @@ class Dashboard extends Admin_Controller{
     }
 
     public function adminHome(){
-        $this->parser->parse('admin/dashboard.tpl');
+        $data['title']="dashboard";
+        $this->parser->parse('admin/dashboard.tpl',$data);
         //echo "admin Dashboard is here.";
     }
 }
