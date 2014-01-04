@@ -94,9 +94,9 @@
             <!-- .nav -->
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="dashboard.html">Dashboard</a>
+                    <a href="dashboard.html">System</a>
                 </li>
-                <li> <a href="table.html">Tables</a> </li>
+                <li> <a href="table.html">Property Management</a> </li>
                 <li> <a href="file.html">File Manager</a> </li>
                 <li class='dropdown '>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
