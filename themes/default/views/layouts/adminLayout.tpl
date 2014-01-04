@@ -16,7 +16,7 @@
     {{css('bootstrap/css/bootstrap.min.css')}}
 
     <!-- Font Awesome -->
-    {{css('admin/Font-Awesome/css/font-awesome.min.css')}}
+    {{css('admin/Font-Awesome/font-awesome.min.css')}}
 
     <!-- Metis core stylesheet -->
     {{css('admin/main.css')}}
@@ -144,7 +144,6 @@
     <a class="user-link" href="">
         {{$imgAttribues = ['class' => 'media-object img-thumbnail user-img', 'alt' => 'User Picture', 'title' => 'User Picture']}}
         {{image('admin/user.gif', $imgAttribues)}}
-        <img class="media-object img-thumbnail user-img" alt="User Picture" src="assets/img/user.gif">
         <span class="label label-danger user-label">16</span>
     </a>
     <div class="media-body">
