@@ -1,7 +1,45 @@
+{{foreach $menus as $key => $row }}
+    {{if $row->ParentID == 0}}
+        {{$Menu[$row['MenuOrder']]['Name'] = $row['MenuName']}}
+        {{foreach $menus as $subrow}}
+            {{if $subrow['ParentID'] == $row['MenuID']}}
+                {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubName'] = $subrow['MenuName']}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+{{/foreach}}
+
+{{$var = ksort($Menu)}}
 <ul id="menu" class="collapse">
-    <li class="nav-header">Menu</li>
+<li class="nav-header">Menu</li>
     <li class="nav-divider"></li>
-    <li class="active">
+    {{foreach $Menu as $MainMenu}}
+
+        <li class="active">
+            {{if isset($MainMenu['SubMenu'])}}
+            <a href="javascript:;">
+                <i class="fa fa-dashboard"></i>
+                <span class="link-title">{{$MainMenu['Name']}}</span>
+                <span class="fa arrow"></span>
+            </a>
+            {{else}}
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> {{$MainMenu['Name']}}</a>
+            {{/if}}
+            {{if isset($MainMenu['SubMenu'])}}
+            <ul>
+                {{foreach $MainMenu['SubMenu'] as $SubMenu}}
+                    <li class="active">
+                        <a href="#">
+                            <i class="fa fa-angle-right"></i>&nbsp;Default Style
+                        </a>
+                    </li>
+                    {{/foreach}}
+            </ul>
+            {{/if}}
+        </li>
+    {{/foreach}}
+{{*<li class="active">
         <a href="javascript:;">
             <i class="fa fa-dashboard"></i>
             <span class="link-title">Dashboard</span>
@@ -193,5 +231,5 @@
                 </ul>
             </li>
         </ul>
-    </li>
+    </li>*}}
 </ul><!-- /#menu -->

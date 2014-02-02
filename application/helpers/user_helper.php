@@ -16,14 +16,14 @@ function LoggedIn(){
     }
 }
 
-if (!function_exists('checkuserrole'))
+if (!function_exists('CheckUserGroup'))
 {
     function CheckUserGroup($session_loggedIn)
     {
         $loggedIn = $session_loggedIn;
         if($loggedIn > 0)
         {
-            $arr = explode("-",$loggedIn);
+/*            $arr = explode("-",$loggedIn);
             //$id = $arr[1];
             $ci =& get_instance();
             //$ci->load->model('CommonModel');
@@ -44,9 +44,27 @@ if (!function_exists('checkuserrole'))
                 $rolesids[] = $varible['RoleID'];
             }
 
-            return $rolesids;
+            return $rolesids;*/
         }
 
+    }
+}
+if (!function_exists('CheckUserRole')) {
+    function CheckUserRole($UserID)
+    {
+        if ($UserID > 0) {
+            $ci =& get_instance();
+            $ci->load->model('Common_Model');
+            $where = array(
+                'UserID' => $UserID
+            );
+            $UserGroupID = $ci->Common_Model->get_by('GroupID', 'sys_users', $where, TRUE);
+            $where = array(
+                'GroupID' => $UserGroupID['GroupID']
+            );
+            $userRoles = $ci->Common_Model->get_by('RoleID', 'sys_user_group_roles', $where, False);
+            return $userRoles;
+        }
     }
 }
 ?>
