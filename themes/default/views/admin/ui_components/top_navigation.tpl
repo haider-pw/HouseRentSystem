@@ -4,9 +4,8 @@
     {{/foreach}}
 
 <ul class="nav navbar-nav">
-    $tab_arr = json_encode($userTabs);
 {{foreach $userTabs as $tab}}
-    <li class="active"><a href="#" id="{{$tab['TabName']}}" onclick="javascript:view({{print_r($tab_arr)}},this.id,'{{$userTabs[$value->TabOrder]['TabName']}}')">{{$tab['TabName']}}</a></li>
+    <li class="active"><a href="{{url}}index.php/admin/dashboard/{{$tab['TabName']}}/">{{$tab['TabName']}}</a></li>
 {{/foreach}}
 {{*    <li class="active">
         <a href="dashboard.html">{{print_r($allowed_menus)}}</a>
@@ -26,25 +25,3 @@
         </ul>
     </li>*}}
 </ul>
-<script type='text/javascript' language='javascript'>
-    //-- function for loading dashboard , menu when clicked on tab --//
-    function view(tab_arr,str,value)
-    {
-        $.each(tab_arr,function(key,value){
-            if(value == str)
-            { document.getElementById(str).className = "active";}
-            else
-            { document.getElementById(value).className = "";}
-        });
-
-        $.ajax({
-            type: 'post',
-            url: '<?php echo base_url()?>index.php/main/'+str+'/',
-            success: function(response){
-                $('#current_page_title').html("<?php echo $this->lang->line('zk_Welcometo'); ?> " + value.toUpperCase());
-                $('.content_container').html(response);
-            }
-        });
-    }
-    //--- End of view function ---//
-</script>
