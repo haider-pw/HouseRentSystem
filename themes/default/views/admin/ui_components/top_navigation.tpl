@@ -1,6 +1,12 @@
+{{foreach $allowed_menus as $key=>$value}}
+    {{$userTabs[$value->TabOrder]['TabName'] = $value->TabName}}
+    {{$userTabs[$value->TabOrder]['TabDesc'] = $value-TabDesc}}
+    {{/foreach}}
+
 <ul class="nav navbar-nav">
-{{foreach $allowed_menus as $value}}
-    <li class="active"><a href="{{$value->FormCIPath}}">{{$value->TabName}}</a></li>
+    $tab_arr = json_encode($userTabs);
+{{foreach $userTabs as $tab}}
+    <li class="active"><a href="#" id="{{$tab['TabName']}}" onclick="javascript:view({{print_r($tab_arr)}},this.id,'{{$userTabs[$value->TabOrder]['TabName']}}')">{{$tab['TabName']}}</a></li>
 {{/foreach}}
 {{*    <li class="active">
         <a href="dashboard.html">{{print_r($allowed_menus)}}</a>

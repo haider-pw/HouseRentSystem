@@ -33,7 +33,7 @@
         }
 
         function adminPanelRequest(){
-            window.location.href = "{{url}}admin/dashboard/adminHome";
+            window.location.href = "{{url}}admin/dashboard/System";
         }
     </script>
 {{else}}
