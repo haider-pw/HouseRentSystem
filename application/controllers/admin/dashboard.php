@@ -12,7 +12,6 @@ class Dashboard extends Admin_Controller{
         parent::__construct();
         $this->load->model('Tab_Model');
     }
-
     public function adminHome(){
         $arr = CheckUserRole(1);
         $data['allowed_menus'] = $this->Tab_Model->check_allow($arr);
@@ -34,7 +33,7 @@ class Dashboard extends Admin_Controller{
         //Getting Data for Tabs, should show all the Tabs which have any menus
         $data['tabs']=$this->Common_Model->joined_get_by($columns,$PTable,$joins,$where='',$group_by);
         $data['title']="dashboard";
-        $this->parser->parse('admin/dashboard.tpl',$data);
+        $this->parser->parse('admin/systemDashboard.tpl',$data);
         //echo "admin Dashboard is here.";
     }
 }

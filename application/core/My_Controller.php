@@ -18,5 +18,7 @@ class My_Controller extends CI_Controller{
         $this->load->library( 'Smarty.php' );
         $this->load->library('parser');
         $this->load->model('Common_Model');
+        $this->load->model('users_management/login_check');
+        $this->login_check->is_logged_in(); // verify the login information, if not send him to login form
 } 
 }
