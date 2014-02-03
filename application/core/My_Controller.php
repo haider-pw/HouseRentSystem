@@ -18,5 +18,6 @@ class My_Controller extends CI_Controller{
         $this->load->library( 'Smarty.php' );
         $this->load->library('parser');
         $this->load->model('Common_Model');
+        $this->load->model('users_management/login_check');
 } 
 }
