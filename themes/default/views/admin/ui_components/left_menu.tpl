@@ -1,5 +1,5 @@
 {{foreach $menus as $key => $row }}
-    {{if $row->ParentID == 0}}
+    {{if $row['ParentID'] == 0}}
         {{$Menu[$row['MenuOrder']]['Name'] = $row['MenuName']}}
         {{foreach $menus as $subrow}}
             {{if $subrow['ParentID'] == $row['MenuID']}}
@@ -8,7 +8,6 @@
         {{/foreach}}
     {{/if}}
 {{/foreach}}
-
 {{$var = ksort($Menu)}}
 <ul id="menu" class="collapse">
 <li class="nav-header">Menu</li>
@@ -31,7 +30,7 @@
                 {{foreach $MainMenu['SubMenu'] as $SubMenu}}
                     <li class="active">
                         <a href="#">
-                            <i class="fa fa-angle-right"></i>&nbsp;Default Style
+                            <i class="fa fa-angle-right"></i> {{$SubMenu['SubName']}}
                         </a>
                     </li>
                     {{/foreach}}
