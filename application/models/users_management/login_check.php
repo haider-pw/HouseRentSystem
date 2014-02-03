@@ -120,10 +120,11 @@ class Login_Check extends Common_Model
             if (get_cookie('Username')==true&& get_cookie('Password')==true) {
                 $this->authenticate("USE_COOKIES");
             }else // nothing found in cookies
-                if ($this->input->is_ajax_request())
+/*                if ($this->input->is_ajax_request())
                     redirect('/user_management/ajax_redirect_failed_login');
                 else
-                    redirect('/user_management/login_form?STATUS=SESSION_EXPIRED');
+                    redirect('/user_management/login_form?STATUS=SESSION_EXPIRED');*/
+                redirect('/user_management/userLogin/loginFailed');
         }
         return true;
     }
