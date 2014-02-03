@@ -1,4 +1,6 @@
+{{$usr_selelect_tab=strtolower($this->session->userdata('activetb'))}}
 {{foreach $menus as $key => $row }}
+{{if strtolower($row['TabName']) === $usr_selelect_tab}}
     {{if $row['ParentID'] == 0}}
         {{$Menu[$row['MenuOrder']]['Name'] = $row['MenuName']}}
         {{foreach $menus as $subrow}}
@@ -6,6 +8,7 @@
                 {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubName'] = $subrow['MenuName']}}
             {{/if}}
         {{/foreach}}
+    {{/if}}
     {{/if}}
 {{/foreach}}
 {{$var = ksort($Menu)}}

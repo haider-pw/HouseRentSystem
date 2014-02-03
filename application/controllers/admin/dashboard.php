@@ -12,12 +12,14 @@ class Dashboard extends Admin_Controller{
         parent::__construct();
     }
     public function System(){
+        $this->session->set_userdata('activetb','System');
         $this->data['title']="dashboard";
         $this->parser->parse('admin/systemDashboard.tpl',$this->data);
         //echo "admin Dashboard is here.";
     }
 
     public function Users(){
+        $this->session->set_userdata('activetb','Users');
         $data['title']="Users Dashboard";
         $this->parser->parse('admin/usersDashboard.tpl',$this->data);
         //echo "admin Dashboard is here.";

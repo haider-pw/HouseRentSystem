@@ -48,6 +48,7 @@ class Common_Model extends MY_Model{
         }
 
         $query = $this->db->get();
-        return $query->result();
+        return $query->result_array();
+        //return $this->db->last_query();
     }
 }
