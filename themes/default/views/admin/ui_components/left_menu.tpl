@@ -3,14 +3,21 @@
 {{if strtolower($row['TabName']) === $usr_selelect_tab}}
     {{if $row['ParentID'] == 0}}
         {{$Menu[$row['MenuOrder']]['Name'] = $row['MenuName']}}
+        {{$Menu[$row['MenuOrder']]['FormName'] = $row['FormName']}}
+        {{$Menu[$row['MenuOrder']]['FormPath'] = $row['FormPath']}}
+        {{$Menu[$row['MenuOrder']]['FormCIPath'] = $row['FormCIPath']}}
         {{foreach $menus as $subrow}}
             {{if $subrow['ParentID'] == $row['MenuID']}}
                 {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubName'] = $subrow['MenuName']}}
+                {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubFormName'] = $subrow['FormName']}}
+                {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubFormPath'] = $subrow['FormPath']}}
+                {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubFormCIPath'] = $subrow['FormCIPath']}}
             {{/if}}
         {{/foreach}}
     {{/if}}
     {{/if}}
 {{/foreach}}
+{{*<pre>{{print_r($Menu)}}</pre>*}}
 {{$var = ksort($Menu)}}
 <ul id="menu" class="collapse">
 <li class="nav-header">Menu</li>
@@ -25,14 +32,14 @@
                 <span class="fa arrow"></span>
             </a>
             {{else}}
-                <a href="#">
+                <a href="{{url}}{{$MainMenu['FormCIPath']}}">
                     <i class="fa fa-dashboard"></i> {{$MainMenu['Name']}}</a>
             {{/if}}
             {{if isset($MainMenu['SubMenu'])}}
             <ul>
                 {{foreach $MainMenu['SubMenu'] as $SubMenu}}
                     <li class="active">
-                        <a href="#">
+                        <a href="{{url}}{{$SubMenu['SubFormCIPath']}}">
                             <i class="fa fa-angle-right"></i> {{$SubMenu['SubName']}}
                         </a>
                     </li>
@@ -235,3 +242,18 @@
         </ul>
     </li>*}}
 </ul><!-- /#menu -->
+<script type="text/javascript">
+$(document).ready(function() {
+
+$('#ul.menu li a').each(function() {
+var path = window.location.href;
+var current = path.substring(path.lastIndexOf('/'));
+var url = $(this).attr('href');
+
+if (url == current) {
+$(this).addClass('active');
+};
+});
+
+});
+    </script>

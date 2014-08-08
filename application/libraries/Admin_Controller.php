@@ -20,18 +20,20 @@ class   Admin_Controller extends My_Controller{
         /*        var_dump($data['allowed_menus']);
                 exit;*/
         $this->data['tabs'] = $this->Tab_Model->get_tabs();
-        $PTable='sys_menus';
+        $PTable='sys_forms';
         $columns='*';
         $joins = array(
+            array(
+                'table' => 'sys_menus',
+                'condition' => 'sys_forms.MenuID = sys_menus.MenuID',
+                'jointype' => 'INNER'
+            ),
             array(
                 'table' => 'sys_tabs',
                 'condition' => 'sys_menus.TabID = sys_tabs.TabID',
                 'jointype' => 'INNER'
             )
         );
-/*        $table='sys_menus';
-        $this->data['menus']=$this->Common_Model->get($table);*/
-        //Getting Data for Tabs, should show all the Tabs which have any menus
        $this->data['menus']=$this->Common_Model->joined_get_by($columns,$PTable,$joins,$where='','');
 /*        echo "<pre>"; var_dump($data);
         exit;*/
