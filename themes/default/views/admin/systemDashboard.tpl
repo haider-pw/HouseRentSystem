@@ -1,4 +1,7 @@
 {{extends file='adminLayout.tpl'}}
+{{block name="header"}}
+<title>Dashboard</title>
+{{/block}}
 {{block name="content"}}
 <div class="outer">
     <div class="inner">

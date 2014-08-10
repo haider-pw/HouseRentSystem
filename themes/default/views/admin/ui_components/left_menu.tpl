@@ -242,18 +242,3 @@
         </ul>
     </li>*}}
 </ul><!-- /#menu -->
-<script type="text/javascript">
-$(document).ready(function() {
-
-$('#ul.menu li a').each(function() {
-var path = window.location.href;
-var current = path.substring(path.lastIndexOf('/'));
-var url = $(this).attr('href');
-
-if (url == current) {
-$(this).addClass('active');
-};
-});
-
-});
-    </script>
