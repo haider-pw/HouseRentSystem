@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+
 
     <!--Mobile first-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,9 @@
 
     <!-- Bootstrap -->
     {{css('bootstrap/css/bootstrap.min.css')}}
+
+    <!-- Data Tables -->
+    {{css('datatables/dataTables.bootstrap.css')}}
 
     <!-- Font Awesome -->
     {{css('admin/Font-Awesome/font-awesome.min.css')}}
@@ -161,6 +164,8 @@
 {{js('jQuery_v1.10.2.js')}}
 {{js('bootstrap/bootstrap.min.js')}}
 {{js('jquery-ui.min.js')}}
+{{js('datatables/jquery.dataTables.js')}}
+{{js('datatables/3/dataTables.bootstrap.js')}}
 {{js('admin/fullcalendar/fullcalendar.min.js')}}
 {{js('admin/tablesorter/jquery.tablesorter.min.js')}}
 {{js('admin/sparkline/jquery.sparkline.min.js')}}
@@ -168,9 +173,25 @@
 {{js('admin/flot/jquery.flot.selection.js')}}
 {{js('admin/flot/jquery.flot.resize.js')}}
 {{js('admin/main.min.js')}}
+{{block name="scripts"}}{{/block}}
 <script>
     $(function() {
         dashboard();
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#ul.menu li a').each(function() {
+            var path = window.location.href;
+            var current = path.substring(path.lastIndexOf('/'));
+            var url = $(this).attr('href');
+
+            if (url == current) {
+                $(this).addClass('active');
+            };
+        });
+
     });
 </script>
 </body>
