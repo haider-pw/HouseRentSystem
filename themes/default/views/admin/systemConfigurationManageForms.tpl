@@ -41,21 +41,24 @@
 {{block name="scripts"}}
     <script>
         $(document).ready(function() {
-            $('#ManageForms').dataTable({
+            var oTable = $('#ManageForms').dataTable({
 
-                "serverSide":true,
+                "bServerSide":true,
                 "bProcessing":true,
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                "bFilter":true,
                 "sServerMethod": "POST",
                 "sAjaxSource": "{{base_url()}}admin/configurations/listForms_DT/",
-                "iDisplayLength": 10,
-                "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "iDisplayLength": 2,
+                "aLengthMenu": [[2, 25, 50, -1], [2, 25, 50, "All"]],
                 "sEcho": 1,
                 "columns":[
                     {data:"FormName"},
                     {data:"FormPath"},
                     {data:"FormCIPath"},
                     { "data": null,
-                        "defaultContent": "<button>Edit</button>",
+                        "defaultContent": "<a href='#'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>",
                         "targets": -1
                     }
                 ],
