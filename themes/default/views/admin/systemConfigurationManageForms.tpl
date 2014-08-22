@@ -5,6 +5,7 @@
 {{block name="content"}}
     <div class="outer">
         <div class="inner">
+        {{*DataTables Grid Start Here*}}
             <div class="row ui-sortable">
                 <div class="col-lg-12">
                     <div class="box">
@@ -32,6 +33,7 @@
                     </div>
                 </div>
             </div>
+            {{*End of DataTables Grid Coding*}}
 
 
         </div>
@@ -96,8 +98,7 @@
                     <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
                 </div>
                 <div class="modal-body">
-
-                        <div class="body collapse in" id="div-1" style="">
+                    <div class="body collapse in" id="div-1" style="">
                             <form class="form-horizontal">
                                 <input type="hidden" id="formID">
                                 <div class="form-group">
@@ -118,6 +119,30 @@
                                         <input type="text" class="form-control" id="formCIPath" placeholder="Form CI Path">
                                     </div>
                                 </div><!-- /.form-group -->
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Have Parent</label>
+                                    <div class="col-lg-8" id="haveParentDiv">
+                                        <input class="make-switch" id="haveParent" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                    </div>
+                                </div><!-- /.row --><!-- /.row -->
+
+                                <div class="form-group" id="selectParentMenu_MainDiv" style="display: none">
+                                    <label class="control-label col-lg-4">Parent Form</label>
+                                    <div class="col-lg-8" id="selectParentMenu">
+                                        <select data-placeholder="Your Favorite Type of Bear" class="form-control chzn-select-deselect" tabindex="7">
+                                            <option value=""></option>
+                                            <option>American Black Bear</option>
+                                            <option>Asiatic Black Bear</option>
+                                            <option>Brown Bear</option>
+                                            <option>Giant Panda</option>
+                                            <option>Sloth Bear</option>
+                                            <option>Sun Bear</option>
+                                            <option>Polar Bear</option>
+                                            <option>Spectacled Bear</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Show on Menu</label>
@@ -241,8 +266,30 @@
                 }
                 });
                 //console.log(FormName);
-            })
+            });
+
+            $("#haveParentDiv div.bootstrap-switch").on('click', function(e){
+                if($(this).hasClass('bootstrap-switch-on')){
+                   $('#selectParentMenu_MainDiv').css('display','block');
+                }
+                else if($(this).hasClass('bootstrap-switch-off')){
+                   $('#selectParentMenu_MainDiv').css('display','none');
+                }
+
+                //console.log('just a test if switch is ON or OFF');
+            });
+
+//            this will load the select dropdowns styles
+            $("#addNewFormFunc").on('click', function(e){
+                //$('#selectParentMenu div.chosen-container').removeAttr('style');
+                $('#selectParentMenu div.chosen-container').css("width","100%");
+            });
+
+
+
         });
+
+
 
 
     </script>
