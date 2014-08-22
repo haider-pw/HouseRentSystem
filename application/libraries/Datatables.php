@@ -258,8 +258,13 @@ class Datatables
     {
         if($this->check_mDataprop())
             $mColArray = $this->get_mDataprop();
-        elseif($this->ci->input->post('sColumns'))
+        elseif($this->ci->input->post(mysql_real_escape_string('sColumns'))){
             $mColArray = explode(',', $this->ci->input->post('sColumns'));
+            $mColArray = array_filter($mColArray);
+            if(empty($mColArray)){
+                $mColArray = $this->columns;
+            }
+        }
         else
             $mColArray = $this->columns;
 
@@ -280,8 +285,13 @@ class Datatables
     {
         if($this->check_mDataprop())
             $mColArray = $this->get_mDataprop();
-        elseif($this->ci->input->post('sColumns'))
+        elseif($this->ci->input->post(mysql_real_escape_string('sColumns'))){
             $mColArray = explode(',', $this->ci->input->post('sColumns'));
+            $mColArray = array_filter($mColArray);
+            if(empty($mColArray)){
+                $mColArray = $this->columns;
+            }
+        }
         else
             $mColArray = $this->columns;
 

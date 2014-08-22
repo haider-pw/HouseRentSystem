@@ -10,6 +10,7 @@ class Configurations extends Admin_Controller{
         parent::__construct();
         $this->load->library('Datatables.php');
         $this->load->library('table');
+        $this->load->helper('dataTables');
         $this->load->model('system/configuration');
     }
 
@@ -62,8 +63,20 @@ class Configurations extends Admin_Controller{
 
      $this->datatables->select('FormID, FormName, FormPath, FormCIPath')
          ->unset_column('FormID')
+         ->add_column("Actions", "<a href='#editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "id")
          ->from('sys_forms');
      echo $this->datatables->generate();
 }//end of list_forms_view
+
+    function edit($id)
+    {
+        //load some edit form
+        redirect('subscriber');
+    }
+    function delete($id)
+    {
+        //add some delete code
+        redirect('subscriber');
+    }
 
 }

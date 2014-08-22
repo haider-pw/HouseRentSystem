@@ -15,6 +15,9 @@
     <!-- Bootstrap -->
     {{css('bootstrap/css/bootstrap.min.css')}}
 
+    <!-- Bootstrap Switch -->
+    {{css('bootstrap/css/bootstrap-switch.min.css')}}
+
     <!-- Data Tables -->
     {{css('datatables/dataTables.bootstrap.css')}}
 
@@ -163,6 +166,7 @@
 </div><!-- /.modal --><!-- /#helpModal -->
 {{js('jQuery_v1.10.2.js')}}
 {{js('bootstrap/bootstrap.min.js')}}
+{{js('bootstrap/bootstrap-switch.min.js')}}
 {{js('jquery-ui.min.js')}}
 {{js('datatables/jquery.dataTables.js')}}
 {{js('datatables/3/dataTables.bootstrap.js')}}
@@ -173,6 +177,7 @@
 {{js('admin/flot/jquery.flot.selection.js')}}
 {{js('admin/flot/jquery.flot.resize.js')}}
 {{js('admin/main.min.js')}}
+{{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
 <script>
     $(function() {
