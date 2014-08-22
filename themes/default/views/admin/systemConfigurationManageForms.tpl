@@ -20,6 +20,7 @@
                         <table id="ManageForms" class="table table-bordered table-condensed table-hover table-striped">
                         <thead>
                         <tr>
+                            <th>Form ID</th>
                             <th>Form Name</th>
                             <th>Form Path</th>
                             <th>Form CI Path</th>
@@ -70,7 +71,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Show on Menu</label>
                                     <div class="col-lg-8">
-                                        <input class="make-switch" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger" checked>
+                                        <input class="make-switch" id="isMenuLink" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
                                     </div>
                                 </div><!-- /.row --><!-- /.row -->
 
@@ -88,7 +89,18 @@
 {{block name="scripts"}}
     <script>
         $(document).ready(function() {
-            var oTable = $('#ManageForms').dataTable({
+            var oTable =  $('#ManageForms').dataTable({
+                 "aoColumns": [
+                     /* ID */   {
+                         "bVisible":    false,
+                         "bSortable":   false,
+                         "bSearchable": false
+                     },
+                     /* Form Name */  null,
+                     /* Form Path */  null,
+                     /* Form CI Path */  null,
+                     /* Actions */  null
+                 ],
 
                 "bServerSide":true,
                 "bProcessing":true,
@@ -117,18 +129,48 @@
                         'data'    : aoData,
                         'success' : fnCallback
                     }); //end of ajax
+                },
+                'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    $(nRow).attr("data-id",aData[0]);
+                    return nRow;
                 }
             });
 
             //Edit Button on Modal Window
             $('#ManageForms').on('click', '.editBtnFunc', function(e){
                 e.preventDefault();
-                //var aPos = oTable.fnGetPosition( this );
-                //var aData = oTable.fnGetData( aPos[0] );
-                console.log(oTable);
+                var FormID = $(this).closest('tr').attr('data-id');
+                //console.log(FormID);
+
+                $.ajax({
+                    type:"post",
+                    url:"{{base_url()}}admin/configurations/GetFormData/"+FormID,
+                    dataType:"json",
+                    success:function(response){
+                        console.log(response);
+                        if(!($.isEmptyObject(response))){
+                            $.each(response,function(key,value){
+                                $("#formName").val(value.FormName);
+                                $("#formPath").val(value.FormPath);
+                                $("#formCIPath").val(value.FormCIPath);
+                                if(value.IsMenuLink !=='0'){
+                                    $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-off');
+                                    $("#isMenuLink").parent().parent().addClass('bootstrap-switch-on');
+                                }
+                                else{
+                                    $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-on');
+                                    $("#isMenuLink").parent().parent().addClass('bootstrap-switch-off');
+                                }
+                                console.log(value.IsMenuLink);
+                                //alert(value.ExtimatedIncome);
+                            });
+                        }
+                    }
+                }); //---  End of $.ajax  ---//
+
             });
             //Edit Button
-        } );
+        });
 
 
     </script>

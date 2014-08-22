@@ -51,4 +51,68 @@ class Common_Model extends MY_Model{
         return $query->result_array();
         //return $this->db->last_query();
     }
+
+//    Select Queries
+    function select($tbl = '')
+    {
+        $query = $this->db->get($tbl);
+        return $query->result();
+
+    }
+
+    function select_fields($tbl = '', $data)
+    {
+        $this->db->select($data);
+        $query = $this->db->get($tbl);
+        //return $this->db->last_query();
+        return $query->result();
+    }
+
+
+    function select_fields_where($tbl = '', $data,$where)
+    {
+        $this->db->select($data);
+        $this->db->from($tbl);
+        $this->db->where($where);
+        $query = $this->db->get();
+        //return $this->db->last_query();
+        return $query->result();
+    }
+
+    function select_dist_fields($tbl = '', $data)
+    {
+        $this->db->distinct();
+        $this->db->select($data);
+        $query = $this->db->get($tbl);
+        //return $this->db->last_query();
+        return $query->result();
+    }
+
+    function select_fields_joined($data, $PTable, $joins,$where='')
+    {
+        $this->db->select($data);
+
+        $this->db->from($PTable);
+        foreach ($joins as $k => $v){
+            $this->db->join($v['table'], $v['condition'], $v['jointype']);
+        }
+        if($where!='')
+        {
+            $this->db->where($where);
+        }
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function select_distinct_fields($tbl = '')
+    {
+        $this->db->order_by('PuID','desc');
+        $this->db->group_by('PuCode');
+        $this->db->distinct('PuCode');
+        $query = $this->db->get($tbl);
+        return $query->result();
+    }
+
+//    Common Select Queries End
 }
