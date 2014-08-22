@@ -5,8 +5,6 @@
 {{block name="content"}}
     <div class="outer">
         <div class="inner">
-
-
             <div class="row ui-sortable">
                 <div class="col-lg-12">
                     <div class="box">
@@ -15,6 +13,7 @@
                                 <i class="fa fa-table"></i>
                             </div>
                             <h5>Manage Forms</h5>
+                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="addNewFormFunc" data-original-title="" href="#addNewFormModal" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Form</a></div>
                         </header>
                         <div class="body" id="collapse4">
                         <table id="ManageForms" class="table table-bordered table-condensed table-hover table-striped">
@@ -37,6 +36,7 @@
 
         </div>
     </div>
+
 {{*Edit Button Modal*}}
 <div id="editBtnModal" class="modal fade">
         <div class="modal-dialog">
@@ -49,6 +49,7 @@
 
                         <div class="body collapse in" id="div-1" style="">
                             <form class="form-horizontal">
+                                <input type="hidden" id="formID">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="text1">Form Name</label>
                                     <div class="col-lg-8">
@@ -79,14 +80,67 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Update</button>
+                    <button type="button" class="btn btn-default" id="updateFormBtn" data-dismiss="modal">Update</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal --><!-- /#helpModal -->
+    </div><!-- /.modal --><!-- /#Edit Button Modal -->
+
+    {{*Add New Form modal*}}
+<div id="addNewFormModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
+                </div>
+                <div class="modal-body">
+
+                        <div class="body collapse in" id="div-1" style="">
+                            <form class="form-horizontal">
+                                <input type="hidden" id="formID">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4" for="text1">Form Name</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Form Name" id="formName">
+                                    </div>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4" for="pass1">Form Path</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" data-placement="top" placeholder="Form Path" id="formPath" class="form-control">
+                                    </div>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Form CI Path</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="formCIPath" placeholder="Form CI Path">
+                                    </div>
+                                </div><!-- /.form-group -->
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Show on Menu</label>
+                                    <div class="col-lg-8">
+                                        <input class="make-switch" id="isMenuLink" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                    </div>
+                                </div><!-- /.row --><!-- /.row -->
+
+                            </form>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="updateFormBtn" data-dismiss="modal">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- /#Edit Button Modal -->
+    {{*-------------------Modals Finished--------------*}}
+
 {{/block}}
 {{block name="scripts"}}
+    {{js('datatables/fnReloadAjax.js')}}
     <script>
         $(document).ready(function() {
             var oTable =  $('#ManageForms').dataTable({
@@ -109,7 +163,7 @@
                 //"bFilter":true,
                 //"sServerMethod": "POST",
                 "sAjaxSource": "{{base_url()}}admin/configurations/listForms_DT/",
-                "iDisplayLength": 2,
+                "iDisplayLength": 25,
                 "aLengthMenu": [[2, 25, 50, -1], [2, 25, 50, "All"]],
                 /*"sEcho": 1,
                 "columns":[
@@ -147,7 +201,6 @@
                     url:"{{base_url()}}admin/configurations/GetFormData/"+FormID,
                     dataType:"json",
                     success:function(response){
-                        console.log(response);
                         if(!($.isEmptyObject(response))){
                             $.each(response,function(key,value){
                                 $("#formName").val(value.FormName);
@@ -161,15 +214,34 @@
                                     $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-on');
                                     $("#isMenuLink").parent().parent().addClass('bootstrap-switch-off');
                                 }
-                                console.log(value.IsMenuLink);
-                                //alert(value.ExtimatedIncome);
                             });
                         }
+                        $("#formID").val(FormID);
                     }
                 }); //---  End of $.ajax  ---//
 
             });
             //Edit Button
+            $('#updateFormBtn').on('click', function(e){
+                e.preventDefault();
+                var formData = {
+                FormID :     $("#formID").val(),
+                FormName :   $("#formName").val(),
+                FormPath :   $("#formPath").val(),
+                FormCIPath : $("#formCIPath").val()
+            };
+                $.ajax({
+                   type:"post",
+                   url:"{{base_url()}}admin/configurations/UpdateFormData/",
+                   data: formData,
+                    success: function(output){
+                           if (output == true){
+                               oTable.fnReloadAjax();
+                    }
+                }
+                });
+                //console.log(FormName);
+            })
         });
 
 

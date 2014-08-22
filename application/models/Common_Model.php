@@ -115,4 +115,43 @@ class Common_Model extends MY_Model{
     }
 
 //    Common Select Queries End
+
+// Common Update Queries
+
+    function update($tbl, $fields, $data){
+        $this->db->where($fields);
+        $this->db->update($tbl, $data);
+    }
+    function update_query($tbl,$field,$id,$data)
+    {
+        $this->db->where($field, $id);
+        $this->db->update($tbl, $data);
+        //echo $this->db->last_query();
+        $affectedRows = $this->db->affected_rows();
+        if($affectedRows){
+            return $affectedRows;
+        }
+        else{
+            return $this->db->_error_message();
+        }
+
+    }
+
+
+    function update_query_array($tbl,$fields,$data)
+    {
+
+        $this->db->where($fields);
+        $this->db->update($tbl, $data);
+        $afftectedRows = $this->db->affected_rows();
+        //return $this->db->last_query();
+
+        if($afftectedRows){
+            return $afftectedRows;
+        }
+        else{
+            return $this->db->_error_message();
+        }
+
+    }
 }
