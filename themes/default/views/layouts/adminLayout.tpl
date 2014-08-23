@@ -19,7 +19,7 @@
     {{css('bootstrap/css/bootstrap-switch.min.css')}}
 
     <!-- Chosen -->
-    {{css('chosen/chosen.min.css')}}
+    {{css('select/select2.css')}}
 
     <!-- Data Tables -->
     {{css('datatables/dataTables.bootstrap.css')}}
@@ -171,7 +171,7 @@
 {{js('bootstrap/bootstrap.min.js')}}
 {{js('bootstrap/bootstrap-switch.min.js')}}
 {{js('jquery-ui.min.js')}}
-{{js('chosen/chosen.jquery.min.js')}}
+{{js('select/select2.js')}}
 {{js('datatables/jquery.dataTables.js')}}
 {{js('datatables/3/dataTables.bootstrap.js')}}
 {{js('admin/fullcalendar/fullcalendar.min.js')}}

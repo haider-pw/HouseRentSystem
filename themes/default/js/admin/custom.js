@@ -16,8 +16,8 @@ $.each($('.make-switch'), function () {
 
 /*----------- BEGIN chosen CODE -------------------------*/
 
-$(".chzn-select").chosen();
-$(".chzn-select-deselect").chosen({
+$(".chzn-select").select2();
+$(".chzn-select-deselect").select2({
     allow_single_deselect: true
 });
 /*----------- END chosen CODE -------------------------*/

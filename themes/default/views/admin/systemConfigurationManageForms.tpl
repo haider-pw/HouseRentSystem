@@ -130,7 +130,7 @@
                                 <div class="form-group" id="selectParentMenu_MainDiv" style="display: none">
                                     <label class="control-label col-lg-4">Parent Form</label>
                                     <div class="col-lg-8" id="selectParentMenu">
-                                        <select data-placeholder="Your Favorite Type of Bear" class="form-control chzn-select-deselect" tabindex="7">
+                                        <select data-placeholder="Select Parent Menu" class="chzn-select-deselect">
                                             <option value=""></option>
                                             <option>American Black Bear</option>
                                             <option>Asiatic Black Bear</option>
