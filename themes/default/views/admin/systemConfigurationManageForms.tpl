@@ -129,18 +129,8 @@
 
                                 <div class="form-group" id="selectParentMenu_MainDiv" style="display: none">
                                     <label class="control-label col-lg-4">Parent Form</label>
-                                    <div class="col-lg-8" id="selectParentMenu">
-                                        <select data-placeholder="Select Parent Menu" class="chzn-select-deselect">
-                                            <option value=""></option>
-                                            <option>American Black Bear</option>
-                                            <option>Asiatic Black Bear</option>
-                                            <option>Brown Bear</option>
-                                            <option>Giant Panda</option>
-                                            <option>Sloth Bear</option>
-                                            <option>Sun Bear</option>
-                                            <option>Polar Bear</option>
-                                            <option>Spectacled Bear</option>
-                                        </select>
+                                    <div class="col-lg-8">
+                                        <input type='hidden' name='input' id='selectParentMenu'/>
                                     </div>
                                 </div>
 
@@ -275,15 +265,59 @@
                 else if($(this).hasClass('bootstrap-switch-off')){
                    $('#selectParentMenu_MainDiv').css('display','none');
                 }
-
                 //console.log('just a test if switch is ON or OFF');
             });
 
 //            this will load the select dropdowns styles
             $("#addNewFormFunc").on('click', function(e){
-                //$('#selectParentMenu div.chosen-container').removeAttr('style');
-                $('#selectParentMenu div.chosen-container').css("width","100%");
+                $('.select2-container').css("width","100%");
             });
+
+            $('#selectParentMenu').select2({
+               minimumInputLength:1,
+               placeholder:"Select Parent Menu",
+                ajax: {
+                    type:"post",
+                    url: "{{base_url()}}admin/configurations/loadAllParentFormNames/",
+                    dataType: 'json',
+                    quietMillis: 100,
+                    data: function(term, page) {
+                        return {
+                            term: term, //search term
+                            page_limit: 10 // page size
+                        };
+                    },
+                    results: function(data, page ) {
+                        var newData = [];
+/*                        for ( var i = 0; i < data.length; i++ ) {
+                            newData.push({
+                                id: data[i].FormID,  //id part present in data
+                                text: data[i].FormName  //string to be displayed
+                            });
+
+                        }*/
+
+                        $.each(data, function (index,value) {
+                            newData.push({
+                                id: value.FormID,  //id part present in data
+                                text: value.FormName  //string to be displayed
+                            });
+                        });
+
+/*                        _.each(data, function (item) {
+                            newData.push({
+                                id: item.FormID,  //id part present in data
+                                text: item.FormName  //string to be displayed
+                            });
+                        });*/
+                        return { results: newData };
+                    }
+
+                }
+            });
+            function formatValues(data) {
+                return "<div class='select2-user-result'>" + data.FormName; + "</div>";
+            }
 
 
 

@@ -75,5 +75,13 @@ class Configurations extends Admin_Controller{
         //add some delete code
         redirect('subscriber');
     }
+    function loadAllParentFormNames(){
+        $value = $this->input->post('term');
+        $tbl='sys_forms';
+        $data=('FormID,FormName');
+        $field='FormName';
+        $searchResults = $this->Common_Model->get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit='');
+        print json_encode($searchResults);
+    }
 
 }

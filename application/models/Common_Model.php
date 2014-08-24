@@ -154,4 +154,26 @@ class Common_Model extends MY_Model{
         }
 
     }
+
+    //Common Update Queries End
+
+
+    //Common AutoComplete Queries
+    function get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit=''){
+        $this->db->select($data);
+        $this->db->from($tbl);
+        if($where!=''){
+            $this->db->where($where);
+        }
+        $this->db->like('LOWER(' .$field. ')', strtolower($value));
+        if($group_by == true){
+        $this->db->group_by($field);
+        }
+        if($limit !='')
+        {
+            $this->db->limit($limit);
+        }
+        $query=$this->db->get();
+        return $query->result();
+    }
 }
