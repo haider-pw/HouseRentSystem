@@ -22,7 +22,7 @@ function commonDataTables(selector,url,aoColumns){
         tablet: 1024,
         phone : 480
     };
-    var oTable =  selector.dataTable({
+      oTable = selector.dataTable({
         sPaginationType: 'bootstrap',
         oLanguage      : {
             sLengthMenu: '_MENU_ records per page'
@@ -47,6 +47,7 @@ function commonDataTables(selector,url,aoColumns){
         },
         'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $(nRow).attr("data-id",aData[0]);
+            responsiveHelper.createExpandIcon(nRow);
             return nRow;
         },
         fnPreDrawCallback: function () {
@@ -55,13 +56,11 @@ function commonDataTables(selector,url,aoColumns){
                 responsiveHelper = new ResponsiveDatatablesHelper(selector, breakpointDefinition);
             }
         },
-        fnRowCallback  : function (nRow) {
-            responsiveHelper.createExpandIcon(nRow);
-        },
-        fnDrawCallback : function () {
+        fnDrawCallback : function (oSettings) {
             // Respond to windows resize.
             responsiveHelper.respond();
         }
     });
 }
+
 /*----------- END DataTables Common Script -------------------------*/

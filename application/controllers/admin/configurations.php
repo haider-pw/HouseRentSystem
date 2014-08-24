@@ -54,11 +54,13 @@ class Configurations extends Admin_Controller{
         $FormName = $this->input->post('FormName');
         $FormPath = $this->input->post('FormPath');
         $FormCIPath = $this->input->post('FormCIPath');
+        $IsMenuLink = $this->input->post(mysql_real_escape_string('IsMenuLink'));
         $tbl="sys_forms";
         $data=array(
             'FormName' => $FormName,
             'FormPath' => $FormPath,
             'FormCIPath' => $FormCIPath,
+            'IsMenuLink' => $IsMenuLink,
         );
         $field = "FormID";
         $affected_row = $this->Common_Model->update_query($tbl,$field,$FormID,$data);

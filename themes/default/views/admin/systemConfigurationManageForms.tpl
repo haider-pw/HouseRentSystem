@@ -73,7 +73,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Show on Menu</label>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-8" id="isMenuLinkDiv">
                                         <input class="make-switch" id="isMenuLink" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
                                     </div>
                                 </div><!-- /.row --><!-- /.row -->
@@ -157,8 +157,11 @@
 {{block name="scripts"}}
     {{js('datatables/fnReloadAjax.js')}}
     <script>
+        var oTable;
         $(document).ready(function() {
+            oTable = '';
             var isMenuLink_createForm = 1;
+            var isMenuLink_EditForm = 1;
             //Data Tables Script Here.
             var selector = $('#ManageForms');
             var url = "{{base_url()}}admin/configurations/listForms_DT/";
@@ -215,7 +218,9 @@
                 FormID :     $("#formID").val(),
                 FormName :   $("#formName").val(),
                 FormPath :   $("#formPath").val(),
-                FormCIPath : $("#formCIPath").val()
+                FormCIPath : $("#formCIPath").val(),
+                IsMenuLink: isMenuLink_EditForm
+
             };
                 $.ajax({
                    type:"post",
@@ -309,11 +314,14 @@
                 }
             });
 
-            $("#isMenuLink_createSwitchDiv div.bootstrap-switch").on('click', function(e){
+            $("#isMenuLink_createSwitchDiv div.bootstrap-switch, #isMenuLinkDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
                     isMenuLink_createForm = 1;
+                    isMenuLink_EditForm = 1;
+
                 } else if($(this).hasClass('bootstrap-switch-off')) {
                     isMenuLink_createForm = 0;
+                    isMenuLink_EditForm = 0;
                 }
             });
 
