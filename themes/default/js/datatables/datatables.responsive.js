@@ -401,7 +401,6 @@ ResponsiveDatatablesHelper.prototype.createExpandIcon = function (tr) {
     for (var i = 0, l = tds.length; i < l; i++) {
         var td = tds[i];
         var tdIndex = this.api.cell(td).index().column;
-        console.log("The TD Index is: "+tdIndex);
         td = $(td);
         if (tdIndex === this.expandColumn) {
             // Create expand icon if there isn't one already.

@@ -136,8 +136,8 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Show on Menu</label>
-                                    <div class="col-lg-8">
-                                        <input class="make-switch" id="isMenuLink" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                    <div class="col-lg-8" id="isMenuLink_createSwitchDiv">
+                                        <input class="make-switch" id="isMenuLink_createSwitch" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
                                     </div>
                                 </div><!-- /.row --><!-- /.row -->
 
@@ -145,8 +145,8 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="updateFormBtn" data-dismiss="modal">Update</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="createFormBtn" data-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -158,6 +158,7 @@
     {{js('datatables/fnReloadAjax.js')}}
     <script>
         $(document).ready(function() {
+            var isMenuLink_createForm = 1;
             //Data Tables Script Here.
             var selector = $('#ManageForms');
             var url = "{{base_url()}}admin/configurations/listForms_DT/";
@@ -229,6 +230,27 @@
                 //console.log(FormName);
             });
 
+            $('#createFormBtn').on('click', function(e){
+                e.preventDefault();
+                var formData = {
+                    FormName : $("#formName").val(),
+                    FormPath :   $("#formPath").val(),
+                    FormCIPath : $("#formCIPath").val(),
+                    IsMenuLink : isMenuLink_createForm
+                }
+                $.ajax({
+                    type:"post",
+                    url:"{{base_url()}}admin/configurations/addNewForm/",
+                    data: formData/*,
+                    success: function(output){
+                        if (output == true){
+                            oTable.fnReloadAjax();
+                        }
+                    }*/
+                });
+
+            });
+
             $("#haveParentDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
                    $('#selectParentMenu_MainDiv').css('display','block');
@@ -286,9 +308,14 @@
 
                 }
             });
-            function formatValues(data) {
-                return "<div class='select2-user-result'>" + data.FormName; + "</div>";
-            }
+
+            $("#isMenuLink_createSwitchDiv div.bootstrap-switch").on('click', function(e){
+                if($(this).hasClass('bootstrap-switch-on')){
+                    isMenuLink_createForm = 1;
+                } else if($(this).hasClass('bootstrap-switch-off')) {
+                    isMenuLink_createForm = 0;
+                }
+            });
 
 
 

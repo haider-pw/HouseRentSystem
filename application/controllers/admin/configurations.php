@@ -76,7 +76,12 @@ class Configurations extends Admin_Controller{
         redirect('subscriber');
     }
     function addNewForm(){
+        $FormName = $this->input->post('FormName');
+        $FormPath = $this->input->post('FormPath');
+        $FormCIPath = $this->input->post('FormCIPath');
+        $IsMenuLink = $this->input->post('IsMenuLink');
 
+        echo $IsMenuLink;
     }
     function loadAllParentFormNames(){
         $value = $this->input->post('term');

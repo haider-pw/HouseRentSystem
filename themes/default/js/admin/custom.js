@@ -14,6 +14,8 @@ $.each($('.make-switch'), function () {
 });
 /*----------- END toggleButtons CODE -------------------------*/
 
+
+/*----------- DataTables Common Script only will need parameters to send and call the function -------------------------*/
 function commonDataTables(selector,url,aoColumns){
     var responsiveHelper;
     var breakpointDefinition = {
@@ -31,8 +33,6 @@ function commonDataTables(selector,url,aoColumns){
         "bProcessing":true,
         "bJQueryUI": true,
         "sPaginationType": "full_numbers",
-        //"bFilter":true,
-        //"sServerMethod": "POST",
         "sAjaxSource": url,
         "iDisplayLength": 25,
         "aLengthMenu": [[2, 25, 50, -1], [2, 25, 50, "All"]],
@@ -64,3 +64,4 @@ function commonDataTables(selector,url,aoColumns){
         }
     });
 }
+/*----------- END DataTables Common Script -------------------------*/
