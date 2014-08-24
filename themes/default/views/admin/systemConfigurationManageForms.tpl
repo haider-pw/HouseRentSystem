@@ -100,23 +100,29 @@
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1" style="">
                             <form class="form-horizontal">
-                                <input type="hidden" id="formID">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="text1">Form Name</label>
                                     <div class="col-lg-8">
-                                        <input type="text" class="form-control" placeholder="Form Name" id="formName">
+                                        <input type="text" class="form-control" placeholder="Form Name" id="cFormName">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="pass1">Form Path</label>
                                     <div class="col-lg-8">
-                                        <input type="text" data-placement="top" placeholder="Form Path" id="formPath" class="form-control">
+                                        <input type="text" data-placement="top" placeholder="Form Path" id="cFormPath" class="form-control">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Form CI Path</label>
                                     <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="formCIPath" placeholder="Form CI Path">
+                                        <input type="text" class="form-control" id="cFormCIPath" placeholder="Form CI Path">
+                                    </div>
+                                </div><!-- /.form-group -->
+
+                                <div class="form-group" id="selectTab_MainDiv">
+                                    <label class="control-label col-lg-4">Select Tab</label>
+                                    <div class="col-lg-8" id="selectTabName">
+                                        <input type='hidden' name='input' id='selectTab'/>
                                     </div>
                                 </div><!-- /.form-group -->
 
@@ -133,6 +139,24 @@
                                         <input type='hidden' name='input' id='selectParentMenu'/>
                                     </div>
                                 </div>
+
+                                <div class="form-group" id="selectTab_MainDiv">
+                                    <label class="control-label col-lg-4">Menu Order</label>
+                                    <div class="col-lg-8" id="selectMenuOrder">
+                                        <select class="commonGeneralSelect2">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                </div><!-- /.form-group -->
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Show on Menu</label>
@@ -238,11 +262,14 @@
             $('#createFormBtn').on('click', function(e){
                 e.preventDefault();
                 var formData = {
-                    FormName : $("#formName").val(),
-                    FormPath :   $("#formPath").val(),
-                    FormCIPath : $("#formCIPath").val(),
+                    FormName : $("#cFormName").val(),
+                    FormPath :   $("#cFormPath").val(),
+                    FormCIPath : $("#cFormCIPath").val(),
+                    TabID : $('#selectTab').val(),
+                    TabName : $('#selectTabName div.select2-container a.select2-choice span.select2-chosen').text(),
+                    MenuOrder : $('#selectMenuOrder div.select2-container a.select2-choice span.select2-chosen').text(),
                     IsMenuLink : isMenuLink_createForm
-                }
+                };
                 $.ajax({
                     type:"post",
                     url:"{{base_url()}}admin/configurations/addNewForm/",
@@ -256,6 +283,7 @@
 
             });
 
+//            show the parent dropdown if the have parent switch is ON
             $("#haveParentDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
                    $('#selectParentMenu_MainDiv').css('display','block');
@@ -271,48 +299,25 @@
                 $('.select2-container').css("width","100%");
             });
 
-            $('#selectParentMenu').select2({
-               minimumInputLength:1,
-               placeholder:"Select Parent Menu",
-                ajax: {
-                    type:"post",
-                    url: "{{base_url()}}admin/configurations/loadAllParentFormNames/",
-                    dataType: 'json',
-                    quietMillis: 100,
-                    data: function(term, page) {
-                        return {
-                            term: term, //search term
-                            page_limit: 10 // page size
-                        };
-                    },
-                    results: function(data, page ) {
-                        var newData = [];
-/*                        for ( var i = 0; i < data.length; i++ ) {
-                            newData.push({
-                                id: data[i].FormID,  //id part present in data
-                                text: data[i].FormName  //string to be displayed
-                            });
+ /*-----------------selectors of the Page-----------------------*/
+            {{*The Selector for Selecting the Parent Menu*}}
+            var selector = $('#selectTab');
+            var url = "{{base_url()}}admin/configurations/loadAllTabNames/";
+            var id = "TabID";
+            var text = "TabName";
+            var minInputLength = 0;
+            var placeholder = "Select Tab";
+            commonSelect2(selector,url,id,text,minInputLength);
 
-                        }*/
-
-                        $.each(data, function (index,value) {
-                            newData.push({
-                                id: value.FormID,  //id part present in data
-                                text: value.FormName  //string to be displayed
-                            });
-                        });
-
-/*                        _.each(data, function (item) {
-                            newData.push({
-                                id: item.FormID,  //id part present in data
-                                text: item.FormName  //string to be displayed
-                            });
-                        });*/
-                        return { results: newData };
-                    }
-
-                }
-            });
+            {{*The Selector for Selecting the Parent Menu*}}
+            var selector = $('#selectParentMenu');
+            var url = "{{base_url()}}admin/configurations/loadAllParentFormNames/";
+            var id = "FormID";
+            var text = "FormName";
+            var minInputLength = 0;
+            var placeholder = "Select Parent Menu";
+            commonSelect2(selector,url,id,text,minInputLength);
+ /*-----------------selectors of the Page-----------------------*/
 
             $("#isMenuLink_createSwitchDiv div.bootstrap-switch, #isMenuLinkDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
@@ -324,13 +329,6 @@
                     isMenuLink_EditForm = 0;
                 }
             });
-
-
-
         });
-
-
-
-
     </script>
 {{/block}}

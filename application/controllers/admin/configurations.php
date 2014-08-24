@@ -93,5 +93,13 @@ class Configurations extends Admin_Controller{
         $searchResults = $this->Common_Model->get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit='');
         print json_encode($searchResults);
     }
+    function loadAllTabNames(){
+        $value = $this->input->post('term');
+        $tbl='sys_tabs';
+        $data=('TabID,TabName');
+        $field='TabName';
+        $searchResults = $this->Common_Model->get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit='');
+        print json_encode($searchResults);
+    }
 
 }

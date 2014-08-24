@@ -64,3 +64,41 @@ function commonDataTables(selector,url,aoColumns){
 }
 
 /*----------- END DataTables Common Script -------------------------*/
+
+
+/*----------- Select2 DropDown Common Script  -------------------------*/
+//For ServerSide Script
+function commonSelect2(selector,url,id,text,minInputLength,placeholder){
+    selector.select2({
+        minimumInputLength:minInputLength,
+        placeholder:placeholder,
+        ajax: {
+            type:"post",
+            url: url,
+            dataType: 'json',
+            quietMillis: 100,
+            data: function(term, page) {
+                return {
+                    term: term, //search term
+                    page_limit: 10 // page size
+                };
+            },
+            results: function(data, page) {
+                var newData = [];
+                $.each(data, function (index,value) {
+                    newData.push({
+                        id: value[id],  //id part present in data
+                        text: value[text]  //string to be displayed
+                    });
+                });
+                return { results: newData };
+            }
+        }
+    });
+}
+//For General Purpose without serverSide Processing
+    $(".commonGeneralSelect2").select2({
+        placeholder: "Select a State",
+        allowClear: true
+    });
+/*----------- End of Select2 DropDown Common Script  -------------------------*/
