@@ -21,9 +21,9 @@
                         <thead>
                         <tr>
                             <th>Form ID</th>
-                            <th>Form Name</th>
-                            <th>Form Path</th>
-                            <th>Form CI Path</th>
+                            <th data-class="expand">Form Name</th>
+                            <th data-hide="phone">Form Path</th>
+                            <th data-hide="phone,tablet">Form CI Path</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -158,52 +158,23 @@
     {{js('datatables/fnReloadAjax.js')}}
     <script>
         $(document).ready(function() {
-            var oTable =  $('#ManageForms').dataTable({
-                 "aoColumns": [
-                     /* ID */   {
-                         "bVisible":    false,
-                         "bSortable":   false,
-                         "bSearchable": false
-                     },
-                     /* Form Name */  null,
-                     /* Form Path */  null,
-                     /* Form CI Path */  null,
-                     /* Actions */  null
-                 ],
-
-                "bServerSide":true,
-                "bProcessing":true,
-                "bJQueryUI": true,
-                "sPaginationType": "full_numbers",
-                //"bFilter":true,
-                //"sServerMethod": "POST",
-                "sAjaxSource": "{{base_url()}}admin/configurations/listForms_DT/",
-                "iDisplayLength": 25,
-                "aLengthMenu": [[2, 25, 50, -1], [2, 25, 50, "All"]],
-                /*"sEcho": 1,
-                "columns":[
-                    {data:"FormName"},
-                    {data:"FormPath"},
-                    {data:"FormCIPath"},
-                    { "data": null,
-                        "defaultContent": "<a href='#editBtnModal' class='editBtnFunc' ><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>",
-                        "targets": -1
-                    }
-                ],*/
-                'fnServerData'   : function(sSource, aoData, fnCallback){
-                    $.ajax ({
-                        'dataType': 'json',
-                        'type'    : 'POST',
-                        'url'     : sSource,
-                        'data'    : aoData,
-                        'success' : fnCallback
-                    }); //end of ajax
+            //Data Tables Script Here.
+            var selector = $('#ManageForms');
+            var url = "{{base_url()}}admin/configurations/listForms_DT/";
+            var aoColumns =  [
+                /* ID */   {
+                    "bVisible":    false,
+                    "bSortable":   false,
+                    "bSearchable": false
                 },
-                'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                    $(nRow).attr("data-id",aData[0]);
-                    return nRow;
-                }
-            });
+                /* Form Name */  null,
+                /* Form Path */  null,
+                /* Form CI Path */  null,
+                /* Actions */  null
+            ];
+            commonDataTables(selector,url,aoColumns);
+            //End Of dataTables Script..
+
 
             //Edit Button on Modal Window
             $('#ManageForms').on('click', '.editBtnFunc', function(e){

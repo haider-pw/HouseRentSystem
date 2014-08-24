@@ -75,6 +75,9 @@ class Configurations extends Admin_Controller{
         //add some delete code
         redirect('subscriber');
     }
+    function addNewForm(){
+
+    }
     function loadAllParentFormNames(){
         $value = $this->input->post('term');
         $tbl='sys_forms';

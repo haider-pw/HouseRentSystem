@@ -15,14 +15,20 @@
     <!-- Bootstrap -->
     {{css('bootstrap/css/bootstrap.min.css')}}
 
+    <!-- Bootstrap Theme -->
+    {{css('bootstrap/css/bootstrap-theme.min.css')}}
+
     <!-- Bootstrap Switch -->
     {{css('bootstrap/css/bootstrap-switch.min.css')}}
 
-    <!-- Chosen -->
+    <!-- Select2 Dropdown API -->
     {{css('select/select2.css')}}
 
     <!-- Data Tables -->
     {{css('datatables/dataTables.bootstrap.css')}}
+
+    <!-- Data Tables Responsive -->
+    {{css('datatables/dataTables.responsive.css')}}
 
     <!-- Font Awesome -->
     {{css('admin/Font-Awesome/font-awesome.min.css')}}
@@ -174,19 +180,16 @@
 {{js('select/select2.js')}}
 {{js('datatables/jquery.dataTables.js')}}
 {{js('datatables/3/dataTables.bootstrap.js')}}
+{{js('datatables/dataTables.responsive.js')}}
 {{js('admin/fullcalendar/fullcalendar.min.js')}}
 {{js('admin/tablesorter/jquery.tablesorter.min.js')}}
 {{js('admin/sparkline/jquery.sparkline.min.js')}}
-{{js('admin/flot/jquery.flot.js')}}
-{{js('admin/flot/jquery.flot.selection.js')}}
-{{js('admin/flot/jquery.flot.resize.js')}}
+
 {{js('admin/main.min.js')}}
 {{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
 <script>
-    $(function() {
-        dashboard();
-    });
+
 </script>
 <script type="text/javascript">
     $(document).ready(function() {

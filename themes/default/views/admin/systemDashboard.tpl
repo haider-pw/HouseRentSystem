@@ -174,3 +174,53 @@
 
 <!-- end .outer -->
 {{/block}}
+{{block name="scripts"}}
+    {{js('admin/flot/jquery.flot.js')}}
+    {{js('admin/flot/jquery.flot.selection.js')}}
+    {{js('admin/flot/jquery.flot.resize.js')}}
+    <script>
+        $('document').ready(function(e){
+            function dashboard() {
+                "use strict";
+                function a(a, b, c) {
+                    $('<div id="tooltip">' + c + "</div>").css({position: "absolute", display: "none", top: b + 5, left: a + 5, border: "1px solid #fdd", padding: "2px", "background-color": "#000", color: "#fff"}).appendTo("body").fadeIn(200)
+                }
+
+                $(".inlinesparkline").sparkline();
+                var b = [10, 8, 5, 7, 4, 4, 1];
+                $(".dynamicsparkline").sparkline(b), $(".dynamicbar").sparkline(b, {type: "bar", barColor: "green"}), $(".inlinebar").sparkline("html", {type: "bar", barColor: "red"}), $(".sparkline.bar_week").sparkline([5, 6, 7, 2, 0, -4, -2, 4], {type: "bar", height: "40", barWidth: 5, barColor: "#4d6189", negBarColor: "#a20051"}), $(".sparkline.line_day").sparkline([5, 6, 7, 9, 9, 5, 4, 6, 6, 4, 6, 7], {type: "line", height: "40", drawNormalOnTop: !1}), $(".sparkline.pie_week").sparkline([1, 1, 2], {type: "pie", width: "40", height: "40"}), $(".sparkline.stacked_month").sparkline(["0:2", "2:4", "4:2", "4:1"], {type: "bar", height: "40", barWidth: 10, barColor: "#4d6189", negBarColor: "#a20051"});
+                for (var c = new Date, d = c.getDate(), e = c.getMonth(), f = c.getFullYear(), g = $("#calendar").fullCalendar({header: {left: "prev,today,next,", center: "title", right: "month,agendaWeek,agendaDay"}, selectable: !0, selectHelper: !0, select: function (a, b, c) {
+                    var d = prompt("Event Title:");
+                    d && g.fullCalendar("renderEvent", {title: d, start: a, end: b, allDay: c}, !0), g.fullCalendar("unselect")
+                }, editable: !0, events: [
+                    {title: "All Day Event", start: new Date(f, e, 1), className: "label label-success"},
+                    {title: "Long Event", start: new Date(f, e, d - 5), end: new Date(f, e, d - 2), className: "label label-info"},
+                    {id: 999, title: "Repeating Event", start: new Date(f, e, d - 3, 16, 0), allDay: !1, className: "label label-warning"},
+                    {id: 999, title: "Repeating Event", start: new Date(f, e, d + 4, 16, 0), allDay: !1, className: "label label-inverse"},
+                    {title: "Meeting", start: new Date(f, e, d, 10, 30), allDay: !1, className: "label label-important"},
+                    {title: "Lunch", start: new Date(f, e, d, 12, 0), end: new Date(f, e, d, 14, 0), allDay: !1},
+                    {title: "Birthday Party", start: new Date(f, e, d + 1, 19, 0), end: new Date(f, e, d + 1, 22, 30), allDay: !1},
+                    {title: "Click for Google", start: new Date(f, e, 28), end: new Date(f, e, 29), url: "http://google.com/"}
+                ]}), h = [], i = [], j = 0; 14 > j; j += .5)h.push([j, Math.sin(j)]), i.push([j, Math.cos(j)]);
+                var k = ($.plot($("#trigo"), [
+                    {data: h, label: "sin(x)", points: {fillColor: "#4572A7", size: 5}, color: "#4572A7"},
+                    {data: i, label: "cos(x)", points: {fillColor: "#333", size: 35}, color: "#AA4643"}
+                ], {series: {lines: {show: !0}, points: {show: !0}}, grid: {hoverable: !0, clickable: !0}, yaxis: {min: -1.2, max: 1.2}}), null);
+                $("#trigo").bind("plothover", function (b, c, d) {
+                    if ($("#x").text(c.x.toFixed(2)), $("#y").text(c.y.toFixed(2)), d) {
+                        if (k !== d.dataIndex) {
+                            k = d.dataIndex, $("#tooltip").remove();
+                            var e = d.datapoint[0].toFixed(2), f = d.datapoint[1].toFixed(2);
+                            a(d.pageX, d.pageY, d.series.label + " of " + e + " = " + f)
+                        }
+                    } else $("#tooltip").remove(), k = null
+                }), $(".sortableTable").tablesorter()
+            }
+
+            $(function() {
+                dashboard();
+            });
+        });
+
+    </script>
+ {{/block}}
