@@ -38,6 +38,8 @@
     {{css('admin/theme.css')}}
     {{css('admin/fullcalendar/fullcalendar.css')}}
 
+    {{css('validationEngine/validationEngine.jquery.css')}}
+
     {{block name="header"}}
     {{/block}}
 
@@ -184,12 +186,17 @@
 {{js('admin/fullcalendar/fullcalendar.min.js')}}
 {{js('admin/tablesorter/jquery.tablesorter.min.js')}}
 {{js('admin/sparkline/jquery.sparkline.min.js')}}
+{{js('validationEngine/jquery.validationEngine.js')}}
+{{js('jquery-validate/jquery.validate.min.js')}}
+{{*{{js('jquery-validate/src/localization/messages_ja.js')}}*}}
 
 {{js('admin/main.min.js')}}
 {{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
 <script>
-
+        $(function() {
+            HRS.formValidation();
+        });
 </script>
 <script type="text/javascript">
     $(document).ready(function() {

@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-body">
 
-                        <div class="body collapse in" id="div-1" style="">
+                        <div class="body collapse in" id="div-1">
                             <form class="form-horizontal">
                                 <input type="hidden" id="formID">
                                 <div class="form-group">
@@ -98,31 +98,31 @@
                     <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="body collapse in" id="div-1" style="">
-                            <form class="form-horizontal">
+                    <div class="body collapse in" id="div-1">
+                            <form class="form-horizontal" id="block-validate">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="text1">Form Name</label>
                                     <div class="col-lg-8">
-                                        <input type="text" class="form-control" placeholder="Form Name" id="cFormName">
+                                        <input type="text" class="form-control required" name="formName" placeholder="Form Name" id="cFormName">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="pass1">Form Path</label>
                                     <div class="col-lg-8">
-                                        <input type="text" data-placement="top" placeholder="Form Path" id="cFormPath" class="form-control">
+                                        <input type="text" class="form-control required" name="formPath" placeholder="Form Path" id="cFormPath">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Form CI Path</label>
                                     <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="cFormCIPath" placeholder="Form CI Path">
+                                        <input type="text" class="form-control required" name="formCIPath" placeholder="Form CI Path" id="cFormCIPath">
                                     </div>
                                 </div><!-- /.form-group -->
 
                                 <div class="form-group" id="selectTab_MainDiv">
                                     <label class="control-label col-lg-4">Select Tab</label>
                                     <div class="col-lg-8" id="selectTabName">
-                                        <input type='hidden' name='input' id='selectTab'/>
+                                        <input type='hidden' class="required" name='selectTab' id='selectTab'/>
                                     </div>
                                 </div><!-- /.form-group -->
 
@@ -135,7 +135,7 @@
 
                                 <div class="form-group" id="selectParentMenu_MainDiv" style="display: none">
                                     <label class="control-label col-lg-4">Parent Form</label>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-8" id="selectParentMenuDiv">
                                         <input type='hidden' name='input' id='selectParentMenu'/>
                                     </div>
                                 </div>
@@ -143,7 +143,8 @@
                                 <div class="form-group" id="selectTab_MainDiv">
                                     <label class="control-label col-lg-4">Menu Order</label>
                                     <div class="col-lg-8" id="selectMenuOrder">
-                                        <select class="commonGeneralSelect2">
+                                        <select class="commonGeneralSelect2 required" name="selectMenuOrder">
+                                            <option></option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -164,12 +165,12 @@
                                         <input class="make-switch" id="isMenuLink_createSwitch" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
                                     </div>
                                 </div><!-- /.row --><!-- /.row -->
-
+                                {{*<input type="submit" value="Validate" class="btn btn-primary">*}}
                             </form>
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="createFormBtn" data-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-default" id="createFormBtn">Create</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -183,6 +184,13 @@
     <script>
         var oTable;
         $(document).ready(function() {
+/*
+            //Tell the validator not to ignore hidden items
+            var validator = $('#block-validate').validate({ignore: null});
+//Tell the validator to only ignore inputs of type 'hidden'
+            var validator = $('#block-validate').validate({ignore: 'input[type=hidden]'});
+*/
+
             oTable = '';
             var isMenuLink_createForm = 1;
             var isMenuLink_EditForm = 1;
@@ -261,6 +269,7 @@
 
             $('#createFormBtn').on('click', function(e){
                 e.preventDefault();
+                $('#block-validate').trigger('submit');
                 var formData = {
                     FormName : $("#cFormName").val(),
                     FormPath :   $("#cFormPath").val(),
@@ -287,9 +296,14 @@
             $("#haveParentDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
                    $('#selectParentMenu_MainDiv').css('display','block');
+                   $('#selectParentMenuDiv div.select2-container input').addClass('required');
+                   $('#selectParentMenuDiv div.select2-container input').attr('name','selectParentMenu');
+
                 }
                 else if($(this).hasClass('bootstrap-switch-off')){
                    $('#selectParentMenu_MainDiv').css('display','none');
+                    $('#selectParentMenuDiv div.select2-container input').removeClass('required');
+                    $('#selectParentMenuDiv div.select2-container input').removeAttr('name');
                 }
                 //console.log('just a test if switch is ON or OFF');
             });

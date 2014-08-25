@@ -1,6 +1,53 @@
 /**
  * Created by HaiderHassan on 8/22/14.
  */
+
+;(function(window) {
+    var
+    // Is Modernizr defined on the global scope
+        Modernizr = typeof Modernizr !== "undefined" ? Modernizr : false,
+    // whether or not is a touch device
+        isTouchDevice = Modernizr ? Modernizr.touch : !!('ontouchstart' in window || 'onmsgesturechange' in window),
+    // Are we expecting a touch or a click?
+        buttonPressedEvent = (isTouchDevice) ? 'touchstart' : 'click',
+        HRS = function() {
+            this.init();
+        };
+
+    // Initialization method
+    HRS.prototype.init = function() {
+        this.isTouchDevice = isTouchDevice;
+        this.buttonPressedEvent = buttonPressedEvent;
+    };
+
+    HRS.prototype.getViewportHeight = function() {
+
+        var docElement = document.documentElement,
+            client = docElement.clientHeight,
+            inner = window.innerHeight;
+
+        if (client < inner)
+            return inner;
+        else
+            return client;
+    };
+
+    HRS.prototype.getViewportWidth = function() {
+
+        var docElement = document.documentElement,
+            client = docElement.clientWidth,
+            inner = window.innerWidth;
+
+        if (client < inner)
+            return inner;
+        else
+            return client;
+    };
+
+    // Creates a "HRS(House Rent System)" object.
+    window.HRS = new HRS();
+})(this);
+
 /*----------- BEGIN toggleButtons CODE -------------------------*/
 $.each($('.make-switch'), function () {
     $(this).bootstrapSwitch({
@@ -102,3 +149,59 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
         allowClear: true
     });
 /*----------- End of Select2 DropDown Common Script  -------------------------*/
+
+;(function($){
+    "use strict";
+    HRS.formValidation = function() {
+        /*----------- BEGIN validationEngine CODE -------------------------*/
+        $('#popup-validation').validationEngine();
+        /*----------- END validationEngine CODE -------------------------*/
+        $('#block-validate').validate({
+//            ignore: null,
+            ignore: ".ignore, .select2-input",
+            rules: {
+                required2: "required",
+                email2: {
+                    required: true,
+                    email: true
+                },
+                date2: {
+                    required: true,
+                    date: true
+                },
+                url2: {
+                    required: true,
+                    url: true
+                },
+                password2: {
+                    required: true,
+                    minlength: 5
+                },
+                confirm_password2: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password2"
+                },
+                agree2: "required",
+                digits: {
+                    required: true,
+                    digits: true
+                },
+                range: {
+                    required: true,
+                    range: [5, 16]
+                }
+            },
+            errorClass: 'help-block',
+            errorElement: 'span',
+            highlight: function(element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-error').addClass('has-success');
+            }
+        });
+        /*----------- END validate CODE -------------------------*/
+    };
+    return HRS;
+})(jQuery);
