@@ -83,7 +83,7 @@ class Configurations extends Admin_Controller{
         $FormPath = $this->input->post('FormPath');
         $FormCIPath = $this->input->post('FormCIPath');
         $IsMenuLink = $this->input->post('IsMenuLink');
-        $TabID = $this->input->post('TabName');
+        $TabID = $this->input->post('TabID');
         $MenuOrder = $this->input->post('MenuOrder');
         $ParentMenuID = $this->input->post('ParentMenuID');
 
