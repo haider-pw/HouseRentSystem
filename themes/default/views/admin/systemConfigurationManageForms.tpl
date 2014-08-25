@@ -101,13 +101,19 @@
                     <div class="body collapse in" id="div-1">
                             <form class="form-horizontal" id="block-validate">
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4" for="text1">Form Name</label>
+                                    <label class="control-label col-lg-4" for="cMenuName">Menu Name</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control required" name="menuName" placeholder="Menu Name" id="cMenuName">
+                                    </div>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4" for="cFormName">Form Name</label>
                                     <div class="col-lg-8">
                                         <input type="text" class="form-control required" name="formName" placeholder="Form Name" id="cFormName">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4" for="pass1">Form Path</label>
+                                    <label class="control-label col-lg-4" for="cFormPath">Form Path</label>
                                     <div class="col-lg-8">
                                         <input type="text" class="form-control required" name="formPath" placeholder="Form Path" id="cFormPath">
                                     </div>
@@ -266,19 +272,16 @@
                 if($('#block-validate').valid()){
                     if(isMenuLink_createForm!='' && isMenuLink_createForm!=0){
                         var parentMenuID = $('#selectParentMenu').val();
-                        var parentMenuName = $('#selectParentMenuDiv div.select2-container a.select2-choice span.select2-chosen').text();
                     }else{
                         var parentMenuID = '';
-                        var parentMenuName ='';
                     }
                     var formData = {
+                        MenuName : $("#cMenuName").val(),
                         FormName : $("#cFormName").val(),
                         FormPath :   $("#cFormPath").val(),
                         FormCIPath : $("#cFormCIPath").val(),
                         TabID : $('#selectTab').val(),
-                        TabName : $('#selectTabName div.select2-container a.select2-choice span.select2-chosen').text(),
                         ParentMenuID : parentMenuID,
-                        ParentMenuName : parentMenuName,
                         MenuOrder : $('#selectMenuOrder div.select2-container a.select2-choice span.select2-chosen').text(),
                         IsMenuLink : isMenuLink_createForm
                     };

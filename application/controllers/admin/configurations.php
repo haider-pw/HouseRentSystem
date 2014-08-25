@@ -78,16 +78,14 @@ class Configurations extends Admin_Controller{
         redirect('subscriber');
     }
     function addNewForm(){
+        $MenuName = $this->input->post('MenuName');
         $FormName = $this->input->post('FormName');
         $FormPath = $this->input->post('FormPath');
         $FormCIPath = $this->input->post('FormCIPath');
         $IsMenuLink = $this->input->post('IsMenuLink');
-        //$TabName = $this->input->post('TabName');
         $TabID = $this->input->post('TabName');
         $MenuOrder = $this->input->post('MenuOrder');
         $ParentMenuID = $this->input->post('ParentMenuID');
-        //$ParentMenuName = $this->input->post('ParentMenuID');
-        $MenuName = 'MenuNameDemo'; //Forgot to send MenuName will Fix Later.
 
         $data_sysMenus = array(
             'TabID' => $TabID,
