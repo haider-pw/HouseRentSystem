@@ -116,6 +116,35 @@ class Common_Model extends MY_Model{
 
 //    Common Select Queries End
 
+    //------------------------ insert record queries -----------------------------------
+    function insert_record($tbl,$data)
+    {
+        $this->db->insert($tbl, $data);
+        return $this->db->insert_id();
+    }
+    function insert_multiple($tbl,$data)
+    {
+        $this->db->insert_batch($tbl, $data);
+    }
+    function insertInToMultipleTables($data_sysMenus,$data_sysForms){
+
+        $this->db->trans_begin();
+        $this->db->insert('sys_menus', $data_sysMenus);
+        $menuID = $this->db->insert_id();
+        $data_sysForms['MenuID'] = $menuID;
+        $this->db->insert('sys_forms', $data_sysForms);
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return false;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return true;
+        }
+    }//end of insert_job
+    //------------------------End of insert record queries -----------------------------------
 // Common Update Queries
 
     function update($tbl, $fields, $data){

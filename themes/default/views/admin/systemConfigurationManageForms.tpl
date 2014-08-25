@@ -184,16 +184,9 @@
     <script>
         var oTable;
         $(document).ready(function() {
-/*
-            //Tell the validator not to ignore hidden items
-            var validator = $('#block-validate').validate({ignore: null});
-//Tell the validator to only ignore inputs of type 'hidden'
-            var validator = $('#block-validate').validate({ignore: 'input[type=hidden]'});
-*/
-
             oTable = '';
-            var isMenuLink_createForm = 1;
-            var isMenuLink_EditForm = 1;
+            var isMenuLink_createForm = '';
+            var isMenuLink_EditForm = '';
             //Data Tables Script Here.
             var selector = $('#ManageForms');
             var url = "{{base_url()}}admin/configurations/listForms_DT/";
@@ -268,42 +261,61 @@
             });
 
             $('#createFormBtn').on('click', function(e){
+                e.stopImmediatePropagation();
                 e.preventDefault();
-                $('#block-validate').trigger('submit');
-                var formData = {
-                    FormName : $("#cFormName").val(),
-                    FormPath :   $("#cFormPath").val(),
-                    FormCIPath : $("#cFormCIPath").val(),
-                    TabID : $('#selectTab').val(),
-                    TabName : $('#selectTabName div.select2-container a.select2-choice span.select2-chosen').text(),
-                    MenuOrder : $('#selectMenuOrder div.select2-container a.select2-choice span.select2-chosen').text(),
-                    IsMenuLink : isMenuLink_createForm
-                };
-                $.ajax({
-                    type:"post",
-                    url:"{{base_url()}}admin/configurations/addNewForm/",
-                    data: formData/*,
-                    success: function(output){
-                        if (output == true){
-                            oTable.fnReloadAjax();
-                        }
-                    }*/
-                });
-
+                if($('#block-validate').valid()){
+                    if(isMenuLink_createForm!='' && isMenuLink_createForm!=0){
+                        var parentMenuID = $('#selectParentMenu').val();
+                        var parentMenuName = $('#selectParentMenuDiv div.select2-container a.select2-choice span.select2-chosen').text();
+                    }else{
+                        var parentMenuID = '';
+                        var parentMenuName ='';
+                    }
+                    var formData = {
+                        FormName : $("#cFormName").val(),
+                        FormPath :   $("#cFormPath").val(),
+                        FormCIPath : $("#cFormCIPath").val(),
+                        TabID : $('#selectTab').val(),
+                        TabName : $('#selectTabName div.select2-container a.select2-choice span.select2-chosen').text(),
+                        ParentMenuID : parentMenuID,
+                        ParentMenuName : parentMenuName,
+                        MenuOrder : $('#selectMenuOrder div.select2-container a.select2-choice span.select2-chosen').text(),
+                        IsMenuLink : isMenuLink_createForm
+                    };
+                    $.ajax({
+                        type:"post",
+                        url:"{{base_url()}}admin/configurations/addNewForm/",
+                        data: formData/*,
+                         success: function(output){
+                         if (output == true){
+                         oTable.fnReloadAjax();
+                         }
+                         }*/
+                    });
+                    $('#addNewFormModal').attr('aria-hidden','true');
+                    $('#addNewFormModal').removeClass('in');
+                    $('#addNewFormModal').css('display','none');
+                    $('div.modal-backdrop').remove();
+                }
+                else{
+                    //The Else Portion if you want Something else to Happen if not validated Form
+                }
             });
 
 //            show the parent dropdown if the have parent switch is ON
             $("#haveParentDiv div.bootstrap-switch").on('click', function(e){
                 if($(this).hasClass('bootstrap-switch-on')){
                    $('#selectParentMenu_MainDiv').css('display','block');
-                   $('#selectParentMenuDiv div.select2-container input').addClass('required');
-                   $('#selectParentMenuDiv div.select2-container input').attr('name','selectParentMenu');
+                   $('#selectParentMenuDiv input#selectParentMenu').addClass('required');
+                   $('#selectParentMenuDiv div.select2-container').addClass('required');
+                   $('#selectParentMenuDiv div.select2-container').attr('aria-required','true');
+                   $('#selectParentMenuDiv input#selectParentMenu').attr('name','selectParentMenu');
 
                 }
                 else if($(this).hasClass('bootstrap-switch-off')){
                    $('#selectParentMenu_MainDiv').css('display','none');
-                    $('#selectParentMenuDiv div.select2-container input').removeClass('required');
-                    $('#selectParentMenuDiv div.select2-container input').removeAttr('name');
+                    $('#selectParentMenuDiv input#selectParentMenu').removeClass('required');
+                    //$('#selectParentMenuDiv input#selectParentMenu').removeAttr('name');
                 }
                 //console.log('just a test if switch is ON or OFF');
             });
@@ -321,7 +333,7 @@
             var text = "TabName";
             var minInputLength = 0;
             var placeholder = "Select Tab";
-            commonSelect2(selector,url,id,text,minInputLength);
+            commonSelect2(selector,url,id,text,minInputLength,placeholder);
 
             {{*The Selector for Selecting the Parent Menu*}}
             var selector = $('#selectParentMenu');
@@ -330,7 +342,7 @@
             var text = "FormName";
             var minInputLength = 0;
             var placeholder = "Select Parent Menu";
-            commonSelect2(selector,url,id,text,minInputLength);
+            commonSelect2(selector,url,id,text,minInputLength,placeholder);
  /*-----------------selectors of the Page-----------------------*/
 
             $("#isMenuLink_createSwitchDiv div.bootstrap-switch, #isMenuLinkDiv div.bootstrap-switch").on('click', function(e){

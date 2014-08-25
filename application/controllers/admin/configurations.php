@@ -82,8 +82,30 @@ class Configurations extends Admin_Controller{
         $FormPath = $this->input->post('FormPath');
         $FormCIPath = $this->input->post('FormCIPath');
         $IsMenuLink = $this->input->post('IsMenuLink');
+        //$TabName = $this->input->post('TabName');
+        $TabID = $this->input->post('TabName');
+        $MenuOrder = $this->input->post('MenuOrder');
+        $ParentMenuID = $this->input->post('ParentMenuID');
+        //$ParentMenuName = $this->input->post('ParentMenuID');
+        $MenuName = 'MenuNameDemo'; //Forgot to send MenuName will Fix Later.
 
-        echo $IsMenuLink;
+        $data_sysMenus = array(
+            'TabID' => $TabID,
+            'MenuName' => $MenuName,
+            'MenuOrder' => $MenuOrder,
+            'ParentID' => $ParentMenuID
+        );
+        $data_sysForms = array(
+            'FormName' => $FormName,
+            'FormPath' => $FormPath,
+            'FormCIPath' => $FormCIPath,
+            'IsMenuLink' => $IsMenuLink
+        );
+        $result = $this->Common_Model->insertInToMultipleTables($data_sysMenus,$data_sysForms);
+
+        if($result=true){
+            echo 'Imma Working';
+        }
     }
     function loadAllParentFormNames(){
         $value = $this->input->post('term');
