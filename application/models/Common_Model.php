@@ -205,4 +205,24 @@ class Common_Model extends MY_Model{
         $query=$this->db->get();
         return $query->result();
     }
+
+    function get_autoCompleteJoin($PTable, $joins='', $where='', $data, $field, $value,$group_by=false){
+        $this->db->select($data);
+        $this->db->from($PTable);
+        if($joins != ""){
+            foreach ($joins as $k => $v){
+                $this->db->join($v['table'], $v['condition'], $v['jointype']);
+            }
+        }
+        if($where!=''){
+            $this->db->where($where);
+        }
+        $this->db->like('LOWER('.$field.')', strtolower($value));
+        if($group_by == true){
+        $this->db->group_by($field);
+        }
+        $query=$this->db->get();
+        //echo $this->db->last_query();
+        return $query->result();
+    }
 }

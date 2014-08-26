@@ -135,7 +135,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Have Parent</label>
                                     <div class="col-lg-8" id="haveParentDiv">
-                                        <input class="make-switch" id="haveParent" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                        <input class="make-switch" id="haveParent" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger" disabled>
                                     </div>
                                 </div><!-- /.row --><!-- /.row -->
 
@@ -295,10 +295,18 @@
                          }
                          }*/
                     });
-                    $('#addNewFormModal').attr('aria-hidden','true');
-                    $('#addNewFormModal').removeClass('in');
-                    $('#addNewFormModal').css('display','none');
-                    $('div.modal-backdrop').remove();
+
+                    //Do Stuff After pressing the Create Button.
+//                    Close the Modal
+                    $('#addNewFormModal').modal('hide');
+//                    Reset All the TextBoxes and CheckBoxes
+                    $("#block-validate")[0].reset();
+//                    Reset/Empty All the Select2 Dropdowns
+                    jQuery('.select2-offscreen').select2('val', '');
+                    //$("#selectTab, #selectParentMenu, .commonGeneralSelect2").select2("val", "");
+//                    Remove/Hide the Parent DropDown As Everything is gonna Rest
+                    $('#selectParentMenu_MainDiv').css('display','none');
+                    $('#selectParentMenuDiv input#selectParentMenu').removeClass('required');
                 }
                 else{
                     //The Else Portion if you want Something else to Happen if not validated Form
@@ -339,13 +347,20 @@
             commonSelect2(selector,url,id,text,minInputLength,placeholder);
 
             {{*The Selector for Selecting the Parent Menu*}}
-            var selector = $('#selectParentMenu');
-            var url = "{{base_url()}}admin/configurations/loadAllParentFormNames/";
-            var id = "FormID";
-            var text = "FormName";
-            var minInputLength = 0;
-            var placeholder = "Select Parent Menu";
-            commonSelect2(selector,url,id,text,minInputLength,placeholder);
+            $('#selectTab').on("select2-selecting", function(e) {
+
+//                Run the other dropdown if first dropdown value is selected or changed
+                var TabID = e.val;
+                //console.log(TabID);
+                var selector = $('#selectParentMenu');
+                var url = "{{base_url()}}admin/configurations/loadAllParentFormNames/"+TabID;
+                var id = "FormID";
+                var text = "FormName";
+                var minInputLength = 0;
+                var placeholder = "Select Parent Menu";
+                commonSelect2(selector,url,id,text,minInputLength,placeholder);
+            });
+
  /*-----------------selectors of the Page-----------------------*/
 
             $("#isMenuLink_createSwitchDiv div.bootstrap-switch, #isMenuLinkDiv div.bootstrap-switch").on('click', function(e){
@@ -357,6 +372,10 @@
                     isMenuLink_createForm = 0;
                     isMenuLink_EditForm = 0;
                 }
+            });
+
+            $('#selectTab').on("select2-selecting", function(e) {
+                $('#haveParent').bootstrapSwitch('disabled', false);
             });
         });
     </script>

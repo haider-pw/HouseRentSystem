@@ -105,12 +105,22 @@ class Configurations extends Admin_Controller{
             echo 'Imma Working';
         }
     }
-    function loadAllParentFormNames(){
+    function loadAllParentFormNames($TabID){
         $value = $this->input->post('term');
-        $tbl='sys_forms';
-        $data=('FormID,FormName');
+        $PTable='sys_menus';
+        $data=array('FormID','FormName');
         $field='FormName';
-        $searchResults = $this->Common_Model->get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit='');
+        $where = array(
+            'TabID' =>$TabID
+        );
+        $joins=array(
+            array(
+                'table' => 'sys_forms',
+                'condition' => 'sys_forms.MenuID = sys_menus.MenuID',
+                'jointype' => 'INNER'
+            )
+        );
+        $searchResults = $this->Common_Model->get_autoCompleteJoin($PTable, $joins, $where, $data, $field, $value,$group_by=false);
         print json_encode($searchResults);
     }
     function loadAllTabNames(){
