@@ -17,16 +17,15 @@ class Configurations extends Admin_Controller{
 
     //Function:ManageForms will load the view of Manage Forms.
     function ManageForms(){
-        $data['title']="Users Dashboard";
+        $data['title']="Manage Forms";
         $this->parser->parse('admin/systemConfigurationManageForms.tpl',$this->data);
     }
 
-
-    function testing(){
-        $data['title']="Users Dashboard";
-        $this->parser->parse('admin/systemConfigurationManageForms.tpl',$this->data);
+    //Function:ManageForms will load the view of Manage Forms.
+    function ManageTabs(){
+        $data['title']="Manage Tabs";
+        $this->parser->parse('admin/systemConfigurationManageTabs.tpl',$this->data);
     }
-
 
     //List all the forms in DataTables if belong to the certain role..
     //DT= Data Tables

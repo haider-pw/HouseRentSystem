@@ -303,7 +303,7 @@ class Datatables
         if($sSearch != '')
             for($i = 0; $i < count($mColArray); $i++)
                 if($this->ci->input->post('bSearchable_' . $i) == 'true' && in_array($mColArray[$i], $columns))
-                    $sWhere .= $this->select[$mColArray[$i]] . " LIKE '%" . $sSearch . "%' OR ";
+                    $sWhere .= "UPPER(".$this->select[$mColArray[$i]] . ") LIKE '%" . strtoupper($sSearch) . "%' OR ";
 
         $sWhere = substr_replace($sWhere, '', -3);
 
@@ -321,7 +321,7 @@ class Datatables
                     if(preg_match("/(<=|>=|=|<|>)(\s*)(.+)/i", trim($val), $matches))
                         $this->ci->db->where($this->select[$mColArray[$i]].' '.$matches[1], $matches[3]);
                     else
-                        $this->ci->db->where($this->select[$mColArray[$i]].' LIKE', '%'.$val.'%');
+                        $this->ci->db->where('UPPER('.$this->select[$mColArray[$i]].') LIKE', '%'.strtoupper($val).'%');
                 }
             }
         }
