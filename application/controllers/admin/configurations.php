@@ -33,7 +33,7 @@ class Configurations extends Admin_Controller{
  function listForms_DT(){
      $this->datatables->select('FormID, FormName, FormPath, FormCIPath')
          //->unset_column('FormID')
-         ->add_column("Actions", "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "FormID")
+         ->add_column("Actions", "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "FormID")
          ->from('sys_forms');
      echo $this->datatables->generate();
 }//end of list_forms_view
@@ -72,10 +72,31 @@ class Configurations extends Admin_Controller{
             echo false;
         }
     }
-    function delete($id)
+    function deleteFormData($FormID)
     {
-        //add some delete code
-        redirect('subscriber');
+        $columns = "MenuID";
+        $where = array(
+            'FormID' =>$FormID
+        );
+        $MenuIDs = $this->Common_Model->select_fields_where('sys_forms',$columns,$where,TRUE);
+        //echo $MenuIDs->MenuID;
+        $tbl = "sys_forms";
+        $where = array(
+                'FormID' => $FormID
+            );
+        $result1 = $this->Common_Model->delete($tbl,$where);
+        $tbl = "sys_menus";
+        $where = array(
+            'MenuID' => $MenuIDs->MenuID
+        );
+        $result2 = $this->Common_Model->delete($tbl,$where);
+        if ($result1==true && $result2==true){
+            echo "true";
+        }
+        else{
+            echo "false";
+        }
+
     }
     function addNewForm(){
         $MenuName = $this->input->post('MenuName');

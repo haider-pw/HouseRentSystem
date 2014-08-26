@@ -60,23 +60,34 @@ class Common_Model extends MY_Model{
 
     }
 
-    function select_fields($tbl = '', $data)
+    function select_fields($tbl = '', $data, $single=FALSE)
     {
         $this->db->select($data);
         $query = $this->db->get($tbl);
+        if($single==TRUE){
+            return $query->row();
+        }
+        else{
+            return $query->result();
+        }
         //return $this->db->last_query();
-        return $query->result();
+
     }
 
 
-    function select_fields_where($tbl = '', $data,$where)
+    function select_fields_where($tbl = '', $data,$where,$single=FALSE)
     {
         $this->db->select($data);
         $this->db->from($tbl);
         $this->db->where($where);
         $query = $this->db->get();
         //return $this->db->last_query();
-        return $query->result();
+        if($single==TRUE){
+            return $query->row();
+        }
+        else{
+            return $query->result();
+        }
     }
 
     function select_dist_fields($tbl = '', $data)
@@ -185,6 +196,23 @@ class Common_Model extends MY_Model{
     }
 
     //Common Update Queries End
+
+
+//------------------Common Delete Queries
+
+    function delete($tbl,$condition)
+    {
+        $this->db->delete($tbl, $condition);
+        if ($this->db->affected_rows() > 0){
+            return TRUE;
+        }
+        else {
+            //return FALSE;
+            return FALSE;
+        }
+    }
+
+//------------------End of Common Delete Queries
 
 
     //Common AutoComplete Queries

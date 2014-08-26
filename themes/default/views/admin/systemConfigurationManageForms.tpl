@@ -211,7 +211,7 @@
             //End Of dataTables Script..
 
 
-            //Edit Button on Modal Window
+            //Edit Button in DataTables
             $('#ManageForms').on('click', '.editBtnFunc', function(e){
                 e.preventDefault();
                 var FormID = $(this).closest('tr').attr('data-id');
@@ -238,6 +238,25 @@
                             });
                         }
                         $("#formID").val(FormID);
+                    }
+                }); //---  End of $.ajax  ---//
+
+            });
+
+            //Delete Button in DataTables
+            $('#ManageForms').on('click', '.deleteBtnFunc', function(e){
+                e.preventDefault();
+                var FormID = $(this).closest('tr').attr('data-id');
+                //console.log(FormID);
+
+                $.ajax({
+                    type:"post",
+                    url:"{{base_url()}}admin/configurations/deleteFormData/"+FormID,
+                    dataType:"json",
+                    success: function(output){
+                        if (output == true){
+                            oTable.fnReloadAjax();
+                        }
                     }
                 }); //---  End of $.ajax  ---//
 
