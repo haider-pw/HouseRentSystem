@@ -36,6 +36,13 @@ class Configurations extends Admin_Controller{
          ->from('sys_forms');
      echo $this->datatables->generate();
 }//end of list_forms_view
+    function listTabs_DT(){
+        $this->datatables->select('TabID, TabName, TabOrder, TabDesc')
+            //->unset_column('FormID')
+            ->add_column("Actions", "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "TabID")
+            ->from('sys_tabs');
+        echo $this->datatables->generate();
+    }
 
     function GetFormData($id)
     {
