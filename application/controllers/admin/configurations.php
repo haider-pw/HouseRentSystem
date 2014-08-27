@@ -17,13 +17,17 @@ class Configurations extends Admin_Controller{
 
     //Function:ManageForms will load the view of Manage Forms.
     function ManageForms(){
-        $data['title']="Manage Forms";
+        $this->data['title']="Manage Forms";
+        $this->data['activeMenu']="ManageForms";
+        //echo "'".$this->uri->segment(1)."'";
+        //exit;
         $this->parser->parse('admin/systemConfigurationManageForms.tpl',$this->data);
     }
 
     //Function:ManageForms will load the view of Manage Forms.
     function ManageTabs(){
-        $data['title']="Manage Tabs";
+        $this->data['title']="Manage Tabs";
+        $this->data['activeMenu']="ManageTabs";
         $this->parser->parse('admin/systemConfigurationManageTabs.tpl',$this->data);
     }
 
