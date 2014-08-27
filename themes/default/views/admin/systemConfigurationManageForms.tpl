@@ -100,7 +100,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
-                            <form class="form-horizontal" id="block-validate">
+                            <form class="form-horizontal" id="createFormModelForm">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4" for="cMenuName">Menu Name</label>
                                     <div class="col-lg-8">
@@ -289,7 +289,9 @@
             $('#createFormBtn').on('click', function(e){
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                if($('#block-validate').valid()){
+                var selector = $('#createFormModelForm');
+                HRS.formValidation(selector);
+                if(selector.valid()){
                     if(isMenuLink_createForm!='' && isMenuLink_createForm!=0){
                         var parentMenuID = $('#selectParentMenu').val();
                     }else{

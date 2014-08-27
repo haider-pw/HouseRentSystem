@@ -193,11 +193,11 @@
 {{js('admin/main.min.js')}}
 {{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
-<script>
+{{*<script>
         $(function() {
             HRS.formValidation();
         });
-</script>
+</script>*}}
 <script type="text/javascript">
     $(document).ready(function() {
 

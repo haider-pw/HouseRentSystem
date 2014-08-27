@@ -14,7 +14,7 @@
                                 <i class="fa fa-table"></i>
                             </div>
                             <h5>Manage Forms</h5>
-                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="addNewTabFunc" data-original-title="" href="#addNewTabBtnModal_ManageTabs" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Form</a></div>
+                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="addNewTabFunc" data-original-title="" href="#addNewTabModal_ManageTabs" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Form</a></div>
                         </header>
                         <div class="body" id="collapse4">
                             <table id="ManageTabs" class="table table-bordered table-condensed table-hover table-striped">
@@ -22,7 +22,7 @@
                                 <tr>
                                     <th>Tab ID</th>
                                     <th data-class="expand">TabName</th>
-                                    <th>Tab Order</th>
+                                    <th data-hide="phone">Tab Order</th>
                                     <th data-hide="phone,tablet">Tab Desc</th>
                                     <th>Actions</th>
                                 </tr>
@@ -80,7 +80,7 @@
     </div><!-- /.modal --><!-- /#Edit Button Modal -->
 
     {{*Create New Tab Button Modal*}}
-    <div id="addNewTabBtnModal_ManageTabs" class="modal fade">
+    <div id="addNewTabModal_ManageTabs" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,31 +90,30 @@
                 <div class="modal-body">
 
                     <div class="body collapse in" id="div-1">
-                        <form class="form-horizontal">
-                            <input type="hidden" id="tabID"> {{*This field is for hidden ID, as HiddenID will be needed to update the form*}}
+                        <form class="form-horizontal" id="createTabModelForm">
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="text1">Tab Name</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="Tab Name" id="cTabName">
+                                    <input type="text" class="form-control required" name="TabName" placeholder="Tab Name" id="cTabName">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="pass1">Tab Order</label>
                                 <div class="col-lg-8">
-                                    <input type="text" data-placement="top" placeholder="Form Path" id="cTabOrder" class="form-control">
+                                    <input type="text" data-placement="top" name="validNumber" placeholder="Tab Order" id="cTabOrder" class="form-control required">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label class="control-label col-lg-4">Tab Desc</label>
                                 <div class="col-lg-8">
-                                    <textarea class="form-control" id="cTabDesc" placeholder="Form CI Path"></textarea>
+                                    <textarea class="form-control" id="cTabDesc" name="TabDesc" placeholder="Tab Desc"></textarea>
                                 </div>
                             </div><!-- /.form-group -->
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="createTabBtn" data-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-default" id="createTabBtn">Create</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -123,8 +122,11 @@
 
 {{/block}}
 {{block name="scripts"}}
+    {{js('datatables/fnReloadAjax.js')}}
     <script>
+        var oTable;
         $(document).ready(function(e){
+            oTable = '';
             //Data Tables Script Here.
             var selector = $('#ManageTabs');
             var url = "{{base_url()}}admin/configurations/listTabs_DT/";
@@ -195,50 +197,62 @@
                 //$('.select2-container').css("width","100%");
             });
 
-            $('#updateTabBtn').on('click', function(e){
-                e.stopImmediatePropagation();
+            $('#createTabBtn').on('click', function(e){
+                //e.stopImmediatePropagation();
                 e.preventDefault();
-                if($('#block-validate').valid()){
+                var selector = $('#createTabModelForm');
+                HRS.formValidation(selector);
+                if(selector.valid()){
                     var formData = {
-                        MenuName : $("#cMenuName").val(),
-                        FormName : $("#cFormName").val(),
-                        FormPath :   $("#cFormPath").val(),
-                        FormCIPath : $("#cFormCIPath").val(),
-                        TabID : $('#selectTab').val(),
-                        ParentMenuID : parentMenuID,
-                        MenuOrder : $('#selectMenuOrder div.select2-container a.select2-choice span.select2-chosen').text(),
-                        IsMenuLink : isMenuLink_createForm
+                        TabName : $("#cTabName").val(),
+                        TabOrder : $("#cTabOrder").val(),
+                        TabDesc :   $("#cTabDesc").val()
                     };
                     $.ajax({
                         type:"post",
-                        url:"{{base_url()}}admin/configurations/addNewForm/",
-                        data: formData/*,
-                         success: function(output){
-                         if (output == true){
-                         oTable.fnReloadAjax();
-                         }
-                         }*/
+                        url:"{{base_url()}}admin/configurations/addNewTab/",
+                        dataType:"json",
+                        data: formData,
+                        success: function(output){
+                            if (output == true){
+                                oTable.fnReloadAjax();
+                            }
+                        }
                     });
-
                     //Do Stuff After pressing the Create Button.
 //                    Close the Modal
-                    $('#addNewFormModal').modal('hide');
+                    $('#addNewTabModal_ManageTabs').modal('hide');
 //                    Reset All the TextBoxes and CheckBoxes
-                    $("#block-validate")[0].reset();
+                    $("#createTabModelForm")[0].reset();
 //                    Reset/Empty All the Select2 Dropdowns
-                    jQuery('.select2-offscreen').select2('val', '');
-                    //$("#selectTab, #selectParentMenu, .commonGeneralSelect2").select2("val", "");
-//                    Remove/Hide the Parent DropDown As Everything is gonna Rest
-                    $('#selectParentMenu_MainDiv').css('display','none');
-                    $('#selectParentMenuDiv input#selectParentMenu').removeClass('required');
+                    //jQuery('.select2-offscreen').select2('val', '');
                 }
                 else{
                     //The Else Portion if you want Something else to Happen if not validated Form
                 }
+
             });
+     {{* ------------------End of Code Related to Create new Tab Modal----------------------- *}}
 
+    {{* ------------------Code Related to Create new Tab Modal----------------------- *}}
+            $('#ManageTabs').on('click', '.deleteBtnFunc', function(e){
+                e.preventDefault();
+                var tabID = $(this).closest('tr').attr('data-id');
+                //console.log(FormID);
 
-            {{* ------------------End of Code Related to Create new Tab Modal----------------------- *}}
+                $.ajax({
+                    type:"post",
+                    url:"{{base_url()}}admin/configurations/deleteTabData/"+tabID,
+                    dataType:"json",
+                    success: function(output){
+                        if (output == true){
+                            oTable.fnReloadAjax();
+                        }
+                    }
+                }); //---  End of $.ajax  ---//
+
+            });
+    {{* ------------------End of Code Related to Create new Tab Modal----------------------- *}}
         });
     </script>
 +{{/block}}

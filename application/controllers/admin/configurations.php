@@ -155,7 +155,7 @@ class Configurations extends Admin_Controller{
         print json_encode($searchResults);
     }
 
-    //Tabs Section
+ // -----------------------Tabs Section
     function loadAllTabNames(){
         $value = $this->input->post('term');
         $tbl='sys_tabs';
@@ -195,6 +195,41 @@ class Configurations extends Admin_Controller{
         }else{
             echo false;
         }
+    }
+    function addNewTab(){
+        $tabName = $this->input->post('TabName');
+        $tabOrder = $this->input->post('TabOrder');
+        $tabDesc = $this->input->post('TabDesc');
+
+        $data = array(
+            'TabName' => $tabName,
+            'TabOrder' => $tabOrder,
+            'TabDesc' => $tabDesc
+        );
+        $tbl = "sys_tabs";
+
+        $result = $this->Common_Model->insert_record($tbl,$data);
+
+        if($result==true){
+            echo "true";
+        }
+    }
+
+    function deleteTabData($tabID)
+    {
+        $columns = "MenuID";
+        $where = array(
+            'TabID' =>$tabID
+        );
+        $tbl = "sys_tabs";
+        $result = $this->Common_Model->delete($tbl,$where);
+        if ($result==true){
+            echo "true";
+        }
+        else{
+            echo "false";
+        }
+
     }
 
 }

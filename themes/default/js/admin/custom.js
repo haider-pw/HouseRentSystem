@@ -110,6 +110,25 @@ function commonDataTables(selector,url,aoColumns){
     });
 }
 
+function RefreshTable(tableId, urlData)
+	{
+    	  $.getJSON(urlData, null, function( json )
+    	  {
+        	    table = $(tableId).dataTable();
+        	    oSettings = table.fnSettings();
+
+        	    table.fnClearTable(this);
+
+        	    for (var i=0; i<json.aaData.length; i++)
+            	    {
+            	      table.oApi._fnAddData(oSettings, json.aaData[i]);
+            	    }
+
+        	    oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+        	    table.fnDraw();
+        	  });
+    	}
+
 /*----------- END DataTables Common Script -------------------------*/
 
 
@@ -152,11 +171,11 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
 
 ;(function($){
     "use strict";
-    HRS.formValidation = function() {
+    HRS.formValidation = function(selector) {
         /*----------- BEGIN validationEngine CODE -------------------------*/
         $('#popup-validation').validationEngine();
         /*----------- END validationEngine CODE -------------------------*/
-        $('#block-validate').validate({
+        selector.validate({
 //            ignore: null,
             ignore: ".ignore, .select2-input",
             rules: {
@@ -190,6 +209,11 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
                 range: {
                     required: true,
                     range: [5, 16]
+                },
+                validNumber:{
+                    required:true,
+                    number:true,
+                    maxlength:2
                 }
             },
             errorClass: 'help-block',
@@ -205,3 +229,14 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
     };
     return HRS;
 })(jQuery);
+
+function validateNum(evt) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode( key );
+    var regex = /[0-9]|\./;
+    if( !regex.test(key) ) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+    }
+}
