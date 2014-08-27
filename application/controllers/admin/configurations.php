@@ -43,7 +43,7 @@ class Configurations extends Admin_Controller{
     function listTabs_DT(){
         $this->datatables->select('TabID, TabName, TabOrder, TabDesc')
             //->unset_column('FormID')
-            ->add_column("Actions", "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "TabID")
+            ->add_column("Actions", "<a href='#editBtnModal_ManageTabs' data-toggle='modal' class='editBtnFunc_ManageTabs'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "TabID")
             ->from('sys_tabs');
         echo $this->datatables->generate();
     }
@@ -154,6 +154,8 @@ class Configurations extends Admin_Controller{
         $searchResults = $this->Common_Model->get_autoCompleteJoin($PTable, $joins, $where, $data, $field, $value,$group_by=false);
         print json_encode($searchResults);
     }
+
+    //Tabs Section
     function loadAllTabNames(){
         $value = $this->input->post('term');
         $tbl='sys_tabs';
@@ -161,6 +163,38 @@ class Configurations extends Admin_Controller{
         $field='TabName';
         $searchResults = $this->Common_Model->get_autoComplete($tbl, $data, $field, $value, $where='',$group_by=false,$limit='');
         print json_encode($searchResults);
+    }
+    function GetTabData($tabID)
+    {
+        $where = array(
+            'TabID' => $tabID
+        );
+        $tbl='sys_tabs';
+        $data=('TabName,TabOrder,TabDesc');
+        $result = $this->Common_Model->select_fields_where($tbl,$data,$where);
+        print json_encode($result);
+    }
+    function UpdateTabData()
+    {
+        $tabID = $this->input->post('TabID');
+        $tabName = $this->input->post('TabName');
+        $tabOrder = $this->input->post('TabOrder');
+        $tabDesc = $this->input->post('TabDesc');
+        $tbl="sys_tabs";
+        $data=array(
+            'TabName' => $tabName,
+            'TabOrder' => $tabOrder,
+            'TabDesc' => $tabDesc
+        );
+        $field = "TabID";
+        $affected_row = $this->Common_Model->update_query($tbl,$field,$tabID,$data);
+        if($affected_row)
+        {
+            echo true;
+
+        }else{
+            echo false;
+        }
     }
 
 }
