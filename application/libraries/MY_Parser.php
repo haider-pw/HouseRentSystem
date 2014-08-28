@@ -356,11 +356,13 @@ class MY_Parser extends CI_Parser {
             config_item('theme_path') . $this->_theme_name . '/views/layouts/',
             config_item('theme_path') . $this->_theme_name . '/views/',
             config_item('theme_path') . $this->_theme_name . '/views/admin/',
+            config_item('theme_path') . $this->_theme_name . '/views/admin/system/',
             APPPATH . 'modules/' . $this->_module . '/views/layouts/',
             APPPATH . 'modules/' . $this->_module . '/views/',
             APPPATH . 'views/layouts/',
             APPPATH . 'views/',
-            APPPATH . 'views/admin/'
+            APPPATH . 'views/admin/',
+            APPPATH . 'views/admin/system'
         );
 
         // Will add paths into Smarty for "smarter" inheritance and inclusion

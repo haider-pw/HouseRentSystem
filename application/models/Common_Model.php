@@ -161,6 +161,13 @@ class Common_Model extends MY_Model{
     function update($tbl, $fields, $data){
         $this->db->where($fields);
         $this->db->update($tbl, $data);
+        $affectedRows = $this->db->affected_rows();
+        if($affectedRows){
+            return true;
+        }
+        else{
+            return $this->db->_error_message();
+        }
     }
     function update_query($tbl,$field,$id,$data)
     {

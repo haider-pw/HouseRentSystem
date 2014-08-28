@@ -15,21 +15,34 @@ class Configurations extends Admin_Controller{
     }
 
 
+
+    /**
+     * Under This Block Only Thoses Functions Will Reside Which Opens Up The Templates/Views - Called the View Functions Block
+     */
     //Function:ManageForms will load the view of Manage Forms.
     function ManageForms(){
         $this->data['title']="Manage Forms";
-        $this->data['activeMenu']="ManageForms";
         //echo "'".$this->uri->segment(1)."'";
         //exit;
-        $this->parser->parse('admin/systemConfigurationManageForms.tpl',$this->data);
+        $this->parser->parse('admin/systemConfigurationManageForms',$this->data);
     }
 
     //Function:ManageForms will load the view of Manage Forms.
     function ManageTabs(){
         $this->data['title']="Manage Tabs";
-        $this->data['activeMenu']="ManageTabs";
-        $this->parser->parse('admin/systemConfigurationManageTabs.tpl',$this->data);
+        $this->parser->parse('admin/systemConfigurationManageTabs',$this->data);
     }
+    function SitePreferences(){
+        $this->data['title']="Site Preferences";
+
+        $data = "settingsID,settingsKey,settingsValue";
+        $tbl="sys_config";
+        $this->data['data']=$this->Common_Model->select_fields($tbl, $data, $single=FALSE);
+        $this->parser->parse('admin/systemConfigurationSitePreferences',$this->data);
+    }
+/*---------------------End of View Functions Block---------------------------*/
+
+
 
     //List all the forms in DataTables if belong to the certain role..
     //DT= Data Tables
@@ -127,7 +140,7 @@ class Configurations extends Admin_Controller{
             $MenuOrder = mysql_real_escape_string($this->input->post('MenuOrder'));
             $ParentMenuID = mysql_real_escape_string($this->input->post('ParentMenuID'));
             if(empty($ParentMenuID)){
-                $ParentMenuID = "babasss";
+                $ParentMenuID = "0";
             }
             $data_sysMenus = array(
                 'TabID' => $TabID,
@@ -261,4 +274,25 @@ class Configurations extends Admin_Controller{
 
     }
 
+    /*-------------------Now Site Configuration-------------------*/
+
+   function UpdateSiteSettings($textBoxNameAttr){
+       if($this->input->post() && !empty($textBoxNameAttr)){
+           $settingsValue = $this->input->post('name');
+       }
+       $data = array(
+         'SettingsValue'  => $settingsValue
+       );
+       $where = array(
+           'SettingsKey' => $textBoxNameAttr
+       );
+       $tbl = "sys_config";
+       $result = $this->Common_Model->update($tbl, $where, $data);
+       if($result == true){
+           echo "OK::Record Successfully Updated::success";
+       }
+       else{
+           echo "Some Error,".$result."::error";
+       }
+   }
 }

@@ -6,7 +6,7 @@
         {{$Menu[$row['MenuOrder']]['FormName'] = $row['FormName']}}
         {{$Menu[$row['MenuOrder']]['FormPath'] = $row['FormPath']}}
         {{$Menu[$row['MenuOrder']]['FormCIPath'] = $row['FormCIPath']}}
-        {{foreach $menus as $subrow}}
+        {{foreach $menus as $key => $subrow}}
             {{if $subrow['ParentID'] == $row['MenuID']}}
                 {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubName'] = $subrow['MenuName']}}
                 {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubFormName'] = $subrow['FormName']}}
@@ -36,6 +36,7 @@
             {{/if}}
             {{if isset($MainMenu['SubMenu'])}}
             <ul>
+                {{$var = ksort($MainMenu['SubMenu'])}}
                 {{foreach $MainMenu['SubMenu'] as $SubMenu}}
                     {{$FormCIPath = explode("/", $SubMenu['SubFormCIPath'])}}
                     <li {{checkActiveClassSubMenu($FormCIPath[2])}}>
