@@ -126,7 +126,9 @@ class Configurations extends Admin_Controller{
             $TabID = mysql_real_escape_string($this->input->post('TabID'));
             $MenuOrder = mysql_real_escape_string($this->input->post('MenuOrder'));
             $ParentMenuID = mysql_real_escape_string($this->input->post('ParentMenuID'));
-
+            if(empty($ParentMenuID)){
+                $ParentMenuID = "babasss";
+            }
             $data_sysMenus = array(
                 'TabID' => $TabID,
                 'MenuName' => $MenuName,

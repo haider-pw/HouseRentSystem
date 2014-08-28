@@ -326,7 +326,7 @@
                                 oTable.fnReloadAjax();
                                 HRS.notification(data[1], data[2]);
                             }
-                            else {
+                            else if(data[0]=="FAIL") {
                                 HRS.notification(data[1], data[2]);
                             }
                         }
