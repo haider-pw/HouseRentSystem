@@ -317,14 +317,19 @@
                         IsMenuLink : isMenuLink_createForm
                     };
                     $.ajax({
-                        type:"post",
-                        url:"{{base_url()}}admin/configurations/addNewForm/",
-                        data: formData/*,
-                         success: function(output){
-                         if (output == true){
-                         oTable.fnReloadAjax();
-                         }
-                         }*/
+                        type: "post",
+                        url: "{{base_url()}}admin/configurations/addNewForm/",
+                        data: formData,
+                        success: function (output) {
+                            var data = output.split("::");
+                            if (data[0] == "OK") {
+                                oTable.fnReloadAjax();
+                                HRS.notification(data[1], data[2]);
+                            }
+                            else {
+                                HRS.notification(data[1], data[2]);
+                            }
+                        }
                     });
 
                     //Do Stuff After pressing the Create Button.

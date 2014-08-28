@@ -117,31 +117,39 @@ class Configurations extends Admin_Controller{
 
     }
     function addNewForm(){
-        $MenuName = $this->input->post('MenuName');
-        $FormName = $this->input->post('FormName');
-        $FormPath = $this->input->post('FormPath');
-        $FormCIPath = $this->input->post('FormCIPath');
-        $IsMenuLink = $this->input->post('IsMenuLink');
-        $TabID = $this->input->post('TabID');
-        $MenuOrder = $this->input->post('MenuOrder');
-        $ParentMenuID = $this->input->post('ParentMenuID');
+        if($this->input->post()){
+            $MenuName = mysql_real_escape_string($this->input->post('MenuName'));
+            $FormName = mysql_real_escape_string($this->input->post('FormName'));
+            $FormPath = mysql_real_escape_string($this->input->post('FormPath'));
+            $FormCIPath = mysql_real_escape_string($this->input->post('FormCIPath'));
+            $IsMenuLink = mysql_real_escape_string($this->input->post('IsMenuLink'));
+            $TabID = mysql_real_escape_string($this->input->post('TabID'));
+            $MenuOrder = mysql_real_escape_string($this->input->post('MenuOrder'));
+            $ParentMenuID = mysql_real_escape_string($this->input->post('ParentMenuID'));
 
-        $data_sysMenus = array(
-            'TabID' => $TabID,
-            'MenuName' => $MenuName,
-            'MenuOrder' => $MenuOrder,
-            'ParentID' => $ParentMenuID
-        );
-        $data_sysForms = array(
-            'FormName' => $FormName,
-            'FormPath' => $FormPath,
-            'FormCIPath' => $FormCIPath,
-            'IsMenuLink' => $IsMenuLink
-        );
-        $result = $this->Common_Model->insertInToMultipleTables($data_sysMenus,$data_sysForms);
+            $data_sysMenus = array(
+                'TabID' => $TabID,
+                'MenuName' => $MenuName,
+                'MenuOrder' => $MenuOrder,
+                'ParentID' => $ParentMenuID
+            );
+            $data_sysForms = array(
+                'FormName' => $FormName,
+                'FormPath' => $FormPath,
+                'FormCIPath' => $FormCIPath,
+                'IsMenuLink' => $IsMenuLink
+            );
+            $result = $this->Common_Model->insertInToMultipleTables($data_sysMenus,$data_sysForms);
 
-        if($result=true){
-            echo 'Imma Working';
+            if($result==true){
+                echo "OK::New Form Successfully Added::success";
+            }
+            else{
+                echo "FAIL::Some Error, New Form Could Not Be Created::error";
+            }
+        }
+        else{
+            echo "FAIL::No Data Posted, You Must Enter Data::warning";
         }
     }
     function loadAllParentFormNames($TabID){
