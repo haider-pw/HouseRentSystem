@@ -47,3 +47,20 @@
     // Creates a "HRS(House Rent System)" object.
     window.HRS = new HRS();
 })(this);
+
+
+;(function($){
+    "use strict";
+    HRS.notification = function(text,notyficationType) {
+        /*----------- BEGIN validationEngine CODE -------------------------*/
+        noty({
+            text: text,
+            type: notyficationType,
+            theme: 'defaultTheme',
+            timeout:3600,
+            closeWith: ['click']
+        });
+        /*----------- END validate CODE -------------------------*/
+    };
+    return HRS;
+})(jQuery);

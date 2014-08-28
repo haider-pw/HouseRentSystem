@@ -211,11 +211,16 @@
                     $.ajax({
                         type:"post",
                         url:"{{base_url()}}admin/configurations/addNewTab/",
-                        dataType:"json",
                         data: formData,
                         success: function(output){
-                            if (output == true){
+                            var data = output.split('::');
+                            //console.log(data,data[0],data[1],data[2]);
+                            if (data[0] == "OK"){
                                 oTable.fnReloadAjax();
+                                HRS.notification(data[1],data[2]);
+                            }
+                            else if(data[0] == "FAIL"){
+                                HRS.notification(data[1],data[2]);
                             }
                         }
                     });
@@ -234,7 +239,7 @@
             });
      {{* ------------------End of Code Related to Create new Tab Modal----------------------- *}}
 
-    {{* ------------------Code Related to Create new Tab Modal----------------------- *}}
+    {{* ------------------Code Related to Delete Tab from DB----------------------- *}}
             $('#ManageTabs').on('click', '.deleteBtnFunc', function(e){
                 e.preventDefault();
                 var tabID = $(this).closest('tr').attr('data-id');
@@ -243,16 +248,21 @@
                 $.ajax({
                     type:"post",
                     url:"{{base_url()}}admin/configurations/deleteTabData/"+tabID,
-                    dataType:"json",
                     success: function(output){
-                        if (output == true){
+                        var data = output.split('::');
+                        if (data[0] == "OK"){
                             oTable.fnReloadAjax();
+                            HRS.notification(data[1],data[2]);
+                        }
+                        else if(data[0]="FAIL")
+                        {
+                            HRS.notification(data[1],data[2]);
                         }
                     }
                 }); //---  End of $.ajax  ---//
 
             });
-    {{* ------------------End of Code Related to Create new Tab Modal----------------------- *}}
+    {{* ------------------End of Code Related to Delete Tab From DB----------------------- *}}
         });
     </script>
 +{{/block}}

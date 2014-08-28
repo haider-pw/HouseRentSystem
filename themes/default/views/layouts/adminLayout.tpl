@@ -58,7 +58,6 @@
 <body>
 <div id="wrap">
 <div id="top">
-
     <!-- .navbar -->
     <nav class="navbar navbar-inverse navbar-static-top">
 
@@ -188,9 +187,11 @@
 {{js('admin/sparkline/jquery.sparkline.min.js')}}
 {{js('validationEngine/jquery.validationEngine.js')}}
 {{js('jquery-validate/jquery.validate.min.js')}}
+{{js('noty/packaged/jquery.noty.packaged.min.js')}}
 {{*{{js('jquery-validate/src/localization/messages_ja.js')}}*}}
 
 {{js('admin/main.min.js')}}
+{{js('HouseRentSystem.js')}}
 {{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
 {{*<script>

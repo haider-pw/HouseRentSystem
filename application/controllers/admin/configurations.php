@@ -197,22 +197,33 @@ class Configurations extends Admin_Controller{
         }
     }
     function addNewTab(){
-        $tabName = $this->input->post('TabName');
-        $tabOrder = $this->input->post('TabOrder');
-        $tabDesc = $this->input->post('TabDesc');
-
-        $data = array(
-            'TabName' => $tabName,
-            'TabOrder' => $tabOrder,
-            'TabDesc' => $tabDesc
-        );
-        $tbl = "sys_tabs";
-
-        $result = $this->Common_Model->insert_record($tbl,$data);
-
-        if($result==true){
-            echo "true";
+        if($this->input->post()){
+            $tabName = mysql_real_escape_string($this->input->post('TabName'));
+            $tabOrder = mysql_real_escape_string($this->input->post('TabOrder'));
+            $tabDesc = mysql_real_escape_string($this->input->post('TabDesc'));
+            //see if tabOrder is a numeric Value
+            if(is_numeric($tabOrder)){
+                $data = array(
+                    'TabName' => $tabName,
+                    'TabOrder' => $tabOrder,
+                    'TabDesc' => $tabDesc
+                );
+                $tbl = "sys_tabs";
+                $result = $this->Common_Model->insert_record($tbl,$data);
+                if($result==true){
+                    echo "OK::New Tab Successfully Added::success";
+                }
+            }
+            else
+            {
+                echo "FAIL::Tab Order Must Be a Numeric Value::warning";
+            }
         }
+        else
+        {
+            echo "FAIL::No Data Posted, You Must Enter Data.::warning";
+        }
+
     }
 
     function deleteTabData($tabID)
@@ -224,10 +235,10 @@ class Configurations extends Admin_Controller{
         $tbl = "sys_tabs";
         $result = $this->Common_Model->delete($tbl,$where);
         if ($result==true){
-            echo "true";
+            echo "OK::Data Successfully Deleted::success";
         }
         else{
-            echo "false";
+            echo "FAIL::Some Error, Data Could not Be Deleted.::error";
         }
 
     }
