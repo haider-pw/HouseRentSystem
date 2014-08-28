@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Created by PhpStorm.
- * User: HaiderHassan
+ * User: Syed Haider Hassan
  * Date: 2/4/14
  * Time: 4:09 PM
  */
@@ -60,26 +60,34 @@ class Configurations extends Admin_Controller{
     }
     function UpdateFormData()
     {
-        $FormID = $this->input->post('FormID');
-        $FormName = $this->input->post('FormName');
-        $FormPath = $this->input->post('FormPath');
-        $FormCIPath = $this->input->post('FormCIPath');
-        $IsMenuLink = $this->input->post(mysql_real_escape_string('IsMenuLink'));
-        $tbl="sys_forms";
-        $data=array(
-            'FormName' => $FormName,
-            'FormPath' => $FormPath,
-            'FormCIPath' => $FormCIPath,
-            'IsMenuLink' => $IsMenuLink,
-        );
-        $field = "FormID";
-        $affected_row = $this->Common_Model->update_query($tbl,$field,$FormID,$data);
-        if($affected_row)
+        if($this->input->post())
         {
-            echo true;
+            $FormID = mysql_real_escape_string($this->input->post('FormID'));
+            $FormName = mysql_real_escape_string($this->input->post('FormName'));
+            $FormPath = mysql_real_escape_string($this->input->post('FormPath'));
+            $FormCIPath = mysql_real_escape_string($this->input->post('FormCIPath'));
+            $IsMenuLink = mysql_real_escape_string($this->input->post('IsMenuLink'));
+            $tbl="sys_forms";
+            $data=array(
+                'FormName' => $FormName,
+                'FormPath' => $FormPath,
+                'FormCIPath' => $FormCIPath,
+                'IsMenuLink' => $IsMenuLink,
+            );
+            $field = "FormID";
+            $affected_row = $this->Common_Model->update_query($tbl,$field,$FormID,$data);
+            if($affected_row)
+            {
+                echo "OK::Record Successfully Updated::success";
 
-        }else{
-            echo false;
+            }else{
+                echo "FAIL::Some Error, Record Could Not Be Updated::error";
+            }
+
+        }
+        else
+        {
+            echo "FAIL::No Data Posted, You Must Enter Data.::warning";
         }
     }
     function deleteFormData($FormID)
@@ -101,10 +109,10 @@ class Configurations extends Admin_Controller{
         );
         $result2 = $this->Common_Model->delete($tbl,$where);
         if ($result1==true && $result2==true){
-            echo "true";
+            echo "OK::Record Successfully Deleted::success";
         }
         else{
-            echo "false";
+            echo "FAIL::Some Error, Record Could Not Be Deleted::error";
         }
 
     }
@@ -190,10 +198,10 @@ class Configurations extends Admin_Controller{
         $affected_row = $this->Common_Model->update_query($tbl,$field,$tabID,$data);
         if($affected_row)
         {
-            echo true;
+            echo "OK::Record Successfully Updated::success";
 
         }else{
-            echo false;
+            echo "FAIL::Some Error, Record Could Not Be Deleted::success";
         }
     }
     function addNewTab(){
@@ -235,10 +243,10 @@ class Configurations extends Admin_Controller{
         $tbl = "sys_tabs";
         $result = $this->Common_Model->delete($tbl,$where);
         if ($result==true){
-            echo "OK::Data Successfully Deleted::success";
+            echo "OK::Record Successfully Deleted::success";
         }
         else{
-            echo "FAIL::Some Error, Data Could not Be Deleted.::error";
+            echo "FAIL::Some Error, Record Could not Be Deleted.::error";
         }
 
     }

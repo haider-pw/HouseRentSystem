@@ -253,10 +253,14 @@
                 $.ajax({
                     type:"post",
                     url:"{{base_url()}}admin/configurations/deleteFormData/"+FormID,
-                    dataType:"json",
                     success: function(output){
-                        if (output == true){
+                        var data = output.split("::");
+                        if (data[0] == "OK"){
                             oTable.fnReloadAjax();
+                            HRS.notification(data[1],data[2]);
+                        }
+                        else if(data[0] == "FAIL"){
+                            HRS.notification(data[1],data[2]);
                         }
                     }
                 }); //---  End of $.ajax  ---//
@@ -274,14 +278,19 @@
 
             };
                 $.ajax({
-                   type:"post",
-                   url:"{{base_url()}}admin/configurations/UpdateFormData/",
-                   data: formData,
-                    success: function(output){
-                           if (output == true){
-                               oTable.fnReloadAjax();
+                    type: "post",
+                    url: "{{base_url()}}admin/configurations/UpdateFormData/",
+                    data: formData,
+                    success: function (output) {
+                        var data = output.split('::');
+                        if (data[0] == "OK") {
+                            oTable.fnReloadAjax();
+                            HRS.notification(data[1], data[2]);
+                        }
+                        else if (data[0] == "FAIL") {
+                            HRS.notification(data[1], data[2]);
+                        }
                     }
-                }
                 });
                 //console.log(FormName);
             });
@@ -322,7 +331,7 @@
 //                    Close the Modal
                     $('#addNewFormModal').modal('hide');
 //                    Reset All the TextBoxes and CheckBoxes
-                    $("#block-validate")[0].reset();
+                    $("#createFormModelForm")[0].reset();
 //                    Reset/Empty All the Select2 Dropdowns
                     jQuery('.select2-offscreen').select2('val', '');
                     //$("#selectTab, #selectParentMenu, .commonGeneralSelect2").select2("val", "");

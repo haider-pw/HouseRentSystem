@@ -48,18 +48,18 @@
                 <div class="modal-body">
 
                     <div class="body collapse in" id="div-1">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" id="editTabModelForm">
                             <input type="hidden" id="tabID"> {{*This field is for hidden ID, as HiddenID will be needed to update the form*}}
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="text1">Tab Name</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="Tab Name" id="tabName">
+                                    <input type="text" class="form-control required" name="TabName" placeholder="Tab Name" id="tabName">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="pass1">Tab Order</label>
                                 <div class="col-lg-8">
-                                    <input type="text" data-placement="top" placeholder="Form Path" id="tabOrder" class="form-control">
+                                    <input type="text" data-placement="top" name="validNumber" placeholder="Tab Order" id="tabOrder" class="form-control required">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="updateTabBtn" data-dismiss="modal">Update</button>
+                    <button type="button" class="btn btn-default" id="updateTabBtn">Update</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -124,6 +124,10 @@
 {{block name="scripts"}}
     {{js('datatables/fnReloadAjax.js')}}
     <script>
+        /**
+         * @var oTable will be Global variable.
+         *
+         **/
         var oTable;
         $(document).ready(function(e){
             oTable = '';
@@ -171,22 +175,29 @@
             //Update Button in the Edit/Update Modal.
             $('#updateTabBtn').on('click', function(e){
                 e.preventDefault();
-                var formData = {
-                    TabID :     $("#tabID").val(),
-                    TabName :   $("#tabName").val(),
-                    TabOrder :   $("#tabOrder").val(),
-                    TabDesc : $("#tabDesc").val()
-                };
-                $.ajax({
-                    type:"post",
-                    url:"{{base_url()}}admin/configurations/UpdateTabData/",
-                    data: formData,
-                    success: function(output){
-                        if (output == true){
-                            oTable.fnReloadAjax();
+                var editModalFormsSelector = $('#editTabModelForm');
+                HRS.formValidation(editModalFormsSelector);
+                if (editModalFormsSelector.valid()){
+                    var formData = {
+                        TabID :     $("#tabID").val(),
+                        TabName :   $("#tabName").val(),
+                        TabOrder :   $("#tabOrder").val(),
+                        TabDesc : $("#tabDesc").val()
+                    };
+                    $.ajax({
+                        type:"post",
+                        url:"{{base_url()}}admin/configurations/UpdateTabData/",
+                        data: formData,
+                        success: function(output){
+                            var data = output.split('::');
+                            if (data[0] == "OK"){
+                                oTable.fnReloadAjax();
+                                HRS.notification(data[1],data[2]);
+                            }
                         }
-                    }
-                });
+                    });
+                    $('#editBtnModal_ManageTabs').modal('hide');
+                }
                 //console.log(FormName);
             });
    {{* ------------------End of Code Related to Edit/Update Modal----------------------- *}}
