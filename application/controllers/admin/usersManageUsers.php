@@ -5,7 +5,7 @@
  * Date: 8/29/14
  * Time: 5:55 PM
  */
-class Configurations extends Admin_Controller{
+class usersManageUsers extends Admin_Controller{
     function __construct(){
         parent::__construct();
         $this->load->library('Datatables.php');

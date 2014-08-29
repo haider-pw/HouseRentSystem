@@ -1,5 +1,6 @@
 {{extends file='adminLayout.tpl'}}
 {{block name="header"}}
+    <title>{{$title}}</title>
 {{/block}}
 {{block name="content"}}
     <div class="outer">
