@@ -82,12 +82,19 @@ class Common_Model extends MY_Model{
         $this->db->where($where);
         $query = $this->db->get();
         //return $this->db->last_query();
-        if($single==TRUE){
-            return $query->row();
+        if ($query->num_rows() > 0) {
+            // query returned results
+            if($single==TRUE){
+                return $query->row();
+            }
+            else{
+                return $query->result();
+            }
+        } else {
+            // query returned no results
+            return FALSE;
         }
-        else{
-            return $query->result();
-        }
+
     }
 
     function select_dist_fields($tbl = '', $data)

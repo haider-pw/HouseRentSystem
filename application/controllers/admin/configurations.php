@@ -299,34 +299,58 @@ class Configurations extends Admin_Controller{
       $allowedExt = array('jpeg','jpg','png','gif');
         if($this->input->post()){
             $fieldName = $this->input->post('field');
+            $uploadTo = $this->input->post('uploadTo');
         }
+
         if(isset($_FILES[0]['name']))
         {
-            $ScanCopy = $_FILES[0]['name'];
-            $ext = end(explode('.',$ScanCopy));
+            $FileName = $_FILES[0]['name'];
+            $ext = end(explode('.',$FileName));
 
-            if(!in_array(strtolower(end(explode('.',$ScanCopy))),$allowedExt))
+            if(!in_array(strtolower(end(explode('.',$FileName))),$allowedExt))
             {
-
-                echo json_encode('false');
+                echo "FAIL:: Only Image Upload is Allowed, No Other Extensions Are Excepted";
                 return;
             }else
             {
-                $ScanCopy = "HRS_".time().".".$ext;
-                move_uploaded_file($_FILES[0]['tmp_name'],'./uploads/'.$ScanCopy);
-                $data['SettingsValue'] = $ScanCopy;
+                $table = 'sys_config';
+                $settingsValue = 'SettingsValue';
+                $where = array(
+                    'SettingsKey' => $fieldName
+                );
+                switch($uploadTo){
+                    case "site":
+                        $uploadPath = './uploads/site_settings/';
+                        break;
+                    case "users":
+                        $uploadPath = './uploads/users/';
+                        break;
+                    default:
+                        $uploadPath = './uploads/';
+            }
+                //Check if Database is not returning Empty Result.
+                $oldFile= $this->Common_Model->select_fields_where($table, $settingsValue,$where,$single=TRUE);
+                $oldFile = $oldFile->SettingsValue;
+                //print_r("This should be Empty Array".$oldFile."<br />");
+
+                if (!empty($oldFile)) {
+                    //Check If File Exist against the name defined in DB
+                    if (file_exists($uploadPath .$oldFile)) {
+                        //Delete the Old File..
+                        unlink($uploadPath . $oldFile);
+                    }
+                }
+                $FileName = "HRS_".time().".".$ext;
+                move_uploaded_file($_FILES[0]['tmp_name'],$uploadPath.$FileName);
+                $data['SettingsValue'] = $FileName;
             }
         }
-        $where = array(
-            'SettingsKey' => $fieldName
-        );
 
-        $table = 'sys_config';
-        $result =  $this->Common_Model->update($table, $where, $data);;
+        $result =  $this->Common_Model->update($table, $where, $data);
         if($result == true){
             echo "OK::File Uploaded Successfully::success";
         }else{
-            echo json_encode('false');
+            echo "FAIL::Some Error in Database, File Could Not Be Uploaded";
         }
     }
 }
