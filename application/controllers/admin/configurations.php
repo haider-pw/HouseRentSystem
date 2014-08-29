@@ -295,4 +295,38 @@ class Configurations extends Admin_Controller{
            echo "Some Error,".$result."::error";
        }
    }
+    function UploadFiles(){
+      $allowedExt = array('jpeg','jpg','png','gif');
+        if($this->input->post()){
+            $fieldName = $this->input->post('field');
+        }
+        if(isset($_FILES[0]['name']))
+        {
+            $ScanCopy = $_FILES[0]['name'];
+            $ext = end(explode('.',$ScanCopy));
+
+            if(!in_array(strtolower(end(explode('.',$ScanCopy))),$allowedExt))
+            {
+
+                echo json_encode('false');
+                return;
+            }else
+            {
+                $ScanCopy = "HRS_".time().".".$ext;
+                move_uploaded_file($_FILES[0]['tmp_name'],'./uploads/'.$ScanCopy);
+                $data['SettingsValue'] = $ScanCopy;
+            }
+        }
+        $where = array(
+            'SettingsKey' => $fieldName
+        );
+
+        $table = 'sys_config';
+        $result =  $this->Common_Model->update($table, $where, $data);;
+        if($result == true){
+            echo "OK::File Uploaded Successfully::success";
+        }else{
+            echo json_encode('false');
+        }
+    }
 }

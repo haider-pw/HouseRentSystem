@@ -193,3 +193,39 @@ function validateNum(evt) {
         if(theEvent.preventDefault) theEvent.preventDefault();
     }
 }
+
+
+/*----------------------------------- Focus Out Update------------------------------------////
+/// ----------Update the Field when Focus is out and if the Value is Changed---------------*/
+
+
+;(function($){
+    "use strict";
+    HRS.focusOutUpdate = function(selectors,url) {
+        selectors.focusin(function(e){
+            $(this).change(function(e){
+                e.stopImmediatePropagation();
+                $(this).attr("data-changed", true);
+                var textBoxName = $(this).attr("name");
+                var data = {
+                    name: $(this).val()
+                };
+                $.ajax({
+                    type:"post",
+                    url:url+textBoxName,
+                    data: data,
+                    success: function(output){
+                        var data = output.split("::");
+                        if(data[0]=="OK"){
+                            HRS.notification(data[1],data[2]);
+                        }
+                        else if(data[0]=="FAIL"){
+                            HRS.notification(data[1],data[2]);
+                        }
+                    }
+                });
+            });
+        });
+    };
+    return HRS;
+})(jQuery);

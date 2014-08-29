@@ -194,24 +194,6 @@
 {{js('HouseRentSystem.js')}}
 {{js('admin/custom.js')}}
 {{block name="scripts"}}{{/block}}
-{{*<script>
-        $(function() {
-            HRS.formValidation();
-        });
-</script>*}}
-<script type="text/javascript">
-    $(document).ready(function() {
 
-        $('#ul.menu li a').each(function() {
-            var path = window.location.href;
-            var current = path.substring(path.lastIndexOf('/'));
-            var url = $(this).attr('href');
-            if (url == current) {
-                $(this).addClass('active');
-            };
-        });
-
-    });
-</script>
 </body>
 </html>
