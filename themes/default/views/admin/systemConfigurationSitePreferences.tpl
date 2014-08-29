@@ -197,54 +197,11 @@
             var foUrl = "{{base_url()}}admin/configurations/UpdateSiteSettings/";
             HRS.focusOutUpdate(selectors,foUrl);
 
-            /*Now we will Work with the File Upload Fields.*/
-            // Variable to store your files
-            var files;
-// Add events
-            $('input[type=file]').on('change', function(e){
-                files = e.target.files;
-                e.stopImmediatePropagation(); // Stop stuff happening
-                e.preventDefault(); // Totally stop stuff happening
-
-// START A LOADING SPINNER HERE
-
-// Create a formdata object and add the files
-                var data = new FormData();
-                console.log(files);
-                var uploadPath = "site";
-                var textBoxName = $(this).attr("name");
-                var data2 ={
-                    field: textBoxName,
-                    uploadTo: uploadPath
-                };
-                $.each(data2, function(key, value)
-                {
-                    data.append(key, value);
-                });
-                $.each(files, function(key, value)
-                {
-                    data.append(key, value);
-                });
-
-                $.ajax({
-                    url: '{{base_url()}}admin/configurations/UploadFiles/',
-                    type: 'POST',
-                    data: data,
-                    cache: false,
-                    processData: false, // Don't process the files
-                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-                    success: function(output)
-                    {
-                        var data = output.split("::");
-                        if(data[0]=="OK"){
-                            HRS.notification(data[1],data[2]);
-                        }
-                        else if(data[0]=="FAIL"){
-                            HRS.notification(data[1],data[2]);
-                        }
-                    }
-                });
-            });
+      /*Now we will Work with the File Upload Fields.*/
+          var selectors = $('input[type=file]');
+            var uPath = "site";
+            var url = '{{base_url()}}admin/configurations/UploadFiles/';
+            HRS.asyncFileUpload(selectors,uPath,url);
      // Grab the files and set them to our variable
         });
 

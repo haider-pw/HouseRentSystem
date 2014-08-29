@@ -229,3 +229,55 @@ function validateNum(evt) {
     };
     return HRS;
 })(jQuery);
+
+
+//Asynchronous File Upload
+;(function($){
+    "use strict";
+    HRS.asyncFileUpload = function(selectors,uPath,url) {
+        // Variable to store your files
+       selectors.on('change', function(e){
+            var textBoxName = $(this).attr("name");
+            var files = e.target.files;
+            e.stopImmediatePropagation(); // Stop stuff happening
+            e.preventDefault(); // Totally stop stuff happening
+            if(textBoxName!=null && textBoxName!='' && textBoxName.length!="0" && files.length!="0"){
+                // Create a formdata object and add the files
+                var data = new FormData();
+                var uploadPath = uPath;
+                var data2 ={
+                    field: textBoxName,
+                    uploadTo: uploadPath
+                };
+                $.each(data2, function(key, value)
+                {
+                    data.append(key, value);
+                });
+                $.each(files, function(key, value)
+                {
+                    data.append(key, value);
+                });
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(output)
+                    {
+                        var data = output.split("::");
+                        if(data[0]=="OK"){
+                            HRS.notification(data[1],data[2]);
+                        }
+                        else if(data[0]=="FAIL"){
+                            HRS.notification(data[1],data[2]);
+                        }
+                    }
+                });
+            }
+        });
+
+    };
+    return HRS;
+})(jQuery);

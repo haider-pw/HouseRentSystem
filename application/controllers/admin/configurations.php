@@ -331,8 +331,6 @@ class Configurations extends Admin_Controller{
                 //Check if Database is not returning Empty Result.
                 $oldFile= $this->Common_Model->select_fields_where($table, $settingsValue,$where,$single=TRUE);
                 $oldFile = $oldFile->SettingsValue;
-                //print_r("This should be Empty Array".$oldFile."<br />");
-
                 if (!empty($oldFile)) {
                     //Check If File Exist against the name defined in DB
                     if (file_exists($uploadPath .$oldFile)) {
