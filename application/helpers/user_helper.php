@@ -25,7 +25,7 @@ if (!function_exists('CheckUserRole')) {
             $where = array(
                 'UserID' => $UserID
             );
-            $UserGroupID = $ci->Common_Model->get_by('GroupID', 'sys_users', $where, TRUE);
+            $UserGroupID = $ci->Common_Model->get_by('GroupID', 'users_users', $where, TRUE);
             $where = array(
                 'GroupID' => $UserGroupID['GroupID']
             );
@@ -44,7 +44,7 @@ if (!function_exists('CheckUserRole')) {
             $where = array(
                 'UserID' => $UserID
             );
-            $UserGroupID = $ci->Common_Model->get_by('GroupID', 'sys_users', $where, TRUE);
+            $UserGroupID = $ci->Common_Model->get_by('GroupID', 'users_users', $where, TRUE);
             $where = array(
                 'GroupID' => $UserGroupID['GroupID']
             );

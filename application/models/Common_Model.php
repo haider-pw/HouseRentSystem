@@ -8,7 +8,7 @@ class Common_Model extends MY_Model{
     }
 
     public function login($Where){
-        $UserTable = 'sys_users';
+        $UserTable = 'users_users';
         $user = $this->get($UserTable,$Where,TRUE);
         if(count($user)){
 //Log the User in if User Record is Returned
