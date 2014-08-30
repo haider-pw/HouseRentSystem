@@ -13,6 +13,10 @@
  *             Yusuf Ozdemir <yusuf@ozdemir.be>
  * @link       http://codeigniter.com/forums/viewthread/160896/
  */
+
+/**
+ * @property $select array
+ */
 class Datatables
 {
     /**

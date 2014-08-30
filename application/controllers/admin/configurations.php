@@ -10,7 +10,6 @@ class Configurations extends Admin_Controller{
         parent::__construct();
         $this->load->library('Datatables.php');
         $this->load->library('table');
-        $this->load->helper('dataTables');
         $this->load->model('system/configuration');
     }
 

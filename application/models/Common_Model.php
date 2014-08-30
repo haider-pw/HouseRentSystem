@@ -4,6 +4,7 @@ class Common_Model extends MY_Model{
 
     function __construct(){
         parent::__construct();
+        $this->load->library('Datatables.php');
     }
 
     public function login($Where){
@@ -247,7 +248,6 @@ class Common_Model extends MY_Model{
         $query=$this->db->get();
         return $query->result();
     }
-
     function get_autoCompleteJoin($PTable, $joins='', $where='', $data, $field, $value,$group_by=false){
         $this->db->select($data);
         $this->db->from($PTable);
@@ -267,4 +267,27 @@ class Common_Model extends MY_Model{
         //echo $this->db->last_query();
         return $query->result();
     }
+
+    //Common DataTables Queries
+    function select_fields_joined_DT($data, $PTable, $joins = '', $where = '', $addColumn = '',$unsetColumn='')
+    {
+        $this->datatables->select($data);
+        if ($unsetColumn != '') {
+        $this->datatables->unset_column($unsetColumn);
+        }
+            $this->datatables->from($PTable);
+        if ($joins != '') {
+            foreach ($joins as $k => $v) {
+                $this->datatables->join($v['table'], $v['condition'], $v['type']);
+            }
+        }
+
+        if ($addColumn != '') {
+            $this->datatables->add_column("Actions", $addColumn);
+        }
+
+        $result = $this->datatables->generate();
+        return $result;
+    }
+
 }
