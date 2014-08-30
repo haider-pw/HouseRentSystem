@@ -33,11 +33,11 @@ class Configurations extends Admin_Controller{
     }
     function SitePreferences(){
         $this->data['title']="Site Preferences";
-
         $data = "settingsID,settingsKey,settingsValue";
         $tbl="sys_config";
         $this->data['data']=$this->Common_Model->select_fields($tbl, $data, $single=FALSE);
         $this->parser->parse('admin/systemConfigurationSitePreferences',$this->data);
+        //$this->parser->parse('admin/system/systemConfigurationSitePreferences',$this->data);
     }
 /*---------------------End of View Functions Block---------------------------*/
 

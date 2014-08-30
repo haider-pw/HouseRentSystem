@@ -14,7 +14,7 @@
                                 <i class="fa fa-table"></i>
                             </div>
                             <h5>Manage Forms</h5>
-                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="addNewTabFunc" data-original-title="" href="#addNewTabModal_ManageTabs" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Form</a></div>
+                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="createNewUserBtn" data-original-title="" href="{{url}}admin/usersManageUsers/CreateUser" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Create New User</a></div>
                         </header>
                         <div class="body" id="collapse4">
                             <table id="ListUsers" class="table table-bordered table-condensed table-hover table-striped">
