@@ -1,6 +1,7 @@
 {{extends file='adminLayout.tpl'}}
 {{block name="header"}}
     <title>{{$title}}</title>
+    {{css('admin/avatar.css')}}
 {{/block}}
 {{block name="content"}}
     <div class="outer">
@@ -27,7 +28,29 @@
                                                     <h3 class="panel-title">Wizard Panel</h3>
                                                 </div>
                                                 <div class="panel-body">
-
+                                                    <div class="row">
+                                                        <div class="holder">
+                                                            <div class="avatar">
+                                                                <a href="#">
+                                                                    <img src="http://localhost/projects/HouseRentSystem/themes/default/img/admin/spikes_avatar.jpg" class="user"/>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group">
+                                                        <a href="#" class="list-group-item active">
+                                                            <h4 class="list-group-item-heading">Personal Information</h4>
+                                                            <p class="list-group-item-text">User Personal Information Settings Only</p>
+                                                        </a>
+                                                        <a href="#" class="list-group-item">
+                                                            <h4 class="list-group-item-heading">Security Settings</h4>
+                                                            <p class="list-group-item-text">User Email and Password Settings</p>
+                                                        </a>
+                                                        <a href="#" class="list-group-item">
+                                                            <h4 class="list-group-item-heading">Site Configuration</h4>
+                                                            <p class="list-group-item-text">Configuration of Website According to User Needs</p>
+                                                        </a>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             {{* End of Panel Code Here*}}
@@ -104,4 +127,5 @@
     </div>
 {{/block}}
 {{block name="scripts"}}
+        {{js('holder/holder.js')}}
 {{/block}}

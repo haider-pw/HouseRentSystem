@@ -1,0 +1,58 @@
+/* Variables */
+/*$bounce-color: #f66;
+$image-size: 200px;*/
+
+/* Styles */
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Ubuntu'), url('../../fonts/_xyN3apAT_yRRDeqB3sPRg.woff') format('woff');
+}
+
+body, html {
+    background: WhiteSmoke;
+    font-family: 'Ubuntu', sans-serif;
+    color: #0f383e;
+}
+
+h1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+p {
+    font-size: 0.95rem;
+}
+
+.holder {
+    position: relative;
+    text-align: center;
+}
+
+.avatar {
+    margin: 25px auto;
+}
+
+img.user {
+    height: 200px;
+    width: 200px;
+    background-color: #3071a9;
+    box-shadow: 0 0 0 5px #3071a9;
+    border-radius: 50%;
+}
+
+
+img.user:hover {
+    cursor: pointer;
+    animation:bounceOut .4s linear;
+}
+
+
+@keyframes bounceOut {
+    0%{ box-shadow: 0 0 0 4px #3071a9; opacity:1;}
+    25%{ box-shadow: 0 0 0 1px #3071a9; opacity:1;}
+    50%{ box-shadow: 0 0 0 7px #3071a9; opacity:1; }
+    75%{ box-shadow: 0 0 0 4px #3071a9; opacity:1;}
+    100%{ box-shadow: 0 0 0 5px #3071a9; opacity:1;}
+}
