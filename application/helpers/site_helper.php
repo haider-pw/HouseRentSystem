@@ -28,5 +28,13 @@ if(!function_exists('checkActiveClassSubMenu')) {
     }
 }//End of Function CheckUserLanguage
 
+//Returns the BASEPATH for the Template
+if (!function_exists('getBasePath')) {
+    function getBasePath()
+    {
+        return FCPATH;
+    }
+}
+
 
 ?>

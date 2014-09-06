@@ -281,3 +281,5 @@ function validateNum(evt) {
     };
     return HRS;
 })(jQuery);
+
+/*----------- BEGIN formwizard CODE -------------------------*/

@@ -76,11 +76,39 @@ class Common_Model extends MY_Model{
     }
 
 
-    function select_fields_where($tbl = '', $data,$where,$single=FALSE)
+    function select_fields_where($tbl = '', $data,$where,$single=FALSE,$like='')
     {
         $this->db->select($data);
         $this->db->from($tbl);
+        if($like!=''){
+            $this->db->like('LOWER(' .$field. ')', strtolower($value));
+            $this->db->like($like);
+        }
         $this->db->where($where);
+        $query = $this->db->get();
+        //return $this->db->last_query();
+        if ($query->num_rows() > 0) {
+            // query returned results
+            if($single==TRUE){
+                return $query->row();
+            }
+            else{
+                return $query->result();
+            }
+        } else {
+            // query returned no results
+            return FALSE;
+        }
+
+    }
+    function select_fields_where_like($tbl = '', $data,$where='',$single=FALSE,$field,$value)
+    {
+        $this->db->select($data);
+        $this->db->from($tbl);
+        $this->db->like('LOWER(' .$field. ')', strtolower($value));
+        if($where!=''){
+            $this->db->where($where);
+        }
         $query = $this->db->get();
         //return $this->db->last_query();
         if ($query->num_rows() > 0) {

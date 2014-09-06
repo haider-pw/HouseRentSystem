@@ -15,9 +15,9 @@ class My_Controller extends CI_Controller{
     parent::__construct();
         $this->data['errors']=array();
         $this->data['site_name']=array();
-        $this->load->library( 'Smarty.php' );
-        $this->load->library('parser');
         $this->load->model('Common_Model');
         $this->load->model('users_management/login_check');
+        $this->parser->set_theme('default');
+        $this->data['themeName'] = 'default';
 } 
 }

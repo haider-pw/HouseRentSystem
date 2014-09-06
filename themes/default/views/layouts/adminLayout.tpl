@@ -108,7 +108,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <!-- .nav -->
-            {{include file="../admin/ui_components/top_navigation.tpl" name="top navigation"}}
+            {{include file="{{getBasePath()}}/themes/{{$themeName}}/views/admin/ui_components/top_navigation.tpl" name="top navigation"}}
 <!-- /.nav -->
         </div>
     </nav><!-- /.navbar -->
@@ -139,9 +139,9 @@
     <!-- end header.head -->
 </div><!-- /#top -->
 <div id="left">
-{{include file="../admin/ui_components/user-media.tpl" name="user media"}}
+{{include file="{{getBasePath()}}/themes/{{$themeName}}/views/admin/ui_components/user-media.tpl" name="user media"}}
 <!-- #menu -->
-{{include file="../admin/ui_components/left_menu.tpl" name="left menus"}}
+{{include file="{{getBasePath()}}themes/{{$themeName}}/views/admin/ui_components/left_menu.tpl" name="left menus"}}
 </div><!-- /#left -->
 <div id="content">
     {{block name="content"}}{{/block}}

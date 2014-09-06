@@ -63,10 +63,7 @@
                                                 </div>
                                                 <div class="panel-body">
                                             {{*Form Start Here*}}
-                                            <form class="form-horizontal" id="editTabModelForm">
-                                                <input type="hidden"
-                                                       id="tabID"> {{*This field is for hidden ID, as HiddenID will be needed to update the form*}}
-
+                                            <form class="form-horizontal wizardForm" id="id="wizardForm"">
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="fullName">Full Name</label>
                                                     <div class="col-lg-10">
@@ -82,19 +79,19 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="email">Email</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control required" name="email" placeholder="Valid Email" id="email">
+                                                        <input type="text" class="form-control required" name="userEmail" placeholder="Valid Email" id="email">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="password">Password</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="password" placeholder="Password" id="password">
+                                                        <input type="text" class="form-control" name="pass" placeholder="Password" id="password">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="passVerification">Verified Password</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="passVerification" placeholder="Retype Password" id="passVerification">
+                                                        <input type="text" class="form-control" name="pass2" placeholder="Retype Password" id="passVerification">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
@@ -128,4 +125,58 @@
 {{/block}}
 {{block name="scripts"}}
         {{js('holder/holder.js')}}
+        <script>
+            $(document).ready(function(e){
+                $("#wizardForm").formwizard({
+                    formPluginEnabled: true,
+                    validationEnabled: true,
+                    focusFirstInput: true,
+                    formOptions: {
+                        beforeSubmit: function(data) {
+                            $.gritter.add({
+                                // (string | mandatory) the heading of the notification
+                                title: 'data sent to the server',
+                                // (string | mandatory) the text inside the notification
+                                text: $.param(data),
+                                sticky: false
+                            });
+
+                            return false;
+                        },
+                        dataType: 'json',
+                        resetForm: true
+                    },
+                    validationOptions: {
+                        rules: {
+                            username: {
+                                required: true,
+                                minlength: 3
+                            },
+                            userEmail: {
+                                required: true,
+                                email: true
+                            },
+                            pass: {
+                                required: true,
+                                minlength: 6
+                            },
+                            pass2: {
+                                required: true,
+                                minlength: 6,
+                                equalTo: "#pass"
+                            }
+                        },
+                        errorClass: 'help-block',
+                        errorElement: 'span',
+                        highlight: function(element, errorClass, validClass) {
+                            $(element).parents('.form-group').removeClass('has-success').addClass('has-error');
+                        },
+                        unhighlight: function(element, errorClass, validClass) {
+                            $(element).parents('.form-group').removeClass('has-error').addClass('has-success');
+                        }
+                    }
+                });
+                /*----------- END formwizard CODE -------------------------*/
+            });
+        </script>
 {{/block}}

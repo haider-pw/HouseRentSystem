@@ -36,8 +36,8 @@ class Configurations extends Admin_Controller{
         $data = "settingsID,settingsKey,settingsValue";
         $tbl="sys_config";
         $this->data['data']=$this->Common_Model->select_fields($tbl, $data, $single=FALSE);
-        $this->parser->parse('admin/systemConfigurationSitePreferences',$this->data);
-        //$this->parser->parse('admin/system/systemConfigurationSitePreferences',$this->data);
+        //$this->parser->parse('admin/systemConfigurationSitePreferences',$this->data);
+        $this->parser->parse('systemConfigurationSitePreferences.tpl',$this->data);
     }
 /*---------------------End of View Functions Block---------------------------*/
 
@@ -350,4 +350,13 @@ class Configurations extends Admin_Controller{
             echo "FAIL::Some Error in Database, File Could Not Be Uploaded";
         }
     }
+
+    function customSearchTest(){
+        if($this->input->post()){
+            $field = $this->input->post('searchFilter');
+            $columns= 'roomName';
+//            $result = $this->Common_Model->select_fields_where_like('roomnames', $columns,$where='',$single=FALSE,$columns,$field);
+            echo 'baba ji ka functino';
+            }
+        }
 }
