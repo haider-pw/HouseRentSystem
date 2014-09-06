@@ -37,7 +37,7 @@ class Configurations extends Admin_Controller{
         $tbl="sys_config";
         $this->data['data']=$this->Common_Model->select_fields($tbl, $data, $single=FALSE);
         //$this->parser->parse('admin/systemConfigurationSitePreferences',$this->data);
-        $this->parser->parse('systemConfigurationSitePreferences.tpl',$this->data);
+        $this->parser->parse('admin/system/configurations/SitePreferences.tpl',$this->data);
     }
 /*---------------------End of View Functions Block---------------------------*/
 
