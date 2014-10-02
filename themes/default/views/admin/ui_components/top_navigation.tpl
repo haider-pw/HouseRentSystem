@@ -5,7 +5,7 @@
 
 <ul class="nav navbar-nav">
 {{foreach $userTabs as $tab}}
-    <li class="active"><a href="{{url}}index.php/admin/dashboard/{{$tab['TabName']}}/">{{$tab['TabName']}}</a></li>
+    <li class="active"><a href="{{url}}admin/dashboard/{{$tab['TabName']}}/">{{$tab['TabName']}}</a></li>
 {{/foreach}}
 {{*    <li class="active">
         <a href="dashboard.html">{{print_r($allowed_menus)}}</a>
