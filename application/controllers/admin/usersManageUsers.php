@@ -20,19 +20,19 @@ class usersManageUsers extends Admin_Controller
     function CreateUser()
     {
         $this->data['title'] = "Create New User";
-        $this->parser->parse('admin/usersManageUsersCreateUser', $this->data);
+        $this->parser->parse('admin/users/manage_users/CreateUser', $this->data);
     }
 
     function ListUsers()
     {
         $this->data['title'] = "List Users";
-        $this->parser->parse('admin/usersManageUsersListUsers', $this->data);
+        $this->parser->parse('admin/users/manage_users/ListUsers', $this->data);
     }
 
     function UpdateUser()
     {
         $this->data['title'] = "Create New User";
-        $this->parser->parse('admin/usersManageUsersUpdateUser', $this->data);
+        $this->parser->parse('admin/users/manage_users/UpdateUser', $this->data);
     }
 
     function listUsers_DT()
