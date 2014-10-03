@@ -22,6 +22,44 @@ class usersManageUsers extends Admin_Controller
         $this->data['title'] = "Create New User";
         $this->parser->parse('admin/users/manage_users/CreateUser', $this->data);
     }
+    function CreateUser_Action()
+    {
+        if($this->input->post()){
+            $fullName = $this->input->post('fullName');
+            $username = $this->input->post('username');
+            $email    = $this->input->post('userEmail');
+            $cnic   = $this->input->post('cnic');
+            $mobile   = $this->input->post('mobileNo');
+            $pass   = $this->input->post('pass');
+            $confirmPass = $this->input->post('pass2');
+            $theme = $this->input->post('theme');
+            $userGroup = $this->input->post('group');
+            if($pass===$confirmPass){
+                $data_users=array(
+                    'UserName' => $username,
+                    'Password' => $pass,
+                    'FullName' => $fullName,
+                    'Email'    => $email,
+                    'Mobile'   => $mobile,
+                    'CNIC'     => $cnic,
+                    'Theme'    => $theme,
+                    'GroupID'  => '1'
+                );
+                $table = "users_users";
+                $result = $this->Common_Model->insert_record($table,$data_users);
+                if($result>0){
+                    echo "OK::New User Successfully Created::success";
+                }
+            }
+/*            $post = array();
+            foreach ( $_POST as $key => $value )
+            {
+                $post[$key] = $this->input->post($key);
+            }
+            var_dump($post);*/
+        }
+    }
+
 
     function ListUsers()
     {

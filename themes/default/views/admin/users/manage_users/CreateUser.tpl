@@ -63,7 +63,7 @@
                                                 </div>
                                                 <div class="panel-body">
                                             {{*Form Start Here*}}
-                                            <form class="form-horizontal wizardForm" id="wizardForm"">
+                                            <form class="form-horizontal wizardForm" id="wizardForm" method="post" action="">
                                                     <fieldset class="step" id="first">
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="fullName">Full Name</label>
@@ -80,25 +80,13 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="email">Email</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control required" name="userEmail" placeholder="Valid Email" id="email">
-                                                    </div>
-                                                </div><!-- /.form-group -->
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2" for="password">Password</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="pass" placeholder="Password" id="pass">
-                                                    </div>
-                                                </div><!-- /.form-group -->
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2" for="passVerification">Verified Password</label>
-                                                    <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="pass2" placeholder="Retype Password" id="passVerification">
+                                                        <input type="email" class="form-control required" name="userEmail" placeholder="Valid Email" id="email">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="cnic">CNIC</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="cnic" placeholder="Form Path" id="cnic">
+                                                        <input type="text" class="form-control required" name="cnic" placeholder="Enter your CNIC" id="cnic" data-mask="99999-9999999-9">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
@@ -110,9 +98,29 @@
                                                     </fieldset>
                                                     <fieldset class="step" id="second">
                                                         <div class="form-group">
-                                                            <label class="control-label col-lg-2" for="mobileNo">Mobile</label>
+                                                            <label class="control-label col-lg-2" for="password">Password</label>
                                                             <div class="col-lg-10">
-                                                                <input type="text" class="form-control" name="mobileNo" placeholder="Form Path" id="mobileNo">
+                                                                <input type="password" class="form-control" name="pass" placeholder="Password" id="pass">
+                                                            </div>
+                                                        </div><!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2" for="passVerification">Verified Password</label>
+                                                            <div class="col-lg-10">
+                                                                <input type="password" class="form-control" name="pass2" placeholder="Retype Password" id="passVerification">
+                                                            </div>
+                                                        </div><!-- /.form-group -->
+                                                    </fieldset>
+                                                    <fieldset class="step" id="third">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2" for="theme">Theme</label>
+                                                            <div class="col-lg-10">
+                                                                <input type="text" class="form-control" name="theme" placeholder="default" value="default" id="theme">
+                                                            </div>
+                                                        </div><!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2" for="group">Group</label>
+                                                            <div class="col-lg-10">
+                                                                <input type="text" class="form-control" name="group" placeholder="Temp Group ID" id="group">
                                                             </div>
                                                         </div><!-- /.form-group -->
                                                     </fieldset>
@@ -139,7 +147,9 @@
 {{/block}}
 {{block name="scripts"}}
         {{js('holder/holder.js')}}
+        {{js('jquery-form/jquery.form.js')}}
         {{js('formwizard/jquery.form.wizard.js')}}
+        {{js('admin/jasny/jasny-bootstrap.min.js')}}
         <script>
             $(document).ready(function(e){
                 /*----------- BEGIN formwizard CODE -------------------------*/
@@ -149,12 +159,14 @@
                     focusFirstInput: true,
                     formOptions: {
                         beforeSubmit: function(data) {
-                            $.gritter.add({
-                                // (string | mandatory) the heading of the notification
-                                title: 'data sent to the server',
-                                // (string | mandatory) the text inside the notification
-                                text: $.param(data),
-                                sticky: false
+                            $.ajax({
+                                type:'POST',
+                                url:'{{base_url()}}admin/usersManageUsers/CreateUser_Action/',
+                                dataType:'json',
+                                data:data,
+                                success: function(response){
+                                    console.log(response);
+                                }
                             });
 
                             return false;
@@ -201,30 +213,30 @@
                 /*----------- END formwizard CODE -------------------------*/
                 $('#next').on('click', function (e) {
                     e.preventDefault();
-                    e.stopPropagation();
                     // bind a callback to the step_shown event
                     $("#wizardForm").bind("step_shown", function (event, data) {
+                        event.stopImmediatePropagation();
                         var currentStep = data.currentStep;
                         switch (currentStep) {
                             case "first":
-                                console.log('Im fucking First Step');
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentFirst').addClass('active');
                                 break;
                             case "second":
-                                console.log('Im fucking Second Step');
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentSecond').addClass('active');
                                 break;
                             case "third":
-                                console.log('Im fucking Third Step');
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentThird').addClass('active');
                                 break;
                         }
                     });
 
+
+
                 });
+                //End of click Function
             });
         </script>
 {{/block}}
