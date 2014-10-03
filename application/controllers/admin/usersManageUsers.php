@@ -17,11 +17,25 @@ class usersManageUsers extends Admin_Controller
         $this->load->model('system/configuration');
     }
 
+/*//////////////////////////////////////////////////////////////////////
+////////////////////Views Under the Manage Users Main Menu/////////////////////
+///////////////////////////////////////////////////////////////////////*/
     function CreateUser()
     {
         $this->data['title'] = "Create New User";
         $this->parser->parse('admin/users/manage_users/CreateUser', $this->data);
     }
+
+    function ListUsers()
+    {
+        $this->data['title'] = "List Users";
+        $this->parser->parse('admin/users/manage_users/ListUsers', $this->data);
+    }
+
+    /*//////////////////////////////////////////////////////////////////////
+    ////////////////////Functions for the Above Views/////////////////////
+    ///////////////////////////////////////////////////////////////////////*/
+
     function CreateUser_Action()
     {
         if($this->input->post()){
@@ -51,20 +65,17 @@ class usersManageUsers extends Admin_Controller
                     echo "OK::New User Successfully Created::success";
                 }
             }
-/*            $post = array();
-            foreach ( $_POST as $key => $value )
-            {
-                $post[$key] = $this->input->post($key);
-            }
-            var_dump($post);*/
+            /*          $post = array();
+                        foreach ( $_POST as $key => $value )
+                        {
+                            $post[$key] = $this->input->post($key);
+                        }
+                        var_dump($post);*/
         }
     }
 
-
-    function ListUsers()
-    {
-        $this->data['title'] = "List Users";
-        $this->parser->parse('admin/users/manage_users/ListUsers', $this->data);
+    function loadAllUserGroups(){
+        /*This Function should load All the Group Names of for Users*/
     }
 
     function UpdateUser()

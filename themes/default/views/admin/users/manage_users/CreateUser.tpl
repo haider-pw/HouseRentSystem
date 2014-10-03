@@ -80,7 +80,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="email">Email</label>
                                                     <div class="col-lg-10">
-                                                        <input type="email" class="form-control required" name="userEmail" placeholder="Valid Email" id="email">
+                                                        <input type="email" class="form-control required" name="userEmail" placeholder="e-g jhon@example.com" id="email">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
@@ -92,7 +92,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="mobileNo">Mobile</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="mobileNo" placeholder="Form Path" id="mobileNo">
+                                                        <input type="text" class="form-control" name="mobileNo" placeholder="Mobile Number" id="mobileNo">
                                                     </div>
                                                 </div><!-- /.form-group -->
                                                     </fieldset>
@@ -118,9 +118,9 @@
                                                             </div>
                                                         </div><!-- /.form-group -->
                                                         <div class="form-group">
-                                                            <label class="control-label col-lg-2" for="group">Group</label>
+                                                            <label class="control-label col-lg-2" for="selectGroup">Group</label>
                                                             <div class="col-lg-10">
-                                                                <input type="text" class="form-control" name="group" placeholder="Temp Group ID" id="group">
+                                                                <input type='hidden' class="required" name='selectGroup' id='selectGroup'/>
                                                             </div>
                                                         </div><!-- /.form-group -->
                                                     </fieldset>
@@ -232,11 +232,18 @@
                                 break;
                         }
                     });
-
-
-
                 });
                 //End of click Function
+
+                {{*The Selector for Selecting the Parent Menu*}}
+                var selector = $('#selectGroup');
+                var url = "{{base_url()}}admin/usersManageUsers/loadAllUserGroups/";
+                var id = "GroupID";
+                var text = "GroupName";
+                var minInputLength = 0;
+                var placeholder = "Select User Group";
+                commonSelect2(selector,url,id,text,minInputLength,placeholder);
+                //End of the CommonSelect2 function
             });
         </script>
 {{/block}}
