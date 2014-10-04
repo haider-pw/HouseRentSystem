@@ -25,6 +25,27 @@ class usersManageUsers extends Admin_Controller
         $this->data['title'] = "Create New User";
         $this->parser->parse('admin/users/manage_users/CreateUser', $this->data);
     }
+    function UpdateUser($userID)
+    {
+        $this->data['title'] = "Edit User Information";
+        $this->data['update_page'] = "admin/users/manage_users/UpdateUser";
+        //Now Query below to get data for the selected User.
+        $PTable="users_users";
+        $where = array(
+            'UserID' => $userID
+        );
+        $data = array('*');
+        $joins = array(
+            array(
+                'table' => 'users_groups',
+                'condition' => 'users_users.GroupID = users_groups.GroupID',
+                'jointype' => 'INNER'
+            )
+        );
+        $result = $this->Common_Model->select_fields_joined($data,$PTable,$joins,$where);
+        $this->data['UserData'] = $result;
+        $this->parser->parse('admin/users/manage_users/UpdateUser', $this->data);
+    }
 
     function ListUsers()
     {
@@ -94,12 +115,10 @@ class usersManageUsers extends Admin_Controller
 
     function loadAllUserGroups(){
         /*This Function should load All the Group Names of for Users*/
-    }
-
-    function UpdateUser()
-    {
-        $this->data['title'] = "Create New User";
-        $this->parser->parse('admin/users/manage_users/UpdateUser', $this->data);
+        $tbl = "users_groups";
+        $data = array('GroupID','GroupName');
+        $result = $this->Common_Model->select_fields($tbl,$data);
+        print_r(json_encode($result));
     }
 
     function listUsers_DT()

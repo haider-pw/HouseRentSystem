@@ -74,6 +74,7 @@
             commonDataTables(selector,url,aoColumns);
             //End Of dataTables Script..
 
+//            Function for Delete button on Grid
             $('#ListUsers').on('click', '.deleteBtnFunc', function(e){
                 e.preventDefault();
                 var UserID = $(this).closest('tr').attr('data-id');
@@ -98,9 +99,25 @@
                 else{
                     HRS.notification('You can Not Delete the Super Admin','error')
                 }
-
-
             });
+//            End of Delete Function
+
+//            Function for Edit/Update button on Grid
+            $('#ListUsers').on('click', '.editBtnFunc', function(e){
+                e.preventDefault();
+                var UserID = $(this).closest('tr').attr('data-id');
+                window.location.replace('{{url}}/admin/usersManageUsers/UpdateUser/'+UserID);
+/*                //Ajax to send Value to the Server
+                    $.ajax({
+                        type:"post",
+                        url:"{{base_url()}}admin/usersManageUsers/UpdateUser_Action/"+UserID,
+                        dataType:'json',
+                        success: function(data){
+                            console.log(data[0].UserID);
+                        }
+                    }); //---  End of $.ajax  ---//*/
+            });
+//            End of Edit/Update Function
         });
     </script>
 {{/block}}

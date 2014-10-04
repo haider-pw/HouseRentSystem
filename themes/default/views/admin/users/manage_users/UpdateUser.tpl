@@ -58,7 +58,7 @@
                                 <div class="col-lg-9">
                                     {{*Panel Code Here*}}
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">
+                                        <div class="panel-heading" id="currentStepHeading">
                                             <h3 class="panel-title">Personal Information</h3>
                                         </div>
                                         <div class="panel-body">
@@ -68,45 +68,51 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="fullName">Full Name</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control required" name="fullName" placeholder="Full Name" id="fullName">
+                                                            <input type="text" class="form-control required" name="fullName" placeholder="Full Name" value="{{$UserData[0]->FullName}}" id="fullName">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="username">Username</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control required" name="username" placeholder="Username" id="username">
+                                                            <input type="text" class="form-control required" name="username" placeholder="Username" value="{{$UserData[0]->Username}}" id="username">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="email">Email</label>
                                                         <div class="col-lg-10">
-                                                            <input type="email" class="form-control required" name="userEmail" placeholder="e-g jhon@example.com" id="email">
+                                                            <input type="email" class="form-control required" name="userEmail" placeholder="e-g jhon@example.com" value="{{$UserData[0]->Email}}" id="email">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="cnic">CNIC</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control required" name="cnic" placeholder="Enter your CNIC" id="cnic" data-mask="99999-9999999-9">
+                                                            <input type="text" class="form-control required" name="cnic" placeholder="Enter your CNIC" value="{{$UserData[0]->CNIC}}" id="cnic" data-mask="99999-9999999-9">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="mobileNo">Mobile</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control" name="mobileNo" placeholder="Mobile Number" id="mobileNo">
+                                                            <input type="text" class="form-control" name="mobileNo" placeholder="Mobile Number" value="{{$UserData[0]->Mobile}}" id="mobileNo">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                 </fieldset>
                                                 <fieldset class="step" id="second">
                                                     <div class="form-group">
-                                                        <label class="control-label col-lg-2" for="password">Password</label>
+                                                        <label class="control-label col-lg-2" for="password">Current Password</label>
                                                         <div class="col-lg-10">
-                                                            <input type="password" class="form-control" name="pass" placeholder="Password" id="pass">
+                                                            <input type="password" class="form-control updatePass" name="currentPass" placeholder="Your Current Password" id="currentPass">
+                                                        </div>
+                                                    </div><!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-2 " for="password">Password</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="password" class="form-control updatePass" name="pass" placeholder="New Password" id="pass">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="passVerification">Verified Password</label>
                                                         <div class="col-lg-10">
-                                                            <input type="password" class="form-control" name="pass2" placeholder="Retype Password" id="passVerification">
+                                                            <input type="password" class="form-control updatePass" name="pass2" placeholder="Confirm New Password" id="passVerification">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                 </fieldset>
@@ -114,13 +120,13 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="theme">Theme</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control" name="theme" placeholder="default" value="default" id="theme">
+                                                            <input type="text" class="form-control" name="theme" placeholder="Select Theme Choice" value="{{$UserData[0]->theme}}" id="theme">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="selectGroup">Group</label>
                                                         <div class="col-lg-10">
-                                                            <input type='hidden' class="required" name='selectGroup' id='selectGroup'/>
+                                                            <input type='hidden' class="required" value="{{$UserData[0]->GroupName}}" name='selectGroup' id='selectGroup'/>
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                 </fieldset>
@@ -150,6 +156,7 @@
 {{js('jquery-form/jquery.form.js')}}
 {{js('formwizard/jquery.form.wizard.js')}}
 {{js('admin/jasny/jasny-bootstrap.min.js')}}
+{{js('jquery-validate/additional-methods.min.js')}}
 <script>
     $(document).ready(function(e){
         /*----------- BEGIN formwizard CODE -------------------------*/
@@ -195,14 +202,18 @@
                         required: true,
                         email: true
                     },
+                    currentPass:{
+                        minlength: 6,
+                        skip_or_fill_minimum:[3,".updatePass"]
+                    },
                     pass: {
-                        required: true,
-                        minlength: 6
+                        minlength: 6,
+                        skip_or_fill_minimum:[3,".updatePass"]
                     },
                     pass2: {
-                        required: true,
                         minlength: 6,
-                        equalTo: "#pass"
+                        equalTo: "#pass",
+                        skip_or_fill_minimum:[3,".updatePass"]
                     }
                 },
                 errorClass: 'help-block',
@@ -226,14 +237,20 @@
                     case "first":
                         $('#currentStepStatus a').removeClass('active');
                         $('#currentStepStatus a#currentFirst').addClass('active');
+                        $('#currentStepHeading h3.panel-title').html('Personal Information');
                         break;
                     case "second":
                         $('#currentStepStatus a').removeClass('active');
                         $('#currentStepStatus a#currentSecond').addClass('active');
+                        $('#currentStepHeading h3.panel-title').html('Security Information');
                         break;
                     case "third":
                         $('#currentStepStatus a').removeClass('active');
                         $('#currentStepStatus a#currentThird').addClass('active');
+                        $('#currentStepHeading h3.panel-title').html('Site Configuration');
+                        $("#selectGroup").select2("enable", true);
+                        $('.select2-container').css("width","100%");
+                        //$("#selectGroup").select2("val", 'Administrator');
                         break;
                 }
             });

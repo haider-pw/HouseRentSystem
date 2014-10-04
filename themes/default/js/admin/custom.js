@@ -112,6 +112,10 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
                 });
                 return { results: newData };
             }
+        },
+        initSelection : function (element, callback) {
+            var data = {id: element.val(), text: element.val()};
+            callback(data);
         }
     });
 }
