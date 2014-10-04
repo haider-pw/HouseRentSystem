@@ -220,6 +220,7 @@ function validateNum(evt) {
                     data: data,
                     success: function(output){
                         var data = output.split("::");
+
                         if(data[0]=="OK"){
                             HRS.notification(data[1],data[2]);
                         }

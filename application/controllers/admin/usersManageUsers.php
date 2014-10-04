@@ -94,6 +94,44 @@ class usersManageUsers extends Admin_Controller
                         var_dump($post);*/
         }
     }
+    function UpdateUser_Action(){
+        //Function for Updating User Details.
+        if($this->input->post()){
+            $username = $this->input->post('username');
+            $fullName = $this->input->post('fullName');
+            $Email = $this->input->post('userEmail');
+            $mobile = $this->input->post('mobileNo');
+            $cnic = $this->input->post('cnic');
+            $currentPass = $this->input->post('currentPass');
+            $pass = $this->input->post('pass');
+            $confirmPass = $this->input->post('pass2');
+            $theme = $this->input->post('theme');
+            $GroupID = $this->input->post('selectGroup');
+        }
+    }
+    function UpdateUser_firstStepValidation($userID){
+        //Validation for Email, Check if email is not already been taken.
+        if($this->input->post('userEmail')){
+           $userEmail = $this->input->post('userEmail');
+            $table = "users_users";
+            $data = array('Email');
+            $where = array(
+                'Email' => $userEmail,
+                'UserID !=' => $userID
+            );
+            $result = $this->Common_Model->select_fields_where($table, $data,$where);
+            if($result>0){
+                //error message for email already exist in database.
+                echo "FAIL::Email Already Exist::error";
+            }
+            else{
+                echo "OK::Hurray! Validation Completed::success";
+            }
+        }
+        else{
+            echo "FAIL::Email field can not be left empty.::error";
+        }
+    }
     function DeleteUser_Action($userID){
         if($userID!==1){
         $where = array(

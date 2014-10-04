@@ -164,11 +164,30 @@
             formPluginEnabled: true,
             validationEnabled: true,
             focusFirstInput: true,
+            textSubmit: "Submit and Update",
+            remoteAjax : {
+                "first" : { // add a remote ajax call when moving next from the first step
+                url : '{{base_url()}}admin/usersManageUsers/UpdateUser_firstStepValidation/{{$UserData[0]->UserID}}',
+                beforeSend : function(){},
+                complete : function(){console.log("Validation complete.")},
+                success : function(output){
+                    var data = output.split("::");
+                    if(data[0]=="OK"){
+                        HRS.notification(data[1], data[2]);
+                        return true;
+                    }
+                    else if(data[0] == "FAIL"){
+                        HRS.notification(data[1], data[2]);
+                        return false;
+                    }
+                    return true; //return true to make the wizard move to the next step
+                }
+            }},
             formOptions: {
                 beforeSubmit: function(data) {
                     $.ajax({
                         type:'POST',
-                        url:'{{base_url()}}admin/usersManageUsers/CreateUser_Action/',
+                        url:'{{base_url()}}admin/usersManageUsers/UpdateUser_Action/',
                         data:data,
                         success: function(output){
                             var data = output.split("::");
