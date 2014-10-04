@@ -223,7 +223,7 @@ class Configurations extends Admin_Controller{
             echo "OK::Record Successfully Updated::success";
 
         }else{
-            echo "FAIL::Some Error, Record Could Not Be Deleted::success";
+            echo "FAIL::Some Error, Record Could Not Be Updated::error";
         }
     }
     function addNewTab(){
@@ -258,7 +258,6 @@ class Configurations extends Admin_Controller{
 
     function deleteTabData($tabID)
     {
-        $columns = "MenuID";
         $where = array(
             'TabID' =>$tabID
         );
@@ -270,7 +269,6 @@ class Configurations extends Admin_Controller{
         else{
             echo "FAIL::Some Error, Record Could not Be Deleted.::error";
         }
-
     }
 
     /*-------------------Now Site Configuration-------------------*/

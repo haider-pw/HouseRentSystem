@@ -73,6 +73,24 @@ class usersManageUsers extends Admin_Controller
                         var_dump($post);*/
         }
     }
+    function DeleteUser_Action($userID){
+        if($userID!==1){
+        $where = array(
+            'UserID' =>$userID
+        );
+        $tbl = "users_users";
+        $result = $this->Common_Model->delete($tbl,$where);
+        if ($result==true){
+            echo "OK::Record Successfully Deleted::success";
+        }
+        else{
+            echo "FAIL::Some Error, Record Could not Be Deleted.::error";
+        }
+        }
+        else{
+            echo "FAIL::You can Not Delete the Super Admin.::error";
+        }
+    }
 
     function loadAllUserGroups(){
         /*This Function should load All the Group Names of for Users*/

@@ -14,7 +14,7 @@
                             <div class="icons">
                                 <i class="fa fa-table"></i>
                             </div>
-                            <h5>Create New User/h5>
+                            <h5>Create New User</h5>
                         </header>
                         <div class="body" id="collapse4">
                          {{*User Profile*}}
@@ -162,10 +162,15 @@
                             $.ajax({
                                 type:'POST',
                                 url:'{{base_url()}}admin/usersManageUsers/CreateUser_Action/',
-                                dataType:'json',
                                 data:data,
-                                success: function(response){
-                                    console.log(response);
+                                success: function(output){
+                                    var data = output.split("::");
+                                    if (data[0] == "OK") {
+                                        HRS.notification(data[1], data[2]);
+                                    }
+                                    else if(data[0]=="FAIL") {
+                                        HRS.notification(data[1], data[2]);
+                                    }
                                 }
                             });
 
@@ -235,7 +240,7 @@
                 });
                 //End of click Function
 
-                {{*The Selector for Selecting the Parent Menu*}}
+                {{*The Selector for Selecting the User Group*}}
                 var selector = $('#selectGroup');
                 var url = "{{base_url()}}admin/usersManageUsers/loadAllUserGroups/";
                 var id = "GroupID";

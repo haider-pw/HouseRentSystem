@@ -41,6 +41,7 @@
     </div>
 {{/block}}
 {{block name="scripts"}}
+    {{js('datatables/fnReloadAjax.js')}}
     <script>
         /**
          * @var oTable will be Global variable.
@@ -72,6 +73,34 @@
             ];
             commonDataTables(selector,url,aoColumns);
             //End Of dataTables Script..
+
+            $('#ListUsers').on('click', '.deleteBtnFunc', function(e){
+                e.preventDefault();
+                var UserID = $(this).closest('tr').attr('data-id');
+
+                if(UserID!=1){
+
+                    $.ajax({
+                        type:"post",
+                        url:"{{base_url()}}admin/usersManageUsers/DeleteUser_Action/"+UserID,
+                        success: function(output){
+                            var data = output.split("::");
+                            if (data[0] == "OK"){
+                                oTable.fnReloadAjax();
+                                HRS.notification(data[1],data[2]);
+                            }
+                            else if(data[0] == "FAIL"){
+                                HRS.notification(data[1],data[2]);
+                            }
+                        }
+                    }); //---  End of $.ajax  ---//
+                }
+                else{
+                    HRS.notification('You can Not Delete the Super Admin','error')
+                }
+
+
+            });
         });
     </script>
 {{/block}}
