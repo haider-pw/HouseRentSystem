@@ -52,6 +52,10 @@ class usersManageUsers extends Admin_Controller
         $this->data['title'] = "List Users";
         $this->parser->parse('admin/users/manage_users/ListUsers', $this->data);
     }
+    function ListUsersGroups(){
+        $this->data['title'] = "List Users";
+        $this->parser->parse('admin/users/manage_users/ListUsersGroups', $this->data);
+    }
 
     /*//////////////////////////////////////////////////////////////////////
     ////////////////////Functions for the Above Views/////////////////////
@@ -68,7 +72,7 @@ class usersManageUsers extends Admin_Controller
             $pass   = $this->input->post('pass');
             $confirmPass = $this->input->post('pass2');
             $theme = $this->input->post('theme');
-            $userGroup = $this->input->post('group');
+            $userGroupID = $this->input->post('selectGroup');
             if($pass===$confirmPass){
                 $data_users=array(
                     'UserName' => $username,
@@ -78,7 +82,7 @@ class usersManageUsers extends Admin_Controller
                     'Mobile'   => $mobile,
                     'CNIC'     => $cnic,
                     'Theme'    => $theme,
-                    'GroupID'  => '1'
+                    'GroupID'  => $userGroupID
                 );
                 $table = "users_users";
                 $result = $this->Common_Model->insert_record($table,$data_users);
@@ -94,19 +98,92 @@ class usersManageUsers extends Admin_Controller
                         var_dump($post);*/
         }
     }
-    function UpdateUser_Action(){
+    function UpdateUser_Action($userID){
         //Function for Updating User Details.
         if($this->input->post()){
             $username = $this->input->post('username');
             $fullName = $this->input->post('fullName');
-            $Email = $this->input->post('userEmail');
+            $email = $this->input->post('userEmail');
             $mobile = $this->input->post('mobileNo');
             $cnic = $this->input->post('cnic');
             $currentPass = $this->input->post('currentPass');
             $pass = $this->input->post('pass');
             $confirmPass = $this->input->post('pass2');
             $theme = $this->input->post('theme');
-            $GroupID = $this->input->post('selectGroup');
+            $userGroup = $this->input->post('selectGroup');
+            if(strpos($userGroup,',') == TRUE){
+                $exp = explode(",",$userGroup);
+                $userGroupID = $exp[0];
+            }else{
+                $userGroupID = $userGroup;
+            }
+            $table = 'users_users';
+            //Field is the column name of the table on the base of which query should update the row.
+            $field='UserID';
+            if($currentPass!=''){
+                if($pass===$confirmPass){
+                    $data = array(
+                        'Username' => $username,
+                        'FullName' => $fullName,
+                        'Email'  => $email,
+                        'Password' => $pass,
+                        'Mobile' => $mobile,
+                        'CNIC'   => $cnic,
+                        'theme'  => $theme,
+                        'GroupID' => $userGroupID
+                    );
+                    $result = $this->Common_Model->update_query($table,$field,$userID,$data);
+                    if($result=true){
+                        echo "OK::Record Successfully Updated::success";
+                    }
+                    else{
+                        echo "FAIL::Some Database Error, Record Could Not be Updated::success";
+                    }
+                }
+                else{
+                    echo "password do not match with confirm password";
+                }
+            }
+            elseif($currentPass==''){
+                $data = array(
+                  'Username' => $username,
+                  'FullName' => $fullName,
+                    'Email'  => $email,
+                    'Mobile' => $mobile,
+                    'CNIC'   => $cnic,
+                    'theme'  => $theme,
+                    'GroupID' => $userGroupID
+                );
+                $result = $this->Common_Model->update_query($table,$field,$userID,$data);
+                if($result=true){
+                    echo "OK::Record Successfully Updated::success";
+                }
+                else{
+                    echo "FAIL::Some Database Error, Record Could Not be Updated::success";
+                }
+            }
+        }
+    }
+
+    function CreateUser_firstStepValidation()
+    {
+        //Validation for Email, Check if email is not already been taken.
+        if ($this->input->post('userEmail')) {
+            $userEmail = $this->input->post('userEmail');
+            $table = "users_users";
+            $data = array('Email');
+            $where = array(
+                'Email' => $userEmail
+            );
+            $result = $this->Common_Model->select_fields_where($table, $data, $where);
+            if ($result > 0) {
+                //error message for email already exist in database.
+                echo "FAIL::Email Already Exist::error";
+            } else {
+                echo "OK::Hurray! Validation Completed::success";
+            }
+        } else {
+            echo "FAIL::Email field can not be left empty.::error";
         }
     }
     function UpdateUser_firstStepValidation($userID){
@@ -115,6 +192,7 @@ class usersManageUsers extends Admin_Controller
            $userEmail = $this->input->post('userEmail');
             $table = "users_users";
             $data = array('Email');
+            //Using UserID to make sure that query dont check for email against the same User.
             $where = array(
                 'Email' => $userEmail,
                 'UserID !=' => $userID

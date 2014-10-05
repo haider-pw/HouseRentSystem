@@ -114,11 +114,11 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-lg-2" for="theme">Theme</label>
                                                             <div class="col-lg-10">
-                                                                <input type="text" class="form-control" name="theme" placeholder="default" value="default" id="theme">
+                                                                <input type="text" class="form-control" name="theme" placeholder="Select Theme Choice" id="theme">
                                                             </div>
                                                         </div><!-- /.form-group -->
                                                         <div class="form-group">
-                                                            <label class="control-label col-lg-2" for="selectGroup">Group</label>
+                                                            <label class="control-label col-lg-2">Group baba</label>
                                                             <div class="col-lg-10">
                                                                 <input type='hidden' class="required" name='selectGroup' id='selectGroup'/>
                                                             </div>
@@ -157,6 +157,25 @@
                     formPluginEnabled: true,
                     validationEnabled: true,
                     focusFirstInput: true,
+                    textSubmit: "Submit and Create",
+                    remoteAjax : {
+                        "first" : { // add a remote ajax call when moving next from the first step
+                            url : '{{base_url()}}admin/usersManageUsers/CreateUser_firstStepValidation/{{$UserData[0]->UserID}}',
+                            beforeSend : function(){},
+                            complete : function(){console.log("Validation complete.")},
+                            success : function(output){
+                                var data = output.split("::");
+                                if(data[0]=="OK"){
+                                    HRS.notification(data[1], data[2]);
+                                    return true;
+                                }
+                                else if(data[0] == "FAIL"){
+                                    HRS.notification(data[1], data[2]);
+                                    return false;
+                                }
+                                return true; //return true to make the wizard move to the next step
+                            }
+                        }},
                     formOptions: {
                         beforeSubmit: function(data) {
                             $.ajax({
@@ -180,18 +199,16 @@
                         resetForm: true
                     },
                     validationOptions: {
+                        ignore: ".ignore, .select2-input",
                         rules: {
-                            server_host: "required",
-                            server_name: "required",
-                            server_user: "required",
-                            server_password: "required",
-                            table_prefix: "required",
-                            table_collation: "required",
+                            selectGroup:{
+                                required:true
+                            },
                             username: {
                                 required: true,
                                 minlength: 3
                             },
-                            usermail: {
+                            userEmail: {
                                 required: true,
                                 email: true
                             },
@@ -226,14 +243,19 @@
                             case "first":
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentFirst').addClass('active');
+                                $('#currentStepHeading h3.panel-title').html('Personal Information');
                                 break;
                             case "second":
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentSecond').addClass('active');
+                                $('#currentStepHeading h3.panel-title').html('Security Information');
                                 break;
                             case "third":
                                 $('#currentStepStatus a').removeClass('active');
                                 $('#currentStepStatus a#currentThird').addClass('active');
+                                $('#currentStepHeading h3.panel-title').html('Site Configuration');
+                                $("#selectGroup").select2("enable", true);
+                                $('.select2-container').css("width","100%");
                                 break;
                         }
                     });

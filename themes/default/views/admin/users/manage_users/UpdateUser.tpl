@@ -126,7 +126,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="selectGroup">Group</label>
                                                         <div class="col-lg-10">
-                                                            <input type='hidden' class="required" value="{{$UserData[0]->GroupName}}" name='selectGroup' id='selectGroup'/>
+                                                            <input type='hidden' class="required" value="{{$UserData[0]->GroupID}},{{$UserData[0]->GroupName}}" name='selectGroup' id='selectGroup'/>
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                 </fieldset>
@@ -169,7 +169,7 @@
                 "first" : { // add a remote ajax call when moving next from the first step
                 url : '{{base_url()}}admin/usersManageUsers/UpdateUser_firstStepValidation/{{$UserData[0]->UserID}}',
                 beforeSend : function(){},
-                complete : function(){console.log("Validation complete.")},
+                complete : function(){},
                 success : function(output){
                     var data = output.split("::");
                     if(data[0]=="OK"){
@@ -187,7 +187,7 @@
                 beforeSubmit: function(data) {
                     $.ajax({
                         type:'POST',
-                        url:'{{base_url()}}admin/usersManageUsers/UpdateUser_Action/',
+                        url:'{{base_url()}}admin/usersManageUsers/UpdateUser_Action/{{$UserData[0]->UserID}}',
                         data:data,
                         success: function(output){
                             var data = output.split("::");
