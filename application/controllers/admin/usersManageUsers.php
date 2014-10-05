@@ -254,4 +254,25 @@ class usersManageUsers extends Admin_Controller
         $result = $this->Common_Model->select_fields_joined_DT($data, $pTable,$joins, $where = '', $addColumn, $unsetColumn='');
         echo $result;
     }
+    function listGroups_DT()
+    {
+        //Code to List Data in in DataTables for Listing of Users
+        $data = ('GroupID,GroupName,GroupDescription');
+        $table = "users_groups";
+        $addColumn = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
+        $result = $this->Common_Model->select_fields_joined_DT($data, $table,$joins='', $where = '', $addColumn);
+        echo $result;
+    }
+    function addNewGroup(){
+        //function to create new group.
+    }
+    function getGroupData($groupID){
+        //function to get the details of the selected group
+    }
+    function deleteGroup(){
+        //Delete the Selected Group
+    }
+    function UpdateGroupData(){
+
+    }
 }
