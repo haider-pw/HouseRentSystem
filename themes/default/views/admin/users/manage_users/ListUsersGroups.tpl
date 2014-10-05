@@ -45,7 +45,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit Group</h4>
                 </div>
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="groupDesc">Group Description</label>
                                 <div class="col-lg-8">
-                                    <input type="text" data-placement="top" placeholder="Form Path" id="groupDesc" class="form-control">
+                                    <input type="text" data-placement="top" placeholder="Group Description" id="groupDesc" class="form-control">
                                 </div>
                             </div><!-- /.form-group -->
                         </form>
@@ -80,7 +80,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Create New Group</h4>
                 </div>
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
@@ -149,8 +149,8 @@
                 success:function(response){
                     if(!($.isEmptyObject(response))){
                         $.each(response,function(key,value){
-                            $("#formName").val(value.GroupName);
-                            $("#formPath").val(value.GroupDesc);
+                            $("#groupName").val(value.GroupName);
+                            $("#groupDesc").val(value.GroupDescription);
                         });
                     }
                     $("#groupID").val(GroupID);
@@ -164,7 +164,7 @@
             e.preventDefault();
             var GroupID = $(this).closest('tr').attr('data-id');
             //console.log(FormID);
-
+            if(GroupID!=1){
             $.ajax({
                 type:"post",
                 url:"{{base_url()}}admin/usersManageUsers/deleteGroup/"+GroupID,
@@ -179,7 +179,10 @@
                     }
                 }
             }); //---  End of $.ajax  ---//
-
+            }
+            else if (GroupID == 1){
+                HRS.notification('SuperAdmin Group Can Not Be Deleted.','error');
+            }
         });
         //Edit Button
         $('#updateFormBtn').on('click', function(e){
@@ -191,7 +194,7 @@
             };
             $.ajax({
                 type: "post",
-                url: "{{base_url()}}admin/configurations/UpdateGroupData/",
+                url: "{{base_url()}}admin/usersManageUsers/UpdateGroupData/",
                 data: formData,
                 success: function (output) {
                     var data = output.split('::');
@@ -232,7 +235,6 @@
                         }
                     }
                 });
-
                 //Do Stuff After pressing the Create Button.
 //                    Close the Modal
                 $('#addNewGroupModal').modal('hide');

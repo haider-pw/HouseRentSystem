@@ -265,14 +265,78 @@ class usersManageUsers extends Admin_Controller
     }
     function addNewGroup(){
         //function to create new group.
+        if($this->input->post()){
+            $groupName = $this->input->post('GroupName');
+            $groupDesc = $this->input->post('GroupDesc');
+            if($groupName!=''){
+                $data = array(
+                  'GroupName' => $groupName,
+                  'GroupDescription' => $groupDesc
+                );
+                $table = 'users_groups';
+                $result = $this->Common_Model->insert_record($table,$data);
+                if($result>0){
+                    echo "OK::Record Successfully Added::success";
+                }
+                else{
+                    echo "FAIL::Some Error, Record Could Not Be Added::error";
+                }
+            }
+        }
     }
     function getGroupData($groupID){
         //function to get the details of the selected group
+        if($groupID>0){
+            $table = "users_groups";
+            $data = ('GroupName,GroupDescription');
+            $where = array(
+                'GroupID' => $groupID
+            );
+            $result = $this->Common_Model->select_fields_where($table, $data,$where);
+            print json_encode($result);
+        }
     }
-    function deleteGroup(){
+    function deleteGroup($groupID){
         //Delete the Selected Group
+        if($groupID>0 && $groupID!=1){
+            $table = 'users_groups';
+            $condition = array(
+                'GroupID' => $groupID
+            );
+            $result = $this->Common_Model->delete($table,$condition);
+            if($result == TRUE){
+                echo "OK::Record Successfully Deleted::success";
+            }
+        }
+        elseif($groupID==1){
+            echo "FAIL::SuperAdmin Group Can Not Be Deleted.::error";
+        }
+        else{
+            echo "FAIL:: Some Database Error Occurred, Data Could Not Be Deleted::error";
+        }
     }
     function UpdateGroupData(){
-
+        //This Function Should Be Responsible for Editing/Updating a selected Group
+        if($this->input->post()){
+            $groupID = $this->input->post('GroupID');
+            $groupName = $this->input->post('GroupName');
+            $groupDesc = $this->input->post('GroupDesc');
+            $data = array(
+              'GroupName' => $groupName,
+              'GroupDescription' => $groupDesc
+            );
+            $table = 'users_groups';
+            $field='GroupID';
+            $result = $this->Common_Model->update_query($table,$field,$groupID,$data);
+            if($result){
+                echo "OK::Record Successfully Updated::success";
+            }
+            else{
+                echo "FAIL::Some Error, Record Could Not Be Updated::error";
+            }
+        }
+        else{
+            echo "FAIL::No Data Posted, You Must Enter Data.::warning";
+        }
     }
 }
