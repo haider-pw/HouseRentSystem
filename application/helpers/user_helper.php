@@ -35,8 +35,8 @@ if (!function_exists('CheckUserRole')) {
     }
 }
 
-if (!function_exists('CheckUserRole')) {
-    function CheckUserRole($UserID)
+if (!function_exists('CheckUserGroup')) {
+    function CheckUserGroup($UserID)
     {
         if ($UserID > 0) {
             $ci =& get_instance();
@@ -45,12 +45,16 @@ if (!function_exists('CheckUserRole')) {
                 'UserID' => $UserID
             );
             $UserGroupID = $ci->Common_Model->get_by('GroupID', 'users_users', $where, TRUE);
-            $where = array(
-                'GroupID' => $UserGroupID['GroupID']
-            );
-            $userRoles = $ci->Common_Model->get_by('RoleID', 'sys_user_group_roles', $where, False);
-            return $userRoles;
+            return $UserGroupID['GroupID'];
         }
+    }
+}
+//This Function should Be Responsible to check if user Group is allowed to load the specific Controller or Not.
+if (!function_exists('GroupControllerAuth')) {
+    function GroupControllerAuth(){
+        $ci =& get_instance();
+        $method =  $ci->router->method;
+        return $method;
     }
 }
 ?>

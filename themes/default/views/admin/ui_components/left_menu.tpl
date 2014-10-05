@@ -1,4 +1,6 @@
 {{$usr_selelect_tab=strtolower($this->session->userdata('activetb'))}}
+{{*<pre>{{print_r($menus)}}</pre>*}}
+{{if !empty($menus)}}
 {{foreach $menus as $key => $row }}
 {{if strtolower($row['TabName']) === $usr_selelect_tab}}
     {{if $row['ParentID'] == 0}}
@@ -17,10 +19,14 @@
     {{/if}}
     {{/if}}
 {{/foreach}}
+
 {{$var = ksort($Menu)}}
+{{/if}}
+
 <ul id="menu" class="collapse">
 <li class="nav-header">Menu</li>
     <li class="nav-divider"></li>
+    {{if !empty($menus)}}
     {{foreach $Menu as $MainMenu}}
   {{$FormCIPath = explode("/", $MainMenu['FormCIPath'])}}
         <li {{checkActiveClassMainMenu($FormCIPath[1])}}>
@@ -49,4 +55,5 @@
             {{/if}}
         </li>
     {{/foreach}}
+    {{/if}}
 </ul><!-- /#menu -->

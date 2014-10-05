@@ -14,16 +14,18 @@ class Tab_Model extends MY_Model{
     }
 
     //This Gets all the Menus in the Specified Role
-    public function check_allow($arr){
-        $count=0;
+    public function check_allow($groupID){
+/*        $count=0;
         foreach($arr as $key=> $value){
             $actual_array[$count++] = $value['RoleID'];
-        }
+        }*/
         $this->db->select('*');
         $this->db->from('sys_group_roles_forms_view');
-        $this->db->where_in('RoleID',$actual_array);
+        $this->db->where_in('GroupID',$groupID);
         $query=$this->db->get();
-/* echo "<pre>";print_r($query->result());
+/*        echo $this->db->last_query();
+
+ echo "<pre>";print_r($query->result());
  exit;*/
         return $query->result();
     }// end of authenticate function

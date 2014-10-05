@@ -74,6 +74,7 @@ class usersManageUsers extends Admin_Controller
             $theme = $this->input->post('theme');
             $userGroupID = $this->input->post('selectGroup');
             if($pass===$confirmPass){
+                $pass=$this->hashPassword($pass);
                 $data_users=array(
                     'UserName' => $username,
                     'Password' => $pass,
