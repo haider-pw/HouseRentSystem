@@ -22,7 +22,7 @@
         <div class="col-lg-6  col-lg-offset-3">
           <div class="btn-group btn-group-justified">
             <a href="dashboard.html" class="btn btn-info">Return Dashboard</a> 
-            <a href="index.html" class="btn btn-warning">Return Website</a> 
+            <a href="{{url}}" class="btn btn-warning">Return Website</a>
           </div>
         </div>
       </div><!-- /.col-lg-8 col-offset-2 -->

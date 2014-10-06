@@ -76,7 +76,7 @@ class Common_Model extends MY_Model{
     }
 
 
-    function select_fields_where($tbl = '', $data,$where,$single=FALSE,$like='')
+    function select_fields_where($tbl = '', $data,$where,$single=FALSE,$like='',$field='',$value='')
     {
         $this->db->select($data);
         $this->db->from($tbl);
@@ -173,24 +173,7 @@ class Common_Model extends MY_Model{
     {
         $this->db->insert_batch($tbl, $data);
     }
-    function insertInToMultipleTables($data_sysMenus,$data_sysForms){
 
-        $this->db->trans_begin();
-        $this->db->insert('sys_menus', $data_sysMenus);
-        $menuID = $this->db->insert_id();
-        $data_sysForms['MenuID'] = $menuID;
-        $this->db->insert('sys_forms', $data_sysForms);
-        if ($this->db->trans_status() === FALSE)
-        {
-            $this->db->trans_rollback();
-            return false;
-        }
-        else
-        {
-            $this->db->trans_commit();
-            return true;
-        }
-    }//end of insert_job
     //------------------------End of insert record queries -----------------------------------
 // Common Update Queries
 

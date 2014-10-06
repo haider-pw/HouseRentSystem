@@ -78,7 +78,7 @@ class Configurations extends Admin_Controller{
         );
         $tbl='sys_forms';
         $data=('FormName,FormPath,FormCIPath,IsMenuLink');
-        $result = $this->Common_Model->select_fields_where($tbl,$data,$where);
+        $result = $this->Common_Model->select_fields_where($tbl,$data,$where,FALSE,'','','');
         print json_encode($result);
     }
     function UpdateFormData()
@@ -120,26 +120,41 @@ class Configurations extends Admin_Controller{
             'FormID' =>$FormID
         );
         $MenuIDs = $this->Common_Model->select_fields_where('sys_forms',$columns,$where,TRUE);
-        //echo $MenuIDs->MenuID;
+/*        print_r($MenuIDs);
+        exit;*/
+
+        //Now As We Got the Data we needed, we will delete the specific row from multiple tables on bases of the received data.
+        //Deleting a Form from the Forms Table.
         $tbl = "sys_forms";
         $where = array(
                 'FormID' => $FormID
             );
         $result1 = $this->Common_Model->delete($tbl,$where);
+
+        //Deleting a related Menu on base of that form.
         $tbl = "sys_menus";
         $where = array(
             'MenuID' => $MenuIDs->MenuID
         );
         $result2 = $this->Common_Model->delete($tbl,$where);
-        if ($result1==true && $result2==true){
+
+        $tbl = "sys_forms_in_groups";
+        $where = array(
+            'FormID' => $FormID
+        );
+        $result3 = $this->Common_Model->delete($tbl,$where);
+
+        if ($result1==true && $result2==true && $result3==true){
             echo "OK::Record Successfully Deleted::success";
         }
         else{
             echo "FAIL::Some Error, Record Could Not Be Deleted::error";
         }
-
     }
+
     function addNewForm(){
+        $this->load->model('system/configuration');
+        if($this->input->is_ajax_request()){
         if($this->input->post()){
             $MenuName = mysql_real_escape_string($this->input->post('MenuName'));
             $FormName = mysql_real_escape_string($this->input->post('FormName'));
@@ -149,8 +164,11 @@ class Configurations extends Admin_Controller{
             $TabID = mysql_real_escape_string($this->input->post('TabID'));
             $MenuOrder = mysql_real_escape_string($this->input->post('MenuOrder'));
             $ParentMenuID = mysql_real_escape_string($this->input->post('ParentMenuID'));
-            if(empty($ParentMenuID)){
+            if(empty($ParentMenuID) || $ParentMenuID = ''){
                 $ParentMenuID = "0";
+            }
+            if(empty($IsMenuLink) || $IsMenuLink = ''){
+                $IsMenuLink = "1";
             }
             $data_sysMenus = array(
                 'TabID' => $TabID,
@@ -164,7 +182,11 @@ class Configurations extends Admin_Controller{
                 'FormCIPath' => $FormCIPath,
                 'IsMenuLink' => $IsMenuLink
             );
-            $result = $this->Common_Model->insertInToMultipleTables($data_sysMenus,$data_sysForms);
+            $data_sysFormsInGroups = array(
+                'GroupID' => '1',
+                'IsMenuLink' => $IsMenuLink
+            );
+            $result = $this->Configuration->addNewForm($data_sysMenus,$data_sysForms,$data_sysFormsInGroups);
 
             if($result==true){
                 echo "OK::New Form Successfully Added::success";
@@ -175,6 +197,10 @@ class Configurations extends Admin_Controller{
         }
         else{
             echo "FAIL::No Data Posted, You Must Enter Data::warning";
+        }
+        }
+        else{
+            redirect('errorPages/error_403');
         }
     }
     function loadAllParentFormNames($TabID){
