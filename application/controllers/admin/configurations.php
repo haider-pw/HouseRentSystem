@@ -20,10 +20,14 @@ class Configurations extends Admin_Controller{
      */
     //Function:ManageForms will load the view of Manage Forms.
     function ManageForms(){
-        $this->data['title']="Manage Forms";
-        //echo "'".$this->uri->segment(1)."'";
-        //exit;
-        $this->parser->parse('admin/systemConfigurationManageForms',$this->data);
+        $UserID = $this->session->userdata('UserID');
+        if(is_admin($UserID)== TRUE || is_allowed($UserID) == TRUE){
+            $this->data['title']="Manage Forms";
+            $this->parser->parse('admin/systemConfigurationManageForms',$this->data);
+        }
+        else{
+            redirect('errorPages/error_403');
+        }
     }
 
     //Function:ManageForms will load the view of Manage Forms.
@@ -45,13 +49,20 @@ class Configurations extends Admin_Controller{
 
     //List all the forms in DataTables if belong to the certain role..
     //DT= Data Tables
- function listForms_DT(){
+    function listForms_DT(){
+        //It will check if this method is accessed via ajax then If statement will run, otherwise the else statement.
+        if($this->input->is_ajax_request()){
      $this->datatables->select('FormID, FormName, FormPath, FormCIPath')
          //->unset_column('FormID')
          ->add_column("Actions", "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>", "FormID")
          ->from('sys_forms');
      echo $this->datatables->generate();
+        }
+     else{
+            echo "No direct access allowed";
+        }
 }//end of list_forms_view
+
     function listTabs_DT(){
         $this->datatables->select('TabID, TabName, TabOrder, TabDesc')
             //->unset_column('FormID')

@@ -53,6 +53,10 @@ class   Admin_Controller extends My_Controller{
         );
 
        $this->data['menus']=$this->Common_Model->joined_get_by($columns,$PTable,$joins,$where,'');
+/*        echo "<pre>";
+        print_r($this->data['menus']);
+        echo "</pre>";
+        exit;*/
 /*        echo "<pre>"; var_dump($data);
         exit;*/
     }
