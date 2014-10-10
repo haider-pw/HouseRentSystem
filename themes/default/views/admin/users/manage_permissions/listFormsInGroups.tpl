@@ -14,15 +14,20 @@
                                 <i class="fa fa-table"></i>
                             </div>
                             <h5>Manage Groups</h5>
-                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a title="" id="addNewGroupFunc" data-original-title="" href="#addNewGroupModal" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Group</a></div>
+                            <div style="float:right; margin-right:10px; margin-top: 5px;">
+                                {{*Select2 DropDown to select the Group*}}
+                                <input type='hidden' name='selectGroup' id='selectGroup'/>
+                            </div>
                         </header>
                         <div class="body" id="collapse4">
-                            <table id="ManageGroups" class="table table-bordered table-condensed table-hover table-striped">
+                            <table id="ManageFormsInGroups" class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Group ID</th>
-                                    <th data-class="expand">Group Name</th>
-                                    <th data-hide="phone">Group Desc</th>
+                                    <th>Form ID</th>
+                                    <th data-class="expand">Form Name</th>
+                                    <th data-hide="phone">Form CI Path</th>
+                                    <th data-hide="phone">Show On Menu</th>
+                                    <th data-hide="phone">GroupIDs</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -117,134 +122,59 @@
         var oTable;
         $(document).ready(function() {
             oTable = '';
-            var isMenuLink_createForm = '';
-            var isMenuLink_EditForm = '';
+
+            {{*The Selector for Selecting the User Group*}}
+            var selector = $('#selectGroup');
+            var url = "{{base_url()}}admin/usersManageUsers/loadAllUserGroups/";
+            var id = "GroupID";
+            var text = "GroupName";
+            var minInputLength = 0;
+            var placeholder = "Select User Group";
+            commonSelect2(selector,url,id,text,minInputLength,placeholder);
+            $('.select2-container').css("width","223px");
+            //End of the CommonSelect2 function
+
+
             //Data Tables Script Here.
-            var selector = $('#ManageGroups');
-            var url = "{{base_url()}}admin/usersManageUsers/listGroups_DT/";
+            var selector = $('#ManageFormsInGroups');
+            var url = "{{base_url()}}admin/usersManagePermissions/listFormsInGroups_DT/0";
             var aoColumns =  [
                 /* ID */   {
                     "bVisible":    false,
                     "bSortable":   false,
                     "bSearchable": false
                 },
-                /* Group Name */  null,
-                /* Group Desc */  null,
+                /* Form Name */  null,
+                /* Form CI Path */  null,
+                /* IsMenuLink */ {
+                    "bVisible":    true,
+                    "bSortable":   false,
+                    "bSearchable": false
+                },
+                /* GroupIDs */  {
+                    "bVisible":    false,
+                    "bSortable":   false,
+                    "bSearchable": false
+                },
                 /* Actions */  null
             ];
-            commonDataTables(selector,url,aoColumns);
+            var RowCallBack = "$('td:eq(3) input.make-switch', nRow).attr('group-ids',aData[4]);";
+            var DrawCallback = "var GroupID = url.split('/').pop(); $('input.make-switch').each(function(e){ var groups = $(this).attr('group-ids').split(','); if(eval(GroupID) !== 0 && eval(GroupID)>0){ if(eval(GroupID)===1){ $(this).attr('data-checked','true'); $(this).attr('disabled','true'); } else if(eval(GroupID)!==1 && eval(GroupID)>1){ if (groups.length == 1) { $(this).attr('data-checked','false'); }else if (groups.length == 2){ $(this).attr('data-checked','true'); }}} else if(eval(GroupID) === 0){ $(this).attr('data-checked','false'); }}); "+"HRS.checkboxSwitches();";
+            commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallback);
             //End Of dataTables Script..
 
-
-            //Edit Button in DataTables
-            $('#ManageGroups').on('click', '.editBtnFunc', function(e){
-                e.preventDefault();
-                var GroupID = $(this).closest('tr').attr('data-id');
-                //console.log(FormID);
-
-                $.ajax({
-                    type:"post",
-                    url:"{{base_url()}}admin/usersManageUsers/GetGroupData/"+GroupID,
-                    dataType:"json",
-                    success:function(response){
-                        if(!($.isEmptyObject(response))){
-                            $.each(response,function(key,value){
-                                $("#groupName").val(value.GroupName);
-                                $("#groupDesc").val(value.GroupDescription);
-                            });
-                        }
-                        $("#groupID").val(GroupID);
-                    }
-                }); //---  End of $.ajax  ---//
-
+            //Doing Some Function if select2 has selected some item
+            $('#selectGroup').on("select2-selecting", function(e) {
+                var GroupID = e.val;
+                url = "{{base_url()}}admin/usersManagePermissions/listFormsInGroups_DT/"+GroupID;
+                //$('#ManageFormsInGroups').dataTable().api().ajax.url(url).load();
+                //oTable.fnReloadAjax('google.com');
+                oTable.fnDestroy();
+                commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallback);
             });
+            //End of the CommonSelect2 function
 
-            //Delete Button in DataTables
-            $('#ManageGroups').on('click', '.deleteBtnFunc', function(e){
-                e.preventDefault();
-                var GroupID = $(this).closest('tr').attr('data-id');
-                //console.log(FormID);
-                if(GroupID!=1){
-                    $.ajax({
-                        type:"post",
-                        url:"{{base_url()}}admin/usersManageUsers/deleteGroup/"+GroupID,
-                        success: function(output){
-                            var data = output.split("::");
-                            if (data[0] == "OK"){
-                                oTable.fnReloadAjax();
-                                HRS.notification(data[1],data[2]);
-                            }
-                            else if(data[0] == "FAIL"){
-                                HRS.notification(data[1],data[2]);
-                            }
-                        }
-                    }); //---  End of $.ajax  ---//
-                }
-                else if (GroupID == 1){
-                    HRS.notification('SuperAdmin Group Can Not Be Deleted.','error');
-                }
-            });
-            //Edit Button
-            $('#updateFormBtn').on('click', function(e){
-                e.preventDefault();
-                var formData = {
-                    GroupID :     $("#groupID").val(),
-                    GroupName :   $("#groupName").val(),
-                    GroupDesc :   $("#groupDesc").val()
-                };
-                $.ajax({
-                    type: "post",
-                    url: "{{base_url()}}admin/usersManageUsers/UpdateGroupData/",
-                    data: formData,
-                    success: function (output) {
-                        var data = output.split('::');
-                        if (data[0] == "OK") {
-                            oTable.fnReloadAjax();
-                            HRS.notification(data[1], data[2]);
-                        }
-                        else if (data[0] == "FAIL") {
-                            HRS.notification(data[1], data[2]);
-                        }
-                    }
-                });
-                //console.log(FormName);
-            });
-
-            $('#createFormBtn').on('click', function(e){
-                e.stopImmediatePropagation();
-                e.preventDefault();
-                var selector = $('#createGroupModelForm');
-                HRS.formValidation(selector);
-                if(selector.valid()){
-                    var formData = {
-                        GroupName : $("#cGroupName").val(),
-                        GroupDesc : $("#cGroupDesc").val()
-                    };
-                    $.ajax({
-                        type: "post",
-                        url: "{{base_url()}}admin/usersManageUsers/addNewGroup/",
-                        data: formData,
-                        success: function (output) {
-                            var data = output.split("::");
-                            if (data[0] == "OK") {
-                                oTable.fnReloadAjax();
-                                HRS.notification(data[1], data[2]);
-                            }
-                            else if(data[0]=="FAIL") {
-                                HRS.notification(data[1], data[2]);
-                            }
-                        }
-                    });
-                    //Do Stuff After pressing the Create Button.
-//                    Close the Modal
-                    $('#addNewGroupModal').modal('hide');
-//                    Reset All the TextBoxes and CheckBoxes
-                    $("#createGroupModelForm")[0].reset();
-                }
-                else{
-                    //The Else Portion if you want Something else to Happen if not validated Form
-                }
-            });
+            //update record on switch change
         });
     </script>
 {{/block}}

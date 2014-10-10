@@ -31,6 +31,7 @@ class Datatables
     protected $joins          = array();
     protected $columns        = array();
     protected $where          = array();
+    protected $where_in       = array();
     protected $filter         = array();
     protected $add_columns    = array();
     protected $edit_columns   = array();
@@ -66,6 +67,7 @@ class Datatables
         foreach($this->explode(',', $columns) as $val)
         {
             $column = trim(preg_replace('/(.*)\s+as\s+(\w*)/i', '$2', $val));
+            $column = preg_replace('/.*\.(.*)/i', '$1', $column); // get name after `.`
             $this->columns[] =  $column;
             $this->select[$column] =  trim(preg_replace('/(.*)\s+as\s+(\w*)/i', '$1', $val));
         }
@@ -155,6 +157,21 @@ class Datatables
     {
         $this->where[] = array($key_condition, $val, $backtick_protect);
         $this->ci->db->or_where($key_condition, $val, $backtick_protect);
+        return $this;
+    }
+
+    /**
+     * Generates the WHERE IN portion of the query
+     *
+     * @param mixed $key_condition
+     * @param string $val
+     * @param bool $backtick_protect
+     * @return mixed
+     */
+    public function where_in($id, $array)
+    {
+        $this->where_in[] = array($id, $array);
+        $this->ci->db->where_in($id, $array);
         return $this;
     }
 
@@ -411,6 +428,13 @@ class Datatables
 
         foreach($this->where as $val)
             $this->ci->db->where($val[0], $val[1], $val[2]);
+
+        foreach($this->where_in as $val)
+            $this->ci->db->where_in($val[0], $val[1]);
+/*        echo "<pre>";
+        var_dump($val[2]);
+        echo "</pre>";
+        exit;*/
 
         return $this->ci->db->count_all_results($this->table);
     }

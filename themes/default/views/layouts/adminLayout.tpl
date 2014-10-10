@@ -193,6 +193,11 @@
 {{js('admin/main.min.js')}}
 {{js('HouseRentSystem.js')}}
 {{js('admin/custom.js')}}
+<script>
+    $(document).ready(function(e){
+       HRS.checkboxSwitches();
+    });
+</script>
 {{block name="scripts"}}{{/block}}
 
 </body>

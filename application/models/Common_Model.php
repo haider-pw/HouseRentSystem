@@ -125,6 +125,35 @@ class Common_Model extends MY_Model{
         }
 
     }
+    function select_fields_where_like_join($tbl = '', $data,$where='',$single=FALSE,$field,$value,$joins='')
+    {
+        $this->db->select($data);
+        $this->db->from($tbl);
+        if($joins != ''){
+            foreach ($joins as $k => $v){
+                $this->db->join($v['table'], $v['condition'], $v['jointype']);
+            }
+        }
+        $this->db->like('LOWER(' .$field. ')', strtolower($value));
+        if($where!=''){
+            $this->db->where($where);
+        }
+        $query = $this->db->get();
+        //return $this->db->last_query();
+        if ($query->num_rows() > 0) {
+            // query returned results
+            if($single==TRUE){
+                return $query->row();
+            }
+            else{
+                return $query->result();
+            }
+        } else {
+            // query returned no results
+            return FALSE;
+        }
+
+    }
 
     function select_dist_fields($tbl = '', $data)
     {
@@ -229,6 +258,21 @@ class Common_Model extends MY_Model{
     function delete($tbl,$condition)
     {
         $this->db->delete($tbl, $condition);
+        if ($this->db->affected_rows() > 0){
+            return TRUE;
+        }
+        else {
+            //return FALSE;
+            return FALSE;
+        }
+    }
+
+    //this multiple function is buggy, will check this out later.
+    function multiple_delete($tbl,$field,$values,$where)
+    {
+        $this->db->where($where);
+        $this->db->where_in($field,$values);
+        $this->db->delete($tbl);
         if ($this->db->affected_rows() > 0){
             return TRUE;
         }

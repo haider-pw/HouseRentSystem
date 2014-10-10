@@ -2,6 +2,9 @@
  * Created by HaiderHassan on 8/22/14.
  */
 /*----------- BEGIN toggleButtons CODE -------------------------*/
+;(function($){
+    "use strict";
+    HRS.checkboxSwitches = function() {
 $.each($('.make-switch'), function () {
     $(this).bootstrapSwitch({
         onText: $(this).data('onText'),
@@ -9,14 +12,18 @@ $.each($('.make-switch'), function () {
         onColor: $(this).data('onColor'),
         offColor: $(this).data('offColor'),
         size: $(this).data('size'),
+        state: $(this).data('checked'),
         labelText: $(this).data('labelText')
     });
 });
+    };
+    return HRS;
+})(jQuery);
 /*----------- END toggleButtons CODE -------------------------*/
 
 
 /*----------- DataTables Common Script only will need parameters to send and call the function -------------------------*/
-function commonDataTables(selector,url,aoColumns){
+function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
     var responsiveHelper;
     var breakpointDefinition = {
         tablet: 1024,
@@ -37,17 +44,27 @@ function commonDataTables(selector,url,aoColumns){
         "iDisplayLength": 25,
         "aLengthMenu": [[2, 25, 50, -1], [2, 25, 50, "All"]],
         'fnServerData'   : function(sSource, aoData, fnCallback){
-            $.ajax ({
+            $.ajax({
                 'dataType': 'json',
-                'type'    : 'POST',
-                'url'     : sSource,
-                'data'    : aoData,
-                'success' : fnCallback
+                'type': 'POST',
+                'url': url,
+                'data': aoData,
+                'success': fnCallback
             }); //end of ajax
         },
         'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $(nRow).attr("data-id",aData[0]);
+            var isMainForm = aData[2].split('/');
+            if(aData[2] != '#'){
+                if(isMainForm[2] === '#'){
+                    $('td:eq(1)',nRow).css('background-color','#C3FECC');
+                }
+            }
+            if(typeof RowCallBack !== "undefined"){
+            eval(RowCallBack);
+            }
             responsiveHelper.createExpandIcon(nRow);
+
             return nRow;
         },
         fnPreDrawCallback: function () {
@@ -59,6 +76,36 @@ function commonDataTables(selector,url,aoColumns){
         fnDrawCallback : function (oSettings) {
             // Respond to windows resize.
             responsiveHelper.respond();
+            var Groupbaba = url.split("/").pop();
+//            var GroupID = url.split("/").pop(); $('input.make-switch').each(function(e){ var groups = $(this).attr('group-ids').split(','); if(eval(GroupID) !== 0 && eval(GroupID)>0){ if(eval(GroupID)===1){ $(this).attr('data-checked','true'); $(this).attr('disabled','true'); } else if(eval(GroupID)!==1 && eval(GroupID)>1){ if (groups.length == 1) { $(this).attr('data-checked','false'); }else if (groups.length == 2){ $(this).attr('data-checked','true'); }}} else if(eval(GroupID) === 0){ $(this).attr('data-checked','false'); }});
+            if(typeof DrawCallBack !== "undefined"){
+                eval(DrawCallBack);
+            }
+            $('input.make-switch').on('switchChange.bootstrapSwitch', function(event, state) {
+                console.log(Groupbaba);
+                var FormID = $(this).closest('tr').attr('data-id');
+                console.log(FormID);
+                var data = {
+                    GroupID: Groupbaba,
+                    FormID: FormID,
+                    State: state
+                };
+                $.ajax({
+                    url:"http://localhost/projects/HouseRentSystem/admin/usersManagePermissions/insertInToFormInGroups",
+                    data:data,
+                    type:"POST",
+                    success: function(output){
+                        var data = output.split('::');
+                        if (data[0] == "OK") {
+                            oTable.fnReloadAjax();
+                            HRS.notification(data[1], data[2]);
+                        }
+                        else if (data[0] == "FAIL") {
+                            HRS.notification(data[1], data[2]);
+                        }
+                    }
+                });
+            });
         }
     });
 }
