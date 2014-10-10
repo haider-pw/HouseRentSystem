@@ -267,7 +267,7 @@ class Common_Model extends MY_Model{
         }
     }
 
-    //this multiple function is buggy, will check this out later.
+    //Delete Multiple Records from table on basis of where and where_in
     function multiple_delete($tbl,$field,$values,$where)
     {
         $this->db->where($where);

@@ -31,6 +31,12 @@ class usersManagePermissions extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     }
+
+
+    /*//////////////////////////////////////////////////////////////////////
+////////////////////Functions for the Above Views/////////////////////
+///////////////////////////////////////////////////////////////////////*/
+
     //Function to populate database in view.
     function listFormsInGroups_DT($selectedGroupID){
         //Code to List Data in in DataTables for Listing of Users
@@ -215,10 +221,5 @@ class usersManagePermissions extends Admin_Controller
             redirect($this->data['errorPage_404']);
         }
     }
-
-
-    /*//////////////////////////////////////////////////////////////////////
-////////////////////Functions for the Above Views/////////////////////
-///////////////////////////////////////////////////////////////////////*/
 
 }

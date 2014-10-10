@@ -431,10 +431,6 @@ class Datatables
 
         foreach($this->where_in as $val)
             $this->ci->db->where_in($val[0], $val[1]);
-/*        echo "<pre>";
-        var_dump($val[2]);
-        echo "</pre>";
-        exit;*/
 
         return $this->ci->db->count_all_results($this->table);
     }

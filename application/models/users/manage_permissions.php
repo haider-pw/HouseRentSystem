@@ -42,15 +42,4 @@ class Manage_Permissions extends MY_Model{
         //$last_query = $this->datatables->last_query();
         return $result;
     }
-
-    function deleteMultipleFromFormsInGroups($formIDsData,$groupID){
-        $this->db->query('DELETE FROM sys_forms_in_groups WHERE FormID IN '.$formIDsData.' AND GroupID = '.$groupID);
-        if ($this->db->affected_rows() > 0){
-            return TRUE;
-        }
-        else {
-            //return FALSE;
-            return FALSE;
-        }
-    }
 }
