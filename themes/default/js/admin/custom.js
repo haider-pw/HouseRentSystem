@@ -54,12 +54,6 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
         },
         'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $(nRow).attr("data-id",aData[0]);
-            var isMainForm = aData[2].split('/');
-            if(aData[2] != '#'){
-                if(isMainForm[2] === '#'){
-                    $('td:eq(1)',nRow).css('background-color','#C3FECC');
-                }
-            }
             if(typeof RowCallBack !== "undefined"){
             eval(RowCallBack);
             }
@@ -76,36 +70,9 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
         fnDrawCallback : function (oSettings) {
             // Respond to windows resize.
             responsiveHelper.respond();
-            var Groupbaba = url.split("/").pop();
-//            var GroupID = url.split("/").pop(); $('input.make-switch').each(function(e){ var groups = $(this).attr('group-ids').split(','); if(eval(GroupID) !== 0 && eval(GroupID)>0){ if(eval(GroupID)===1){ $(this).attr('data-checked','true'); $(this).attr('disabled','true'); } else if(eval(GroupID)!==1 && eval(GroupID)>1){ if (groups.length == 1) { $(this).attr('data-checked','false'); }else if (groups.length == 2){ $(this).attr('data-checked','true'); }}} else if(eval(GroupID) === 0){ $(this).attr('data-checked','false'); }});
             if(typeof DrawCallBack !== "undefined"){
                 eval(DrawCallBack);
             }
-            $('input.make-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-                console.log(Groupbaba);
-                var FormID = $(this).closest('tr').attr('data-id');
-                console.log(FormID);
-                var data = {
-                    GroupID: Groupbaba,
-                    FormID: FormID,
-                    State: state
-                };
-                $.ajax({
-                    url:"http://localhost/projects/HouseRentSystem/admin/usersManagePermissions/insertInToFormInGroups",
-                    data:data,
-                    type:"POST",
-                    success: function(output){
-                        var data = output.split('::');
-                        if (data[0] == "OK") {
-                            oTable.fnReloadAjax();
-                            HRS.notification(data[1], data[2]);
-                        }
-                        else if (data[0] == "FAIL") {
-                            HRS.notification(data[1], data[2]);
-                        }
-                    }
-                });
-            });
         }
     });
 }

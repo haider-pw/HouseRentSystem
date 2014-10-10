@@ -158,8 +158,8 @@
                 },
                 /* Actions */  null
             ];
-            var RowCallBack = "$('td:eq(3) input.make-switch', nRow).attr('group-ids',aData[4]);";
-            var DrawCallback = "var GroupID = url.split('/').pop(); $('input.make-switch').each(function(e){ var groups = $(this).attr('group-ids').split(','); if(eval(GroupID) !== 0 && eval(GroupID)>0){ if(eval(GroupID)===1){ $(this).attr('data-checked','true'); $(this).attr('disabled','true'); } else if(eval(GroupID)!==1 && eval(GroupID)>1){ if (groups.length == 1) { $(this).attr('data-checked','false'); }else if (groups.length == 2){ $(this).attr('data-checked','true'); }}} else if(eval(GroupID) === 0){ $(this).attr('data-checked','false'); }}); "+"HRS.checkboxSwitches();";
+            var RowCallBack = "var isMainForm=aData[2].split('/');if(aData[2]!='#'){if(isMainForm[2]==='#'){$('td:eq(1)',nRow).css('background-color','#C3FECC')}}" + " $('td:eq(3) input.make-switch', nRow).attr('group-ids',aData[4]);";
+            var DrawCallback = "var GroupID = url.split('/').pop(); $('input.make-switch').each(function(e){ var groups = $(this).attr('group-ids').split(','); if(eval(GroupID) !== 0 && eval(GroupID)>0){ if(eval(GroupID)===1){ $(this).attr('data-checked','true'); $(this).attr('disabled','true'); } else if(eval(GroupID)!==1 && eval(GroupID)>1){ if (groups.length == 1) { $(this).attr('data-checked','false'); }else if (groups.length == 2){ $(this).attr('data-checked','true'); }}} else if(eval(GroupID) === 0){ $(this).attr('data-checked','false'); }}); "+"HRS.checkboxSwitches();" + "$('input.make-switch').on('switchChange.bootstrapSwitch',function(e,t){var n=$(this).closest('tr').attr('data-id');var r={GroupID:GroupID,FormID:n,State:t};$.ajax({url:'http://localhost/projects/HouseRentSystem/admin/usersManagePermissions/insertInToFormInGroups',data:r,type:'POST',success:function(e){var t=e.split('::');if(t[0]=='OK'){oTable.fnReloadAjax();HRS.notification(t[1],t[2])}else if(t[0]=='FAIL'){HRS.notification(t[1],t[2])}}})})";
             commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallback);
             //End Of dataTables Script..
 
