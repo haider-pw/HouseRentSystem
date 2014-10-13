@@ -56,3 +56,42 @@ img.user:hover {
     75%{ box-shadow: 0 0 0 4px #3071a9; opacity:1;}
     100%{ box-shadow: 0 0 0 5px #3071a9; opacity:1;}
 }
+
+div.avatar a:hover > div.editAvatar{
+display: inline-block;
+}
+.avatar a div.editAvatar{
+    background: none repeat scroll 0 0 rgba(248, 247, 216, 0.6);
+    border-radius: 0 0 105px 105px;
+    display: none;
+    height: 100px;
+    margin-left: -200px;
+    position: absolute;
+    width: 200px;
+    bottom: 0px;
+    z-index: 10;
+}
+.avatar a div.editAvatar div{
+    margin-top: 20px;
+    background: none repeat scroll 0 0 white;
+    border-radius: 3px;
+    margin-left: 26px;
+    width: 150px;
+}
+.avatar a div.editAvatar div.block span{
+    margin-left: -106px;
+    margin-top: 5px;
+    padding-left: 0;
+    color: #434343;
+}
+.avatar a div.editAvatar div.block > p{
+    color: #333;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-top: 4px;
+    position: absolute;
+    border-bottom-width: 0;
+    border-top-width: 0;
+    padding-bottom: 0;
+}

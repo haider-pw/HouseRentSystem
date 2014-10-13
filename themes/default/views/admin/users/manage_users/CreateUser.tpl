@@ -2,6 +2,7 @@
 {{block name="header"}}
     <title>{{$title}}</title>
     {{css('admin/avatar.css')}}
+    {{css('admin/jasny/jasny-bootstrap.min.css')}}
 {{/block}}
 {{block name="content"}}
     <div class="outer">
@@ -32,7 +33,7 @@
                                                         <div class="holder">
                                                             <div class="avatar">
                                                                 <a href="#">
-                                                                    <img src="http://localhost/projects/HouseRentSystem/themes/default/img/admin/spikes_avatar.jpg" class="user"/>
+                                                                    <img id="userDefaultAvatars" src="http://localhost/projects/HouseRentSystem/uploads/users/d/defaultAvatar.jpg" class="user"/>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -63,9 +64,24 @@
                                                 </div>
                                                 <div class="panel-body">
                                             {{*Form Start Here*}}
-                                            <form class="form-horizontal wizardForm" id="wizardForm" method="post" action="">
+                                            <form class="form-horizontal wizardForm" id="wizardForm" enctype="multipart/form-data" method="post">
                                                     <fieldset class="step" id="first">
-                                                <div class="form-group">
+                                                        {{*The Image Upload Sctoin*}}
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2">Picture</label>
+                                                            <div class="col-lg-10">
+                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput" id="fileInputSiteLogo">
+                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span>
+                                                                        <input type="file" id="file" name="userDefaultAvatar" accept="image/*" />
+                                                                    </span>
+                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" id="fileRemove">Remove</a>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- /.form-group -->
+{{*End of Image Upload Section*}}
+                                                        <div class="form-group">
                                                     <label class="control-label col-lg-2" for="fullName">Full Name</label>
                                                     <div class="col-lg-10">
                                                         <input type="text" class="form-control required" name="fullName" placeholder="Full Name" id="fullName">
@@ -150,10 +166,11 @@
         {{js('jquery-form/jquery.form.js')}}
         {{js('formwizard/jquery.form.wizard.js')}}
         {{js('admin/jasny/jasny-bootstrap.min.js')}}
+        {{js('jquery-validate/additional-methods.min.js')}}
         <script>
             $(document).ready(function(e){
                 /*----------- BEGIN formwizard CODE -------------------------*/
-                $("#wizardForm").formwizard({
+                var wizardForm = $("#wizardForm").formwizard({
                     formPluginEnabled: true,
                     validationEnabled: true,
                     focusFirstInput: true,
@@ -162,7 +179,7 @@
                         "first" : { // add a remote ajax call when moving next from the first step
                             url : '{{base_url()}}admin/usersManageUsers/CreateUser_firstStepValidation/{{$UserData[0]->UserID}}',
                             beforeSend : function(){},
-                            complete : function(){console.log("Validation complete.")},
+                            complete : function(){},
                             success : function(output){
                                 var data = output.split("::");
                                 if(data[0]=="OK"){
@@ -178,10 +195,31 @@
                         }},
                     formOptions: {
                         beforeSubmit: function(data) {
+
+                           //var formData =  $('#wizardForm').serialize();
+
+
+                            var file = $("#file")[0].files[0];
+
+                                //data.append(file);
+                            var formData = new FormData();
+                            formData.append('fullName', $('#fullName').val());
+                            formData.append('username', $('#username').val());
+                            formData.append('userEmail', $('#email').val());
+                            formData.append('cnic', $('#cnic').val());
+                            formData.append('MobileNo', $('#mobileNo').val());
+                            formData.append('pass', $('#pass').val());
+                            formData.append('pass2', $('#passVerification').val());
+                            formData.append('theme', $('#theme').val());
+                            formData.append('selectGroup', $('#selectGroup').val());
+                            // Main magic with files here
+                            formData.append('image', $('input[type=file]')[0].files[0]);
                             $.ajax({
                                 type:'POST',
                                 url:'{{base_url()}}admin/usersManageUsers/CreateUser_Action/',
-                                data:data,
+                                data:formData,
+                                processData: false,
+                                contentType: false,
                                 success: function(output){
                                     var data = output.split("::");
                                     if (data[0] == "OK") {
@@ -220,6 +258,10 @@
                                 required: true,
                                 minlength: 6,
                                 equalTo: "#pass"
+                            },
+                            userDefaultAvatar: {
+                                required: true,
+                                accept: "image/jpg,image/jpeg,image/png,image/gif"
                             }
                         },
                         errorClass: 'help-block',
@@ -271,6 +313,26 @@
                 var placeholder = "Select User Group";
                 commonSelect2(selector,url,id,text,minInputLength,placeholder);
                 //End of the CommonSelect2 function
+
+                //Show the Image when User uses the file input.
+                $('#file').change(function(e){
+                    var oFReader = new FileReader();
+                    oFReader.readAsDataURL(this.files[0]);
+                    var mimeType= this.files[0].type;
+                    if(mimeType!==''){
+                        var fileType = mimeType.split('/');
+                        if(fileType[0] == 'image' && (fileType[1] == 'jpg' || fileType[1] == 'png' || fileType[1] == 'gif' || fileType[1] == 'jpeg')){
+                            oFReader.onload = function (oFREvent) {
+                                //$('#preview').html('<img src="'+oFREvent.target.result+'">');
+                                $('#userDefaultAvatars').attr('src',oFREvent.target.result);
+                            };
+                        }
+                    }
+                });
+                $('#fileRemove').on('click', function(e){
+                    $('#userDefaultAvatars').attr('src','http://localhost/projects/HouseRentSystem/uploads/users/d/defaultAvatar.jpg');
+                });
+
             });
         </script>
 {{/block}}

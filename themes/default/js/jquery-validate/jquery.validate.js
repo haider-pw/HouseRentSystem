@@ -740,7 +740,11 @@ $.extend($.validator, {
 					if ( this.settings.errorPlacement ) {
 						this.settings.errorPlacement(label, $(element) );
 					} else {
-						label.insertAfter(element);
+                        if($(element).is('input[type="file"]')){
+                          label.insertAfter($(element).parent().parent());
+                        }else{
+                            label.insertAfter(element);
+                        }
 					}
 				}
 			}

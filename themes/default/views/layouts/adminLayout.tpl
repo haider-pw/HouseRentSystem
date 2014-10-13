@@ -40,6 +40,7 @@
 
     {{css('validationEngine/validationEngine.jquery.css')}}
 
+    {{css('admin/animate/animate.css')}}
     {{block name="header"}}
     {{/block}}
 
@@ -59,7 +60,7 @@
 <div id="wrap">
 <div id="top">
     <!-- .navbar -->
-    <nav class="navbar navbar-inverse navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top  bounce animated">
 
         <!-- Brand and toggle get grouped for better mobile display -->
         <header class="navbar-header">
@@ -80,15 +81,53 @@
                         <i class="fa fa-expand"></i>
                     </a>
                 </div>
+
                 <div class="btn-group">
-                    <a data-placement="bottom" data-original-title="E-mail" data-toggle="tooltip" class="btn btn-default btn-sm">
+
+                    <a data-placement="bottom" data-original-title="E-mail" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
                         <i class="fa fa-envelope"></i>
                         <span class="label label-warning">5</span>
                     </a>
-                    <a data-placement="bottom" data-original-title="Messages" href="#" data-toggle="tooltip" class="btn btn-default btn-sm">
+                    <ul role="menu" class="dropdown-menu" id="inboxmenu" >
+                        <li class="ToolsHeader"><strong>Messages</strong><span> <strong>(5)</strong></span>
+                        </li>
+
+                        <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i><strong> Message from User 1</strong></a>
+                            <ul>
+                                <li>Hi This is user 1 message.</li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i><strong> Message from User 2</strong></a>
+                            <ul>
+                                <li>Hi This is user 2 message.</li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i><strong> Message from User 3</strong></a>
+                            <ul>
+                                <li>Hi This is user 3 message.</li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i><strong> Message from User 4</strong></a>
+                            <ul>
+                                <li>Hi This is user 4 message.</li>
+                            </ul>
+                        </li>
+
+                        <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i><strong> Message from User 5</strong></a>
+                            <ul>
+                                <li>Hi This is user 5 message.</li>
+                            </ul>
+                        </li>
+
+                        <li class="ToolsFooter"><a href="#">Goto Inbox</a>
+                        </li>
+                    </ul>
+                    <a data-placement="bottom" data-original-title="Messages" href="#" data-toggle="tooltip" class="btn btn-default btn-sm"  >
                         <i class="fa fa-comments"></i>
                         <span class="label label-danger">4</span>
                     </a>
+
+
                 </div>
                 <div class="btn-group">
                     <a data-placement="bottom" data-original-title="Document" href="#" data-toggle="tooltip" class="btn btn-default btn-sm">
@@ -186,7 +225,7 @@
 {{js('admin/tablesorter/jquery.tablesorter.min.js')}}
 {{js('admin/sparkline/jquery.sparkline.min.js')}}
 {{js('validationEngine/jquery.validationEngine.js')}}
-{{js('jquery-validate/jquery.validate.min.js')}}
+{{js('jquery-validate/jquery.validate.js')}}
 {{js('noty/packaged/jquery.noty.packaged.min.js')}}
 {{*{{js('jquery-validate/src/localization/messages_ja.js')}}*}}
 

@@ -2,6 +2,8 @@
 {{block name="header"}}
     <title>{{$title}}</title>
     {{css('admin/avatar.css')}}
+    {{css('admin/jasny/jasny-bootstrap.min.css')}}
+
 {{/block}}
 {{block name="content"}}
 <div class="outer">
@@ -31,8 +33,13 @@
                                             <div class="row">
                                                 <div class="holder">
                                                     <div class="avatar">
-                                                        <a href="#">
-                                                            <img src="http://localhost/projects/HouseRentSystem/themes/default/img/admin/spikes_avatar.jpg" class="user"/>
+                                                        <a href="#updateAvatar" data-toggle="modal">
+                                                            {{if ($UserData[0]->Avatar !== 'defaultAvatar.jpg')}}
+                                                                <img src="{{url}}uploads/users/{{$UserData[0]->UserID}}/{{$UserData[0]->Avatar}}" class="user"/>
+                                                            {{else}}
+                                                                <img src="{{url}}uploads/users/d/{{$UserData[0]->Avatar}}" class="user"/>
+                                                            {{/if}}
+                                                            <div class="editAvatar"><div class="block"><span class="fa fa-camera fa-1x"></span><p>Edit Picture</p></div></div>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -150,6 +157,41 @@
 
     </div>
 </div>
+{{*Edit Picture Modal*}}
+<div id="updateAvatar" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i style='color: #666666' class='fa fa-camera fa-fw fa-1x'></i>Update Picture</h4>
+            </div>
+            <div class="modal-body">
+                <div class="body collapse in" id="div-1">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Picture</label>
+                            <div class="col-lg-10">
+                                <div class="fileinput fileinput-new input-group" data-provides="fileinput" id="fileInputSiteLogo">
+                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span>
+                                                                        <input type="file" id="file" name="userDefaultAvatar" accept="image/*" />
+                                                                    </span>
+                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" id="fileRemove">Remove</a>
+                                </div>
+                            </div>
+                        </div><!-- /.form-group -->
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="updatePictureBtn" data-dismiss="modal">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --><!-- /#Edit Button Modal -->
 {{/block}}
 {{block name="scripts"}}
 {{js('holder/holder.js')}}
@@ -157,6 +199,7 @@
 {{js('formwizard/jquery.form.wizard.js')}}
 {{js('admin/jasny/jasny-bootstrap.min.js')}}
 {{js('jquery-validate/additional-methods.min.js')}}
+{{js('jQuery.dotdotdot-master/jquery.dotdotdot.min.js')}}
 <script>
     $(document).ready(function(e){
         /*----------- BEGIN formwizard CODE -------------------------*/
@@ -285,6 +328,41 @@
         var placeholder = "Select User Group";
         commonSelect2(selector,url,id,text,minInputLength,placeholder);
         //End of the CommonSelect2 function
+        function trimLength(str, length) {
+            str = $.trim(str); // jQuery required
+            str = str.slice(0, length);
+            return str;
+        }
+        $('#updatePictureBtn').on('click', function(e){
+            e.preventDefault();
+            var formData =  new FormData();
+            formData.append('image', $('input[type=file]')[0].files[0]);
+            formData.append('u-id', '{{$UserData[0]->UserID}}');
+            $.ajax({
+                type:'POST',
+                url:'{{base_url()}}admin/usersManageUsers/updateUserProfilePicture/',
+                data:formData,
+                processData: false,
+                contentType: false,
+                success: function(output){
+                    var data = output.split("::");
+                    if (data[0] == "OK") {
+                        HRS.notification(data[1], data[2]);
+                        var file = $('input[type=file]')[0].files[0];
+                        if(file){
+                            var oFReader = new FileReader();
+                            oFReader.readAsDataURL(file);
+                            oFReader.onload = function (oFREvent) {
+                                $('div.avatar a img.user').attr('src',oFREvent.target.result);
+                            }
+                        }
+                    }
+                    else if(data[0]=="FAIL") {
+                        HRS.notification(data[1], data[2]);
+                    }
+                }
+            });
+        });
     });
 </script>
 {{/block}}

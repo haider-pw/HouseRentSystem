@@ -2681,3 +2681,26 @@ body.error .logo h1 {
     border-radius: 0;
 }
 /* END LOGIN PAGE STYLES */
+
+.btn-group.open .dropdown-menu{
+     -moz-animation: flipInY .3s ease-in ;
+     -webkit-animation: flipInY .3s ease-in ;
+     animation: flipInY .3s ease-in;
+ }
+
+.btn-group #inboxmenu{
+    left:-169px;
+}
+
+
+/*Limiting the Text in Input Text Box if the Text is too big*/
+span.fileinput-filename{
+    box-sizing: border-box;
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}

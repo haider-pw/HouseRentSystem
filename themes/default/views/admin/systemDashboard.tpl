@@ -180,6 +180,56 @@
     {{js('admin/flot/jquery.flot.resize.js')}}
     <script>
         $('document').ready(function(e){
+            function metisChart() {
+                "use strict";
+                function a(a) {
+                    return Math.sqrt(2) * Math.cos(a) / (Math.pow(Math.sin(a), 2) + 1)
+                }
+
+                function b(a) {
+                    return Math.sqrt(2) * Math.cos(a) * Math.sin(a) / (Math.pow(Math.sin(a), 2) + 1)
+                }
+
+                var c = [
+                    [0, 3],
+                    [1, 8],
+                    [2, 5],
+                    [3, 13],
+                    [4, 1]
+                ], d = [
+                    [0, 12],
+                    [2, 2],
+                    [3, 9],
+                    [4, 4]
+                ];
+                $.plot($("#trigo"), [
+                    {data: c, label: "MAN"},
+                    {data: d, label: "WOMAN"}
+                ], {clickable: !0, hoverable: !0, series: {lines: {show: !0, fill: !0, fillColor: {colors: [
+                    {opacity: .5},
+                    {opacity: .15}
+                ]}}, points: {show: !0}}}), $.plot($("#trigo2"), [
+                    {data: c, label: "BAR"}
+                ], {clickable: !0, hoverable: !0, series: {bars: {show: !0, barWidth: .6}, points: {show: !0}}});
+                for (var e = [], f = [], g = -5; 5 >= g; g += .5)e.push([g, Math.pow(g, 2) - 25]), f.push([g, -Math.pow(g, 2) + 25]);
+                for (var h = [], i = -2; 2.1 >= i; i += .1)h.push([i, Math.sqrt(400 - i * i * 100)]), h.push([i, -Math.sqrt(400 - i * i * 100)]);
+                $.plot($("#eye"), [
+                    {data: f, lines: {show: !0, fill: !0}},
+                    {data: e, lines: {show: !0, fill: !0}},
+                    {data: h, lines: {show: !0}}
+                ]);
+                var j = [];
+                for (g = -2; 5 >= g; g += .01)j.push([16 * Math.pow(Math.sin(g), 3), 13 * Math.cos(g) - 5 * Math.cos(2 * g) - 2 * Math.cos(3 * g) - Math.cos(4 * g)]);
+                $.plot($("#heart"), [
+                    {data: j, label: '<i class="fa fa-heart"></i>', color: "#9A004D"}
+                ], {series: {lines: {show: !0, fill: !0}, points: {show: !1}}, yaxis: {show: !0}, xaxis: {show: !0}}), $("#heart .legendLabel").addClass("animated pulse"), setInterval(function () {
+                    $("#heart .legendLabel .fa.fa-heart").toggleClass("fa-2x")
+                }, 400);
+                for (var k = [], l = 0; l <= 2 * Math.PI; l += .01)k.push([a(l), b(l)]);
+                $.plot($("#bernoilli"), [
+                    {data: k, label: "Lemniscate of Bernoulli", lines: {show: !0, fill: !0}}
+                ])
+            }
             function dashboard() {
                 "use strict";
                 function a(a, b, c) {
