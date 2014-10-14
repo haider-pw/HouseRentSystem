@@ -11,9 +11,9 @@ class main extends Frontend_Controller{
         $this->smarty->assign('Fetch', $myArray);
 
         $this->smarty->assign("lang", "english");
-        $data['template'] = "home.tpl";
-        $data['templateName'] = "Home template";
-        $this->parser->parse( 'main.tpl', $data);
+        $this->data['template'] = "home.tpl";
+        $this->data['templateName'] = "Home template";
+        $this->parser->parse( 'main.tpl', $this->data);
         //echo "hello world";
  /*       $data['title'] = "test";
         $data['body'] = "babaji ka body";

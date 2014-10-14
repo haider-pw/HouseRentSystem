@@ -33,7 +33,8 @@
         }
 
         function adminPanelRequest(){
-            window.location.href = "{{url}}admin/dashboard/System";
+            var pathToRedirect = "{{userLoggedInRedirectPath($UserGroupID)}}";
+            window.location.href = "{{url}}" + pathToRedirect;
         }
     </script>
 {{else}}

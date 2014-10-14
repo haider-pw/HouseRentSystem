@@ -21,9 +21,7 @@ class   Admin_Controller extends My_Controller{
          */
         $this->login_check->is_logged_in(); // verify the login information, if not send him to login form
         $this->load->model('Tab_Model');
-        $UserID = $this->session->userdata('UserID');
-        $arr = CheckUserRole($UserID);
-        $this->data['UserGroupID'] = CheckUserGroup($UserID);
+        $arr = CheckUserRole($this->data['UserID']);
         $this->data['allowed_menus'] = $this->Tab_Model->check_allow($this->data['UserGroupID']);
         /*        var_dump($data['allowed_menus']);
                 exit;*/

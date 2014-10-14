@@ -110,4 +110,42 @@ if (!function_exists('is_admin')){
         }
     }
 }
+
+if (!function_exists('userLoggedInRedirectPath')){
+    function userLoggedInRedirectPath($UserGroupID){
+        $ci =& get_instance();
+        $groupID = mysql_real_escape_string($UserGroupID);
+        $PTable = 'sys_tabs';
+        $joins = array(
+            array(
+                'table' => 'sys_menus',
+                'condition' => 'sys_menus.TabID = sys_tabs.TabID',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'sys_forms',
+                'condition' => 'sys_forms.MenuID = sys_menus.MenuID',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'sys_forms_in_groups',
+                'condition' => 'sys_forms_in_groups.FormID = sys_forms.FormID',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'users_groups',
+                'condition' => 'users_groups.GroupID = sys_forms_in_groups.GroupID',
+                'jointype' => 'INNER'
+            )
+        );
+        $data=('sys_tabs.TabName');
+        $where = array(
+            'users_groups.GroupID' => $groupID
+        );
+        $groupBy = 'sys_tabs.TabID';
+        $result = $ci->Common_Model->select_fields_joined($data, $PTable, $joins,$where,$groupBy);
+        $TabName = $result[0]->TabName;
+        return 'admin/dashboard/'.$TabName;
+    }
+}
 ?>

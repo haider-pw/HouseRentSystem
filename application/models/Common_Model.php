@@ -164,7 +164,7 @@ class Common_Model extends MY_Model{
         return $query->result();
     }
 
-    function select_fields_joined($data, $PTable, $joins,$where='')
+    function select_fields_joined($data, $PTable, $joins,$where='',$groupBy = '')
     {
         $this->db->select($data);
 
@@ -175,6 +175,10 @@ class Common_Model extends MY_Model{
         if($where!='')
         {
             $this->db->where($where);
+        }
+        if($groupBy!='')
+        {
+            $this->db->group_by($groupBy);
         }
 
         $query = $this->db->get();

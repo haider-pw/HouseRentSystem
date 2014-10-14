@@ -165,35 +165,60 @@ class usersManageUsers extends Admin_Controller
             }
         }
     }
+  //Function for Updating User Details.
     function UpdateUser_Action($userID){
-        //Function for Updating User Details.
-        if($this->input->post()){
-            $username = $this->input->post('username');
-            $fullName = $this->input->post('fullName');
-            $email = $this->input->post('userEmail');
-            $mobile = $this->input->post('mobileNo');
-            $cnic = $this->input->post('cnic');
-            $currentPass = $this->input->post('currentPass');
-            $pass = $this->input->post('pass');
-            $confirmPass = $this->input->post('pass2');
-            $theme = $this->input->post('theme');
-            $userGroup = $this->input->post('selectGroup');
-            if(strpos($userGroup,',') == TRUE){
-                $exp = explode(",",$userGroup);
-                $userGroupID = $exp[0];
-            }else{
-                $userGroupID = $userGroup;
-            }
-            $table = 'users_users';
-            //Field is the column name of the table on the base of which query should update the row.
-            $field='UserID';
-            if($currentPass!=''){
-                if($pass===$confirmPass){
+        //check if Request is posted Through Ajax
+        if($this->input->is_ajax_request()){
+        //check if Values are Posted
+            if($this->input->post()){
+                $username = $this->input->post('username');
+                $fullName = $this->input->post('fullName');
+                $email = $this->input->post('userEmail');
+                $mobile = $this->input->post('mobileNo');
+                $cnic = $this->input->post('cnic');
+                $currentPass = $this->input->post('currentPass');
+                $pass = $this->input->post('pass');
+                $confirmPass = $this->input->post('pass2');
+                $theme = $this->input->post('theme');
+                $userGroup = $this->input->post('selectGroup');
+                if(strpos($userGroup,',') == TRUE){
+                    $exp = explode(",",$userGroup);
+                    $userGroupID = $exp[0];
+                }else{
+                    $userGroupID = $userGroup;
+                }
+                $table = 'users_users';
+                //Field is the column name of the table on the base of which query should update the row.
+                $field='UserID';
+                if($currentPass!=''){
+                    if($pass===$confirmPass){
+                        $data = array(
+                            'Username' => $username,
+                            'FullName' => $fullName,
+                            'Email'  => $email,
+                            'Password' => $pass,
+                            'Mobile' => $mobile,
+                            'CNIC'   => $cnic,
+                            'theme'  => $theme,
+                            'GroupID' => $userGroupID
+                        );
+                        $result = $this->Common_Model->update_query($table,$field,$userID,$data);
+                        if($result=true){
+                            echo "OK::Record Successfully Updated::success";
+                        }
+                        else{
+                            echo "FAIL::Some Database Error, Record Could Not be Updated::success";
+                        }
+                    }
+                    else{
+                        echo "password do not match with confirm password";
+                    }
+                }
+                elseif($currentPass==''){
                     $data = array(
                         'Username' => $username,
                         'FullName' => $fullName,
                         'Email'  => $email,
-                        'Password' => $pass,
                         'Mobile' => $mobile,
                         'CNIC'   => $cnic,
                         'theme'  => $theme,
@@ -207,29 +232,9 @@ class usersManageUsers extends Admin_Controller
                         echo "FAIL::Some Database Error, Record Could Not be Updated::success";
                     }
                 }
-                else{
-                    echo "password do not match with confirm password";
-                }
-            }
-            elseif($currentPass==''){
-                $data = array(
-                  'Username' => $username,
-                  'FullName' => $fullName,
-                    'Email'  => $email,
-                    'Mobile' => $mobile,
-                    'CNIC'   => $cnic,
-                    'theme'  => $theme,
-                    'GroupID' => $userGroupID
-                );
-                $result = $this->Common_Model->update_query($table,$field,$userID,$data);
-                if($result=true){
-                    echo "OK::Record Successfully Updated::success";
-                }
-                else{
-                    echo "FAIL::Some Database Error, Record Could Not be Updated::success";
-                }
             }
         }
+
     }
 
     function CreateUser_firstStepValidation()
