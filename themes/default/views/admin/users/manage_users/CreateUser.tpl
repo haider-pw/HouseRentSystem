@@ -332,7 +332,6 @@
                 $('#fileRemove').on('click', function(e){
                     $('#userDefaultAvatars').attr('src','http://localhost/projects/HouseRentSystem/uploads/users/d/defaultAvatar.jpg');
                 });
-
             });
         </script>
 {{/block}}

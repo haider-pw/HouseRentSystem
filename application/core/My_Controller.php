@@ -26,6 +26,7 @@ class My_Controller extends CI_Controller{
         $this->data['themeName'] = 'default';
         $this->data['UserID'] = $this->session->userdata('UserID');
         $this->data['UserGroupID'] = CheckUserGroup($this->data['UserID']);
+        $this->data['UserProfileImage'] = GetUserProfileImage($this->data['UserID']);
 }
     function hashPassword($password) {
         return md5($password);

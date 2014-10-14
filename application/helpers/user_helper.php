@@ -148,4 +148,27 @@ if (!function_exists('userLoggedInRedirectPath')){
         return 'admin/dashboard/'.$TabName;
     }
 }
+
+if (!function_exists('GetUserProfileImage')){
+    function GetUserProfileImage($UserID){
+        $ci =& get_instance();
+        $CurrentUserID = mysql_real_escape_string($UserID);
+        $table = 'users_users';
+        $data=('Avatar');
+        $where = array(
+            'UserID' => $CurrentUserID
+        );
+
+        $result = $ci->Common_Model->select_fields_where($table, $data,$where,TRUE);
+
+        $userAvatar = $result->Avatar;
+        //return $userAvatar;
+        if($userAvatar!=='defaultAvatar.jpg'){
+            return base_url().'uploads/users/'.$CurrentUserID.'/'.$userAvatar;
+        }
+        elseif($userAvatar === 'defaultAvatar.jpg'){
+            return base_url().'uploads/users/d/defaultAvatar.jpg';
+        }
+    }
+}
 ?>
