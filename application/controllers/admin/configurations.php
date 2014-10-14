@@ -164,10 +164,10 @@ class Configurations extends Admin_Controller{
             $TabID = mysql_real_escape_string($this->input->post('TabID'));
             $MenuOrder = mysql_real_escape_string($this->input->post('MenuOrder'));
             $ParentMenuID = mysql_real_escape_string($this->input->post('ParentMenuID'));
-            if(empty($ParentMenuID) || $ParentMenuID = ''){
+            if(empty($ParentMenuID) || $ParentMenuID == ''){
                 $ParentMenuID = "0";
             }
-            if(empty($IsMenuLink) || $IsMenuLink = ''){
+            if(empty($IsMenuLink) || $IsMenuLink == ''){
                 $IsMenuLink = "1";
             }
             $data_sysMenus = array(
@@ -186,7 +186,7 @@ class Configurations extends Admin_Controller{
                 'GroupID' => '1',
                 'IsMenuLink' => $IsMenuLink
             );
-            $result = $this->Configuration->addNewForm($data_sysMenus,$data_sysForms,$data_sysFormsInGroups);
+            $result = $this->configuration->addNewForm($data_sysMenus,$data_sysForms,$data_sysFormsInGroups);
 
             if($result==true){
                 echo "OK::New Form Successfully Added::success";
