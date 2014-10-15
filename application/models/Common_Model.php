@@ -340,6 +340,9 @@ class Common_Model extends MY_Model{
                 $this->datatables->join($v['table'], $v['condition'], $v['type']);
             }
         }
+        if ($where != '') {
+            $this->datatables->where($where);
+        }
 
         if ($addColumn != '') {
             $this->datatables->add_column("Actions", $addColumn);

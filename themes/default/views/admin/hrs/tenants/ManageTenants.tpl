@@ -53,12 +53,32 @@
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
                         <form class="form-horizontal">
-
+                            {{*DataTables Grid Start Here*}}
+                            <div class="row ui-sortable">
+                                <div class="col-lg-12">
+                                    <div class="body" id="collapse4">
+                                        <table id="ShowUsersWithNoTenantsRecord"
+                                               class="table table-bordered table-condensed table-hover table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>User ID</th>
+                                                <th data-class="expand">Full Name</th>
+                                                <th data-hide="phone">Username</th>
+                                                <th data-hide="phone,tablet">CNIC</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {{*End of DataTables Grid Coding*}}
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="CreateTenant" data-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-default" id="CreateTenant" disabled data-dismiss="modal">Create</button>
                     <button type="button" class="btn btn-default" id="bacToCreateTenantType" data-dismiss="modal">Back</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -239,6 +259,56 @@
         $('#bacToCreateTenantType').on('click',function(e){
             $('#addNewTenantModal').modal('show');
         });
+
+        //Coding For 1st Option(Creating Tenant From Existing User) Modal.
+        //Data Tables Script To Select User for Creating New Tenant Here.
+        var selector = $('#ShowUsersWithNoTenantsRecord');
+        var url = "{{base_url()}}admin/hrsTenants/listUsersNoTenants_DT/";
+        var aoColumns =  [
+            /* User ID */   {
+                "bVisible":    false,
+                "bSortable":   false,
+                "bSearchable": false
+            },
+            /* Full Name */  null,
+            /* Username */  null,
+            /* CNIC */  null,
+            /* Actions */  null
+        ];
+        commonDataTables(selector,url,aoColumns);
+        //End Of dataTables Script..
+        selector.on('click','tr',function (event) {
+            $(oTable.fnSettings().aoData).each(function () {
+                $(this.nTr).removeClass('row_selected');
+            });
+            $(event.target.parentNode).addClass('row_selected');
+            $('#CreateTenant').removeAttr('disabled');
+            var userID = $(this).attr('data-id');
+            $('#CreateTenant').attr('data-user',userID);
+
+        });
+        $('#CreateTenant').on('click',function(e){
+            var userID = $(this).attr('data-user');
+            var data = {
+                UID: userID
+            };
+            $.ajax({
+                type: "post",
+                url: "{{base_url()}}admin/hrsTenants/createTenantFromExistingUser/",
+                data: data,
+                success: function (output) {
+                    var data = output.split('::');
+                    if (data[0] == "OK") {
+                        oTable.fnReloadAjax();
+                        HRS.notification(data[1], data[2]);
+                    }
+                    else if (data[0] == "FAIL") {
+                        HRS.notification(data[1], data[2]);
+                    }
+                }
+            });
+        });
+
     });
     </script>
 {{/block}}

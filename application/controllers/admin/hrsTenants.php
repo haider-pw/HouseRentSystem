@@ -43,4 +43,51 @@ class hrsTenants extends Admin_Controller{
             redirect($this->data['errorPage_403']);
         }
     }
+    function listUsersNoTenants_DT(){
+        if($this->input->is_ajax_request()){
+            $PTable = 'users_users U';
+            $data = ('U.UserID,U.FullName,U.Username,U.CNIC');
+            $joins = array(
+                array(
+                    'table' => 'hrs_tenants T',
+                    'condition' => 'U.UserID = T.UserID',
+                    'type' => 'LEFT OUTER'
+                )
+            );
+            $where = ('T.`TenantID` IS NULL');
+            $addColumn = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
+            $result = $this->Common_Model->select_fields_joined_DT($data, $PTable, $joins, $where, $addColumn);
+            echo $result;
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
+    function createTenantFromExistingUser(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $uID = mysql_real_escape_string($this->input->post('UID'));
+                $currentDateTime = date("Y-m-d H:i:s");
+                if(isset($uID) && ($uID!=='1')){
+                    $table = 'hrs_tenants';
+                    $data = array(
+                        'UserID' => $uID,
+                        'IsActive' => '1',
+                        'DateRegistered' => $currentDateTime,
+                        'RegisteredBy' => $this->data['UserID']
+                    );
+                    $this->Common_Model->insert_record($table,$data);
+                }
+                else {
+                    echo 'FAIL::Super Administrator Can Not Be Tenant himself::error';
+                }
+            }
+            else{
+
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 }
