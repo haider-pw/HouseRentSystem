@@ -42,51 +42,24 @@
     </div>
 
 
-{{*Edit Button Modal*}}
-    <div id="editBtnModal" class="modal fade">
+{{*Create New Tenant From Existing User*}}
+    <div id="NewTenantExistingUserModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit</h4>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Create New Tenant From Existing User</h4>
                 </div>
                 <div class="modal-body">
-
                     <div class="body collapse in" id="div-1">
                         <form class="form-horizontal">
-                            <input type="hidden" id="formID">
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="text1">Form Name</label>
-                                <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="Form Name" id="formName">
-                                </div>
-                            </div><!-- /.form-group -->
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="pass1">Form Path</label>
-                                <div class="col-lg-8">
-                                    <input type="text" data-placement="top" placeholder="Form Path" id="formPath" class="form-control">
-                                </div>
-                            </div><!-- /.form-group -->
-                            <div class="form-group">
-                                <label class="control-label col-lg-4">Form CI Path</label>
-                                <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="formCIPath" placeholder="Form CI Path">
-                                </div>
-                            </div><!-- /.form-group -->
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-4">Show on Menu</label>
-                                <div class="col-lg-8" id="isMenuLinkDiv">
-                                    <input class="make-switch" id="isMenuLink" type="checkbox" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
-                                </div>
-                            </div><!-- /.row --><!-- /.row -->
 
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="updateFormBtn" data-dismiss="modal">Update</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="CreateTenant" data-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-default" id="bacToCreateTenantType" data-dismiss="modal">Back</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -102,11 +75,25 @@
                 </div>
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
-                    Create New Tenant from Existing User or Create New User for New Tenant
+                        <p><i>Please Select The Option Below For Creating a New Tenant Record.</i></p>
+                        <form class="form-horizontal">
+                            <div class="radio">
+                                <label>
+                                    <input class="make-switch" id="NewTenantExistingUser" value="NewTenantExistingUser" type="radio" name="createTenantType" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                    Create New Tenant From Existing User
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input class="make-switch" id="NewTenantNewUser" value="NewTenantNewUser" type="radio" name="createTenantType" data-on-color="success" data-on-text="Yes" data-off-text="NO" data-off-color="danger">
+                                    Create New User For New Tenant
+                                </label>
+                            </div>
+                            </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="getCreateTenantType">Next</button>
+                    <button type="button" class="btn btn-primary" id="getCreateTenantType">Next</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -226,6 +213,31 @@
                 }
             });
             //console.log(FormName);
+        });
+
+        //BootStrap Switch for Selection of Type of Creating New Tenant.
+        $('#addNewTenantModal').on('click','#getCreateTenantType',function(e){
+            var NewTenantExistingUser = $('#NewTenantExistingUser');
+            var NewTenantNewUser = $('#NewTenantNewUser');
+
+            var NewTenantNewUserState = NewTenantNewUser.bootstrapSwitch('state');
+            var NewTenantExistingUserState = NewTenantExistingUser.bootstrapSwitch('state');
+/*            console.log('NewTenantExistingUser state is :' + NewTenantExistingUserState);
+            console.log('NewTenantNewUser state is :' + NewTenantNewUserState);*/
+            if(NewTenantExistingUserState === NewTenantNewUserState){
+                HRS.notification('You Must Choose One From Radio Switches', 'warning');
+            }
+            else if(!(NewTenantExistingUserState === NewTenantNewUserState) && NewTenantExistingUserState === true){
+                $('#addNewTenantModal').modal('hide');
+                $('#NewTenantExistingUserModal').modal('show');
+
+            }
+            else if(!(NewTenantExistingUserState === NewTenantNewUserState) && NewTenantNewUserState === true){
+                window.location = "{{url}}admin/hrsTenants/CreateNewTenant";
+            }
+        });
+        $('#bacToCreateTenantType').on('click',function(e){
+            $('#addNewTenantModal').modal('show');
         });
     });
     </script>
