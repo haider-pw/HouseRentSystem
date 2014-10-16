@@ -187,13 +187,17 @@
             e.preventDefault();
             var TenantID = $(this).closest('tr').attr('data-id');
             //console.log(FormID);
-
+            var data = {
+               TID  : TenantID
+            };
             $.ajax({
                 type:"post",
-                url:"",
+                url:"{{base_url()}}admin/hrsTenants/deleteTenant/",
+                data:data,
                 success: function(output){
                     var data = output.split("::");
                     if (data[0] == "OK"){
+                        $('#ManageTenants').dataTable().fnReloadAjax();
                         oTable.fnReloadAjax();
                         HRS.notification(data[1],data[2]);
                     }
@@ -300,6 +304,7 @@
                     var data = output.split('::');
                     if (data[0] == "OK") {
                         oTable.fnReloadAjax();
+                        $('#ManageTenants').dataTable().fnReloadAjax();
                         HRS.notification(data[1], data[2]);
                     }
                     else if (data[0] == "FAIL") {

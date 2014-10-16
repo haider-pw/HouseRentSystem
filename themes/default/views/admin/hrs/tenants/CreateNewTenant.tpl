@@ -15,7 +15,7 @@
                     <div class="icons">
                         <i class="fa fa-table"></i>
                     </div>
-                    <h5>Create New User</h5>
+                    <h5>Create New Tenant</h5>
                 </header>
                 <div class="body" id="collapse4">
                     {{*User Profile*}}
@@ -216,7 +216,7 @@
                     formData.append('image', $('input[type=file]')[0].files[0]);
                     $.ajax({
                         type:'POST',
-                        url:'{{base_url()}}admin/usersManageUsers/CreateUser_Action/',
+                        url:'{{base_url()}}admin/hrsTenants/CreateTenant_Action/',
                         data:formData,
                         processData: false,
                         contentType: false,
