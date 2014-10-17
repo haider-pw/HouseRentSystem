@@ -17,8 +17,14 @@ class hrsTenants extends Admin_Controller{
         $this->parser->parse('admin/hrs/tenants/CreateNewTenant', $this->data);
     }
     function ManageTenants(){
+        $UserID = $this->data['UserID'];
+        if(is_admin($UserID)== TRUE || is_allowed($UserID) == TRUE){
         $this->data['title'] = "Manage Tenants";
         $this->parser->parse('admin/hrs/tenants/ManageTenants', $this->data);
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
     }
 
 /*//////////////////////////////////////////////////////////////////////
@@ -139,6 +145,9 @@ function createTenant_Action(){
             }
         }
     }
+    else{
+        redirect($this->data['errorPage_403']);
+    }
 }
 
     function listTenants_DT(){
@@ -231,6 +240,9 @@ function createTenant_Action(){
                     }
                 }
             }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
         }
     }
 }

@@ -20,13 +20,13 @@ class Configurations extends Admin_Controller{
      */
     //Function:ManageForms will load the view of Manage Forms.
     function ManageForms(){
-        $UserID = $this->session->userdata('UserID');
+        $UserID = $this->data['UserID'];
         if(is_admin($UserID)== TRUE || is_allowed($UserID) == TRUE){
             $this->data['title']="Manage Forms";
             $this->parser->parse('admin/systemConfigurationManageForms',$this->data);
         }
         else{
-            redirect('errorPages/error_403');
+            redirect($this->data['errorPage_403']);
         }
     }
 
