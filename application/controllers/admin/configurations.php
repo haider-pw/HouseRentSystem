@@ -91,6 +91,12 @@ class Configurations extends Admin_Controller{
             $FormCIPath = mysql_real_escape_string($this->input->post('FormCIPath'));
             $IsMenuLink = mysql_real_escape_string($this->input->post('IsMenuLink'));
             $tbl="sys_forms";
+            if($IsMenuLink === 'true'){
+                $IsMenuLink = '1';
+            }
+            elseif($IsMenuLink === 'false'){
+                $IsMenuLink = '0';
+            }
             $data=array(
                 'FormName' => $FormName,
                 'FormPath' => $FormPath,

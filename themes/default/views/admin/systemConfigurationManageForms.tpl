@@ -229,12 +229,10 @@
                                 $("#formPath").val(value.FormPath);
                                 $("#formCIPath").val(value.FormCIPath);
                                 if(value.IsMenuLink !=='0'){
-                                    $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-off');
-                                    $("#isMenuLink").parent().parent().addClass('bootstrap-switch-on');
+                                    $('#isMenuLink').bootstrapSwitch('state', true);
                                 }
                                 else{
-                                    $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-on');
-                                    $("#isMenuLink").parent().parent().addClass('bootstrap-switch-off');
+                                    $('#isMenuLink').bootstrapSwitch('state', false);
                                 }
                             });
                         }
@@ -269,12 +267,13 @@
             //Edit Button
             $('#updateFormBtn').on('click', function(e){
                 e.preventDefault();
+                var isMenuLink = $('#isMenuLink').bootstrapSwitch('state');
                 var formData = {
                 FormID :     $("#formID").val(),
                 FormName :   $("#formName").val(),
                 FormPath :   $("#formPath").val(),
                 FormCIPath : $("#formCIPath").val(),
-                IsMenuLink: isMenuLink_EditForm
+                IsMenuLink: isMenuLink
 
             };
                 $.ajax({
