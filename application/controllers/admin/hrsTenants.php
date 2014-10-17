@@ -112,7 +112,9 @@ function createTenant_Action(){
                             $uploadPath = './uploads/users/'.$newUserID.'/';
                             $uploadDirectory = './uploads/users/'.$newUserID;
                             $FileName = "HRS_User_".$newUserID."_".time().".".$ext;
+                            if(!is_dir($uploadDirectory)){
                             mkdir($uploadDirectory, 0755);
+                            }
                             move_uploaded_file($_FILES['image']['tmp_name'],$uploadPath.$FileName);
                             $updateFilData['Avatar'] = $FileName;
                             $where = array(

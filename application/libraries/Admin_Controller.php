@@ -8,6 +8,7 @@
  */
 /**
  * @Admin_Controller class This class is used for the Admin Section.
+ * @property login_check $login_check This Model will check if the user is logged in or not.
  */
 class   Admin_Controller extends My_Controller{
     function __construct(){

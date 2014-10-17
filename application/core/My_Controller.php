@@ -24,9 +24,11 @@ class My_Controller extends CI_Controller{
         $this->load->model('users_management/login_check');
         $this->parser->set_theme('default');
         $this->data['themeName'] = 'default';
+        if(loginCheckBool() === TRUE){
         $this->data['UserID'] = $this->session->userdata('UserID');
         $this->data['UserGroupID'] = CheckUserGroup($this->data['UserID']);
         $this->data['UserProfileImage'] = GetUserProfileImage($this->data['UserID']);
+        }
 }
     function hashPassword($password) {
         return md5($password);

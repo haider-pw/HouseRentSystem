@@ -171,4 +171,23 @@ if (!function_exists('GetUserProfileImage')){
         }
     }
 }
+if (!function_exists('loginCheckBool')){
+    function loginCheckBool(){
+        $ci =& get_instance();
+        $user_id = $ci->session->userdata('UserID');
+        if (strlen($user_id) <= 0) {
+            // No Login Information Found in the session Object
+            // So now we will check if we have in cookies
+            if (get_cookie('Username')==true&& get_cookie('Password')==true) {
+                $ci->authenticate("USE_COOKIES");
+                return TRUE; //Return True If Cookies Are Found.
+            }else {
+                return FALSE; // Return False if both cookies and session don't exist or expired.
+            }
+        }
+        else{
+            return TRUE; // Return True if Session Found for the User.
+        }
+    }
+}
 ?>
