@@ -135,6 +135,62 @@ function commonSelect2(selector,url,id,text,minInputLength,placeholder){
         }
     });
 }
+//For ServerSide with Templating
+function commonSelect2Templating(selector,url,tDataValues,minInputLength,placeholder,baseURL,templateLayout){
+    if(typeof templateLayout !== "undefined"){
+        eval(templateLayout);
+    }
+    else{
+        function format(state){
+            return state.text;
+        }
+    }
+        //console.log(templateLayout);
+
+    selector.select2({
+        minimumInputLength:minInputLength,
+        placeholder:placeholder,
+        formatResult: format,
+        formatSelection: format,
+        escapeMarkup: function(m) { return m; },
+        ajax: {
+            type:"post",
+            url: url,
+            dataType: 'json',
+            quietMillis: 100,
+            data: function(term, page) {
+                return {
+                    term: term, //search term
+                    page_limit: 10 // page size
+                };
+            },
+            results: function(data, page) {
+                if(typeof(data)!== 'string'){
+                    var newData = [];
+                    $.each(data, function (index,value) {
+                        var obj = {};
+                        for(var key in tDataValues) {
+                            obj[key] = value[tDataValues[key]];
+                        }
+                        newData.push(obj);
+                    });
+                    return { results: newData };
+                }else{
+                    var newData = [];
+                    var nData = data.split('::');
+                    HRS.notification(nData[1],nData[2]);
+                    return { results: newData };
+                }
+            }
+        },
+        initSelection : function (element, callback) {
+            var data = element.val().split(',');
+            var completeData = {id: data[0], text: data[1]};
+            //console.log(completeData);
+            callback(completeData);
+        }
+    });
+}
 //For General Purpose without serverSide Processing
     $(".commonGeneralSelect2").select2({
         placeholder: "Select a State",
