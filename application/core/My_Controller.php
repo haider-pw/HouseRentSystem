@@ -8,6 +8,7 @@
  */
 /**
  * @property Common_Model $Common_Model It resides all the methods which can be used in most of the controllers.
+ * @property datatables $datatables It resides all the methods which can be used in most of the controllers.
  */
 class My_Controller extends CI_Controller{
 

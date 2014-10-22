@@ -196,9 +196,6 @@
                     formOptions: {
                         beforeSubmit: function(data) {
 
-                           //var formData =  $('#wizardForm').serialize();
-
-
                             var file = $("#file")[0].files[0];
 
                                 //data.append(file);
