@@ -742,7 +742,10 @@ $.extend($.validator, {
 					} else {
                         if($(element).is('input[type="file"]')){
                           label.insertAfter($(element).parent().parent());
-                        }else{
+                        }else if($(element).is('input[type="radio"]')){
+                            $(element).parents('.radio').parent().append(label);
+                        }
+                        else{
                             label.insertAfter(element);
                         }
 					}
