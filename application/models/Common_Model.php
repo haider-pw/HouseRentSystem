@@ -65,14 +65,16 @@ class Common_Model extends MY_Model{
     {
         $this->db->select($data);
         $query = $this->db->get($tbl);
+        if($query->num_rows() > 0){
         if($single==TRUE){
             return $query->row();
         }
         else{
             return $query->result();
         }
-        //return $this->db->last_query();
-
+        }else{
+         return FALSE;
+        }
     }
 
 
