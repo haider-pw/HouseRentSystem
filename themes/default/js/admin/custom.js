@@ -58,7 +58,6 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
             eval(RowCallBack);
             }
             responsiveHelper.createExpandIcon(nRow);
-
             return nRow;
         },
         fnPreDrawCallback: function () {
