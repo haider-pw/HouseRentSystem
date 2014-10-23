@@ -13,8 +13,15 @@ class PropertiesModel extends Common_Model
         parent::__construct();
     }
     function assignTenantToProperty($PTable,$data){
+        $this->db->select('TRID')->from('hrs_tenant_residential')->where('ResID',$data['ResID']);
+        $query = $this->db->get();
+        $records = $query->num_rows();
+        if(isset($records) && $records>0){
+            $msg = 'FAIL::Record Already Exist In Database for this Property::error';
+            return $msg;
+        }
         $this->db->trans_start();
-        //Inserting Record First in the hrs_tenant_residential
+       //Inserting Record First in the hrs_tenant_residential
         $this->db->insert($PTable, $data);
         //Now Will Update the Residential Info..
         $this->db->where('ResID', $data['ResID']);

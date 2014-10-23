@@ -292,6 +292,14 @@ class Properties extends Admin_Controller
                                 echo "OK::Tenant Successfully Assigned To Property::success";
                                 return;
                             }
+                            elseif($result === FALSE){
+                                echo "FAIL::Some Database Error Occurred, No Record Created::error";
+                                return;
+                            }
+                            else{
+                                echo $result;
+                                return;
+                            }
                         }
                     }
                 }
