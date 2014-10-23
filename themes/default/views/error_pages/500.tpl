@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>500</title>
-    <meta name="msapplication-TileColor" content="#5bc0de" />
-    <meta name="msapplication-TileImage" content="assets/img/metis-tile.png" />
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.min.css">
-
-    <!-- Metis core stylesheet -->
-    <link rel="stylesheet" href="assets/css/main.min.css">
-  </head>
-  <body class="error">
+{{extends file='errorLayout.tpl'}}
+{{block name="content"}}
     <div class="container">
       <div class="col-lg-8 col-lg-offset-2 text-center">
         <div class="logo">
@@ -43,5 +27,4 @@
         </div>
       </div><!-- /.col-lg-8 col-offset-2 -->
     </div>
-  </body>
-</html>
+{{/block}}

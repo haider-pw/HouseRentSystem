@@ -35,6 +35,9 @@ class Properties extends Admin_Controller
     function AssignTenantProperty($residentialID){
         $UserID = $this->data['UserID'];
         if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
+            if(!isset($residentialID) && !($residentialID>0)){
+                redirect($this->data['errorPage_500']);
+            }
         $this->data['title'] = "Assign Property To Tenant";
         $this->data['propertyID'] = $residentialID;
         $this->parser->parse('admin/hrs/properties/AssignTenant', $this->data);
@@ -169,11 +172,11 @@ class Properties extends Admin_Controller
             $result = json_decode($result,true);
             foreach($result['aaData'] as $key => $row){
                 if($row[2] === '1'){
-                    $column = "<a href='#editBtnModal' data-toggle='modal' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key],$column);
                 }
                 elseif($row[2] === '2'){
-                    $column = "<a href='#editBtnModal' data-toggle='modal' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key],$column);
                 }
             }
@@ -300,6 +303,22 @@ class Properties extends Admin_Controller
         }
         else{
             redirect($this->data['errorPage_403']);
+        }
+    }
+
+    function removeTenantFromProperty()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                $resID = mysql_real_escape_string($this->input->post('resID'));
+                $result = $this->PropertiesModel->removeTenantFromProperty($resID);
+                if ($result === TRUE) {
+                    echo "OK::Success, Record Successfully Deleted::success";
+                    return;
+                } elseif ($result === FALSE) {
+                    echo "FAIL::Some Database Error, Record Could Not Be Deleted::error";
+                }
+            }
         }
     }
 }

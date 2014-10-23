@@ -16,7 +16,7 @@ class PropertiesModel extends Common_Model
         $this->db->trans_start();
         //Inserting Record First in the hrs_tenant_residential
         $this->db->insert($PTable, $data);
-        //Now Will Update the Residential Info As it is not longer Available
+        //Now Will Update the Residential Info..
         $this->db->where('ResID', $data['ResID']);
         $resData = array(
             'TenantID' => $data['TenantID'],
@@ -31,5 +31,29 @@ class PropertiesModel extends Common_Model
         else{
             return TRUE;
         }
+    }
+    function removeTenantFromProperty($resID){
+        $this->db->trans_start();
+        //First UnAssign Tenant From the Selected Property
+        $condition = array(
+            'ResID' => $resID
+        );
+        $this->db->delete('hrs_tenant_residential', $condition);
+        //Now We Will Update Residential Info
+        $this->db->where('ResID', $resID);
+        $resData = array(
+            'TenantID' => '0',
+            'VacID'   => '2'
+        );
+        $this->db->update('hrs_residentials', $resData);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE)
+        {
+            return FALSE;
+        }
+        else{
+            return TRUE;
+        }
+
     }
 }

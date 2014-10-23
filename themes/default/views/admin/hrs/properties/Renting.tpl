@@ -102,6 +102,24 @@
         var resID = $(this).parents('tr').attr('data-id');
             window.location.replace('{{url}}admin/properties/AssignTenantProperty/'+resID);
         });
+        selector.on('click','.removeTenantFromPropertyFunc',function(e){
+        var resID = $(this).parents('tr').attr('data-id');
+            $.ajax({
+               url:"{{url}}admin/properties/removeTenantFromProperty/",
+               data:{resID:resID},
+               type:"POST",
+                success: function(output){
+                    var data = output.split('::');
+                    if(data[0] === "OK"){
+                        HRS.notification(data[1],data[2]);
+                        oTable.fnReloadAjax();
+                    }
+                    else if(data[0] === "FAIL"){
+                        HRS.notification(data[1],data[2]);
+                    }
+                }
+            });
+        });
     });
 </script>
 {{/block}}
