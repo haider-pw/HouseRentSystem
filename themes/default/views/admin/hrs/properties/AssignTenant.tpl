@@ -71,13 +71,13 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="downPayment">Down Payment</label>
                                                         <div class="col-lg-10">
-                                                            <input type="password" class="form-control required" name="downPayment" placeholder="Down Payment" id="downPayment">
+                                                            <input type="text" class="form-control" name="downPayment" placeholder="Down Payment" id="downPayment">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-2" for="startingRent">Rent</label>
                                                         <div class="col-lg-10">
-                                                            <input type="password" class="form-control required" name="startingRent" placeholder="Rent" id="startingRent">
+                                                            <input type="text" class="form-control required" name="startingRent" placeholder="Rent" id="startingRent">
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                    {{*The Image/PDF Upload Section*}}
@@ -327,25 +327,20 @@ function selectPropertyDealer(){
                 validationOptions: {
                     ignore: ".ignore, .select2-input",
                     rules: {
-                        selectGroup:{
+                        selectTenant:{
                             required:true
                         },
-                        username: {
+                        securityDeposit: {
                             required: true,
-                            minlength: 3
+                            digits:true
                         },
-                        userEmail: {
-                            required: true,
-                            email: true
+                        downPayment: {
+                            required: false,
+                            digits:true
                         },
-                        pass: {
+                        startingRent: {
                             required: true,
-                            minlength: 6
-                        },
-                        pass2: {
-                            required: true,
-                            minlength: 6,
-                            equalTo: "#pass"
+                            digits:true
                         },
                         agreementCopy: {
                             required: true,
