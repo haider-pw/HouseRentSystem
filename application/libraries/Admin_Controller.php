@@ -48,7 +48,8 @@ class   Admin_Controller extends My_Controller{
             )
         );
         $where = array(
-            'GroupID' => $this->data['UserGroupID']
+            'GroupID' => $this->data['UserGroupID'],
+            'sys_forms_in_groups.IsMenuLink' => '1'
         );
 
        $this->data['menus']=$this->Common_Model->joined_get_by($columns,$PTable,$joins,$where,'');
