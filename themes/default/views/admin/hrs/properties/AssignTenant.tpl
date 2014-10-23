@@ -15,7 +15,7 @@
                     <div class="icons">
                         <i class="fa fa-table"></i>
                     </div>
-                    <h5>Create New Tenant</h5>
+                    <h5>Assign Tenant To Property</h5>
                 </header>
                 <div class="body" id="collapse4">
                     {{*User Profile*}}
@@ -229,7 +229,7 @@ function selectPropertyDealer(){
                 var radioValue = $(this).val();
                 if(radioValue === 'directReference'){
                     $('#referencedByDiv').css('display','inline-block');
-                    $('#referencedByDiv').html("<input type='text' class='form-control'><span style='display: block;text-align: right;'>(optional)</span>");
+                    $('#referencedByDiv').html("<input type='text' id='referencedByInputText' class='form-control'><span style='display: block;text-align: right;'>(optional)</span>");
                 }
                 else if(radioValue === 'thirdParty'){
                     $('#referencedByDiv').css('display','inline-block');
@@ -269,10 +269,6 @@ function selectPropertyDealer(){
                 textSubmit: "Submit and Create",
                 formOptions: {
                     beforeSubmit: function(data) {
-
-                        //var formData =  $('#wizardForm').serialize();
-
-
                         var file = $("#file")[0].files[0];
                         var referenceState = function(){
                             var directReference = $('#directReference').bootstrapSwitch('state');
@@ -286,15 +282,21 @@ function selectPropertyDealer(){
                             else{
                                 return 'none';
                             }
-                        }
-
+                        };
+                        var getCurrentState = referenceState();
                         //data.append(file);
                         var formData = new FormData();
                         formData.append('tenantID', $('#selectTenant').val());
                         formData.append('securityDeposit', $('#securityDeposit').val());
                         formData.append('downPayment', $('#downPayment').val());
                         formData.append('startingRent', $('#startingRent').val());
-                        formData.append('state', referenceState());
+                        formData.append('state', getCurrentState);
+                        if(getCurrentState === 'directReference'){
+                            formData.append('referenceName', $('#referencedByInputText').val());
+                        }
+                        else if (getCurrentState === 'thirdParty'){
+                            formData.append('thirdParty', $('#selectThirdParty').val());
+                        }
                         formData.append('image', $('input[type=file]')[0].files[0]);
                         $.ajax({
                             type:'POST',

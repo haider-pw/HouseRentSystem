@@ -204,11 +204,85 @@ class Properties extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     }
-    function assignTenantToProperty(){
-        if($this->input->is_ajax_request()){
-            if($this->input->post()){
 
+    function assignTenantToProperty()
+    {
+
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                $tenantID = mysql_real_escape_string($this->input->post('tenantID'));
+                $securityDeposit = mysql_real_escape_string($this->input->post('securityDeposit'));
+                $downPayment = mysql_real_escape_string($this->input->post('downPayment'));
+                $startingRent = mysql_real_escape_string($this->input->post('startingRent'));
+                $state = mysql_real_escape_string($this->input->post('state'));
+                $referencerName = mysql_real_escape_string($this->input->post('referenceName'));
+                $thirdParty = mysql_real_escape_string($this->input->post('thirdParty'));
+                $resID = '';
+
+                if (isset($tenantID) && $tenantID > 0 && isset($startingRent) && $startingRent > 0 && $securityDeposit > 0 && isset($state)) {
+
+                    if($state === 'thirdParty' && !(isset($thirdParty) && $thirdParty>0)){
+                        echo 'FAIL:: If you choose Third Party, You Must Provide Third Party Details::error';
+                        return;
+                    }
+                    $PTable = 'hrs_tenant_residential';
+                    $data = array(
+                        'TenantID' => $tenantID,
+                        'ResID' => $resID,
+                        'StartingRent' => $startingRent,
+                        'SecurityDeposit' => $securityDeposit,
+                        'DownPayment' => $downPayment
+                    );
+
+                    $allowedExt = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+                    if (isset($_FILES['image']['name'])) {
+                        $FileName = $_FILES['image']['name'];
+                        $ext = end(explode('.', $FileName));
+                        if (!in_array(strtolower(end(explode('.', $FileName))), $allowedExt)) {
+                            echo "FAIL:: Only Images JPEG, PNG and GIF and File PDF are Allowed, No Other Extensions Are Excepted::error";
+                            return;
+                        } else {
+                            //we need userId for that Tenant, so Lets Find UserID for this selected Tenant.
+                            $tbl = 'hrs_tenants';
+                            $data = ('UserID');
+                            $where = array(
+                                'TenantID' => $tenantID
+                            );
+                            $result = $this->Common_Model->select_fields_where($tbl,$data,$where,TRUE);
+                            $userID = $result->UserID;
+                            if(!isset($userID) && !($userID>0)){
+                                echo 'FAIL::No User is Assigned to This Selected Tenant::error';
+                                return;
+                            }
+                            //End of Finding UserID for the Selected Tenant.
+//                            Now We Need to Set the Users Upload Directory and Upload Path to Upload the Posted File
+                            $uploadPath = './uploads/users/' . $userID . '/files/'.strtolower($ext).'/';
+                            $uploadDirectory = './uploads/users/' . $userID.'/files/'.strtolower($ext);
+                            $FileName = "HRS_User_" . $userID . "_" . time() . "." . $ext;
+                            if (!is_dir($uploadDirectory)) {
+                                mkdir($uploadDirectory, 0755);
+                            }
+                            move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath . $FileName);
+                            $data['AgreementCopy'] = $FileName;
+                            $where = array(
+                                'UserID' => $userID
+                            );
+                            $result = $this->Common_Model->update($table, $where, $updateFilData);
+                            if ($result == true) {
+                                echo "OK::New User Successfully Created::success";
+                                return;
+                            }
+                        }
+                    }
+                }
+                else{
+                    echo "FAIL::You Must Fill the Form Correctly::error";
+                    return;
+                }
             }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
         }
     }
 }
