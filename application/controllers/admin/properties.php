@@ -29,9 +29,16 @@ class Properties extends Admin_Controller
 
     function RentingProperties()
     {
+        $UserID = $this->data['UserID'];
+        if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
         $this->data['title'] = "Renting Properties";
         $this->parser->parse('admin/hrs/properties/Renting', $this->data);
+        }
+        else {
+            redirect($this->data['errorPage_403']);
+        }
     }
+
     function AssignTenantProperty($residentialID){
         $UserID = $this->data['UserID'];
         if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {

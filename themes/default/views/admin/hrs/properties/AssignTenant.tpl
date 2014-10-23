@@ -309,6 +309,9 @@ function selectPropertyDealer(){
                                 var data = output.split("::");
                                 if (data[0] == "OK") {
                                     HRS.notification(data[1], data[2]);
+                                    setTimeout(function () {
+                                        window.location.href = "{{url}}admin/properties/RentingProperties"; //will redirect to your blog page (an ex: blog.html)
+                                    }, 2000);
                                 }
                                 else if(data[0]=="FAIL") {
                                     HRS.notification(data[1], data[2]);
