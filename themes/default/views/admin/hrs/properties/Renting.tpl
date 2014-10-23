@@ -98,6 +98,10 @@
         var DrawCallback = "";
         commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallback);
         //End Of dataTables Script..
+        selector.on('click','.assignTenantToPropertyFunc',function(e){
+        var resID = $(this).parents('tr').attr('data-id');
+            window.location.replace('{{url}}admin/properties/AssignTenantProperty/'+resID);
+        });
     });
 </script>
 {{/block}}

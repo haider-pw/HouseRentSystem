@@ -35,5 +35,13 @@ class ErrorPages extends My_Controller {
         $this->data['title'] = '404 - Forbidden';
         $this->parser->parse('error_pages/403',$this->data);
     }
+    //500function executes if:
+//    If a server errors occur or If User tries something Stupid.
+    function error_500()
+    {
+        $this->output->set_status_header('500');
+        $this->data['title'] = '500 - Server Error';
+        $this->parser->parse('error_pages/500',$this->data);
+    }
 
 }

@@ -21,6 +21,7 @@ class My_Controller extends CI_Controller{
         $this->data['errorPage_401'] = 'errorPages/error_401';
         $this->data['errorPage_403'] = 'errorPages/error_403';
         $this->data['errorPage_404'] = 'errorPages/error_404';
+        $this->data['errorPage_500'] = 'errorPages/error_500';
         $this->load->model('Common_Model');
         $this->load->model('users_management/login_check');
         $this->parser->set_theme('default');
@@ -29,6 +30,7 @@ class My_Controller extends CI_Controller{
         $this->data['UserID'] = $this->session->userdata('UserID');
         $this->data['UserGroupID'] = CheckUserGroup($this->data['UserID']);
         $this->data['UserProfileImage'] = GetUserProfileImage($this->data['UserID']);
+        $this->data['dbCurrentDate'] = date("Y-m-d H:i:s");
         }
 }
     function hashPassword($password) {

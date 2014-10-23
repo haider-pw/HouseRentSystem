@@ -291,6 +291,7 @@ function selectPropertyDealer(){
                         formData.append('downPayment', $('#downPayment').val());
                         formData.append('startingRent', $('#startingRent').val());
                         formData.append('state', getCurrentState);
+                        formData.append('resID', '{{$propertyID}}');
                         if(getCurrentState === 'directReference'){
                             formData.append('referenceName', $('#referencedByInputText').val());
                         }

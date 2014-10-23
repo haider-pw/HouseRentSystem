@@ -5,11 +5,15 @@
  * Date: 2/4/14
  * Time: 4:09 PM
  */
+/**
+ * @param PropertiesModel $PropertiesModel Loading Properties Model from Models.
+ */
 class Properties extends Admin_Controller
 {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('hrs/PropertiesModel');
     }
 
     function ManageProperties()
@@ -28,9 +32,15 @@ class Properties extends Admin_Controller
         $this->data['title'] = "Renting Properties";
         $this->parser->parse('admin/hrs/properties/Renting', $this->data);
     }
-    function AssignTenantProperty(){
+    function AssignTenantProperty($residentialID){
+        $UserID = $this->data['UserID'];
+        if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
         $this->data['title'] = "Assign Property To Tenant";
+        $this->data['propertyID'] = $residentialID;
         $this->parser->parse('admin/hrs/properties/AssignTenant', $this->data);
+        } else {
+            redirect($this->data['errorPage_403']);
+        }
     }
 
     function listResidentials_DT()
@@ -159,11 +169,11 @@ class Properties extends Admin_Controller
             $result = json_decode($result,true);
             foreach($result['aaData'] as $key => $row){
                 if($row[2] === '1'){
-                    $column = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#editBtnModal' data-toggle='modal' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key],$column);
                 }
                 elseif($row[2] === '2'){
-                    $column = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#editBtnModal' data-toggle='modal' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key],$column);
                 }
             }
@@ -207,7 +217,6 @@ class Properties extends Admin_Controller
 
     function assignTenantToProperty()
     {
-
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
                 $tenantID = mysql_real_escape_string($this->input->post('tenantID'));
@@ -217,7 +226,12 @@ class Properties extends Admin_Controller
                 $state = mysql_real_escape_string($this->input->post('state'));
                 $referencerName = mysql_real_escape_string($this->input->post('referenceName'));
                 $thirdParty = mysql_real_escape_string($this->input->post('thirdParty'));
-                $resID = '';
+                $resID = mysql_real_escape_string($this->input->post('resID'));
+
+                if(!isset($resID) && !($resID>0)){
+                    redirect($this->data['errorPage_500']);
+                    return;
+                }
 
                 if (isset($tenantID) && $tenantID > 0 && isset($startingRent) && $startingRent > 0 && $securityDeposit > 0 && isset($state)) {
 
@@ -226,12 +240,14 @@ class Properties extends Admin_Controller
                         return;
                     }
                     $PTable = 'hrs_tenant_residential';
-                    $data = array(
+                    $formData = array(
                         'TenantID' => $tenantID,
                         'ResID' => $resID,
                         'StartingRent' => $startingRent,
                         'SecurityDeposit' => $securityDeposit,
-                        'DownPayment' => $downPayment
+                        'DownPayment' => $downPayment,
+                        'AssignedBy' => $this->data['UserID'],
+                        'DateAssigned' => $this->data['dbCurrentDate']
                     );
 
                     $allowedExt = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
@@ -256,20 +272,21 @@ class Properties extends Admin_Controller
                             }
                             //End of Finding UserID for the Selected Tenant.
 //                            Now We Need to Set the Users Upload Directory and Upload Path to Upload the Posted File
-                            $uploadPath = './uploads/users/' . $userID . '/files/'.strtolower($ext).'/';
-                            $uploadDirectory = './uploads/users/' . $userID.'/files/'.strtolower($ext);
+                            $uploadPath = FCPATH.'uploads\\users\\' . $userID . '\\files\\'.strtolower($ext).'\\';
+                            $uploadDirectory = FCPATH.'uploads\\users\\' . $userID.'\\files\\'.strtolower($ext);
                             $FileName = "HRS_User_" . $userID . "_" . time() . "." . $ext;
                             if (!is_dir($uploadDirectory)) {
-                                mkdir($uploadDirectory, 0755);
+                                if (!mkdir($uploadDirectory, 0755, true)) {
+                                    echo "FAIL::Directory Could Not Be Created On the Server, Also No Record Created.::error";
+                                    return;
+                                }
+//                                mkdir($uploadDirectory, 0755);
                             }
                             move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath . $FileName);
-                            $data['AgreementCopy'] = $FileName;
-                            $where = array(
-                                'UserID' => $userID
-                            );
-                            $result = $this->Common_Model->update($table, $where, $updateFilData);
-                            if ($result == true) {
-                                echo "OK::New User Successfully Created::success";
+                            $formData['AgreementCopy'] = $FileName;
+                            $result = $this->PropertiesModel->assignTenantToProperty($PTable,$formData);
+                            if ($result === TRUE) {
+                                echo "OK::Tenant Successfully Assigned To Property::success";
                                 return;
                             }
                         }
