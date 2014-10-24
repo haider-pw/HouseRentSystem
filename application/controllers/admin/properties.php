@@ -71,24 +71,43 @@ class Properties extends Admin_Controller
     }
 
     function loadAllVacancyTypes()
-    {
+    {/*This Function should load All the Group Names of for Users*/
         if ($this->input->is_ajax_request()) {
-            /*This Function should load All the Group Names of for Users*/
-            $tbl = "hrs_vacancy_type";
-            $data = array('VacID', 'TypeName');
-            $result = $this->Common_Model->select_fields($tbl, $data);
-            //We got the result of all the vacancy types, but we need 1 more type that we need to have in dropdown, "Show All"
-            //First the result is coming in Object Array, We First need to change it to normal Array.
-            $array = json_decode(json_encode($result), true);
-            //Now As Array Has been changed to Normal Array, we can merge our static array data to the original array.
-            $staticDataArray = array(
-                'VacID' => '0',
-                'TypeName' => 'Show All'
-            );
-            //using array_push to merge arrays.
-            array_push($array,$staticDataArray);
-            //finally printing the combined array in json.
-            print_r(json_encode($array));
+            if($this->input->post()){
+                $tbl = "hrs_vacancy_type";
+                $data = array('VacID', 'TypeName');
+                $value = mysql_real_escape_string($this->input->post('term'));
+                if(isset($value)){
+                    $field = 'TypeName';
+                    $result = $this->Common_Model->select_fields_where_like($tbl,$data,'',FALSE,$field,$value);
+                }
+                else{
+                    $result = $this->Common_Model->select_fields($tbl, $data);
+                }
+                if($result !== FALSE){
+                //We got the result of all the vacancy types, but we need 1 more type that we need to have in dropdown, "Show All"
+                //First the result is coming in Object Array, We First need to change it to normal Array.
+                $array = json_decode(json_encode($result), true);
+                //Now As Array Has been changed to Normal Array, we can merge our static array data to the original array.
+                $staticDataArray = array(
+                    'VacID' => '0',
+                    'TypeName' => 'Show All'
+                );
+                //using array_push to merge arrays.
+                array_push($array,$staticDataArray);
+                //finally printing the combined array in json.
+                }
+                else{
+                    $array[] = array(
+                        'VacID' => '0',
+                        'TypeName' => 'Show All'
+                    );
+                }
+                print_r(json_encode($array));
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
         }
     }
 
