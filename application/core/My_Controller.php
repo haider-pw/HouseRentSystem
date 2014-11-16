@@ -29,6 +29,7 @@ class My_Controller extends CI_Controller{
         if(loginCheckBool() === TRUE){
         $this->data['UserID'] = $this->session->userdata('UserID');
         $this->data['UserGroupID'] = CheckUserGroup($this->data['UserID']);
+        $this->data['UserGroupName'] = CheckUserGroupName($this->data['UserGroupID']);
         $this->data['UserProfileImage'] = GetUserProfileImage($this->data['UserID']);
         $this->data['dbCurrentDate'] = date("Y-m-d H:i:s");
         }

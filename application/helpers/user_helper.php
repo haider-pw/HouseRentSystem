@@ -171,6 +171,22 @@ if (!function_exists('GetUserProfileImage')){
         }
     }
 }
+if (!function_exists('CheckUserGroupName')){
+    function CheckUserGroupName($GroupID){
+        $ci =& get_instance();
+        $GroupID = mysql_real_escape_string($GroupID);
+        $table = 'users_groups';
+        $data=('GroupName');
+        $where = array(
+            'GroupID' => $GroupID
+        );
+
+        $result = $ci->Common_Model->select_fields_where($table, $data,$where,TRUE);
+
+        $GroupName = $result->GroupName;
+        return $GroupName;
+    }
+}
 if (!function_exists('loginCheckBool')){
     function loginCheckBool(){
         $ci =& get_instance();

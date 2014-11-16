@@ -3,10 +3,10 @@
     <div class="user-box navbar-right">
         <div class="user-id">
             <img class="user-picture"
-                 src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/c34.34.432.432/s160x160/575695_10101114843671310_1323509961_n.jpg"/>
+                 src="{{$UserProfileImage}}"/>
 
             <div class="user-name">
-                Syed Haider Hassan
+                {{$this->session->userdata('FullName')}}
             </div>
             <div class="dropdown-arrow"></div>
             <div class="dropdown-menu">

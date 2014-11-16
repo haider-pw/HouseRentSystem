@@ -33,7 +33,7 @@
                                                         <div class="holder">
                                                             <div class="avatar">
                                                                 <a href="#">
-                                                                    <img id="userDefaultAvatars" src="http://localhost:8080/projects/HouseRentSystem/uploads/users/d/defaultAvatar.jpg" class="user"/>
+                                                                    <img id="userDefaultAvatars" src="{{url}}uploads/users/d/defaultAvatar.jpg" class="user"/>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -329,7 +329,7 @@
                     }
                 });
                 $('#fileRemove').on('click', function(e){
-                    $('#userDefaultAvatars').attr('src','http://localhost:8080/projects/HouseRentSystem/uploads/users/d/defaultAvatar.jpg');
+                    $('#userDefaultAvatars').attr('src','{{url}}uploads/users/d/defaultAvatar.jpg');
                 });
             });
         </script>
