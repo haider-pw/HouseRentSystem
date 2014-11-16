@@ -241,6 +241,63 @@ class Properties extends Admin_Controller
             print_r($result);
         }
     }
+    function addNewProperty(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $propertyType = mysql_real_escape_string($this->input->post('propertyType'));
+                $propertyNo = mysql_real_escape_string($this->input->post('propertyNo'));
+                $totalWashrooms = mysql_real_escape_string($this->input->post('totalBathrooms'));
+                $totalRooms = mysql_real_escape_string($this->input->post('totalRooms'));
+                $totalKitchens = mysql_real_escape_string($this->input->post('totalKitchens'));
+                $propertyDescription = mysql_real_escape_string($this->input->post('propertyDescription'));
+                $currentDate = $this->data['dbCurrentDate'];
+
+                //We need to do little Validations for Input to see if data is right for the Database.
+                if(!is_numeric($propertyNo)){
+                    echo "FAIL::Property Number Must Be Numeric Value::error";
+                    return;
+                }
+                if(isset($totalRooms) && !is_numeric($totalRooms)){
+                    echo "FAIL::Rooms Should Be a Numeric Value::error";
+                    return;
+                }
+                if(isset($totalKitchens) && !is_numeric($totalKitchens)){
+                    echo "FAIL::Kitchens Must Be a Numeric Value::error";
+                    return;
+                }
+                if(isset($totalWashrooms) && !is_numeric($totalWashrooms)){
+                    echo "FAIL::Washrooms Must Be a Numeric Value::error";
+                    return;
+                }
+
+                if(isset($propertyType) && isset($propertyNo) && isset($totalRooms)){
+                    $tbl = 'hrs_residentials';
+                    $data = array(
+                        'TenantID' => 0,
+                        'ResTypeID' => $propertyType,
+                        'VacID' => 2,
+                        'ResNo' => $propertyNo,
+                        'ResRooms' => $totalRooms,
+                        'ResKitchens' => $totalKitchens,
+                        'ResBathrooms' => $totalWashrooms,
+                        'ResDescription' => $propertyDescription,
+                        'DateRegistered' => $currentDate
+                    );
+                    $result = $this->Common_Model->insert($tbl,$data);
+                }
+                if($result>0){
+                echo 'OK::Record Successfully Added::success';
+                }
+                else{
+                    echo 'FAIL::Some Error Occurred, Record Could Not Be Added::error';
+                }
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    } //End of Add New Property Function
+
     function addNewPropertyDealer(){
         if($this->input->is_ajax_request()){
             if($this->input->post()){

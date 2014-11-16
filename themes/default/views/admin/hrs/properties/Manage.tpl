@@ -51,7 +51,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
-                        <form class="form-horizontal" id="createGroupModelForm">
+                        <form class="form-horizontal" id="addNewPropertyForm">
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cResNo">Property No</label>
                                 <div class="col-lg-8">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="createFormBtn">Add</button>
+                    <button type="button" class="btn btn-default" id="AddPropertyBtn">Add</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -143,6 +143,34 @@
             var minInputLength = 0;
             var placeholder = "Select Property Type";
             commonSelect2(selector,url,id,text,minInputLength,placeholder);
+
+            /* Function for Add Button on Add Property Modal*/
+            $('#AddPropertyBtn').on('click',function(){
+                   var formData = {
+                     propertyNo:  $('#cResNo').val(),
+                     totalRooms: $('#cResRooms').val(),
+                       totalKitchens: $('#cResKitchens').val(),
+                       totalBathrooms: $('#cResWashrooms').val(),
+                       propertyDescription: $('#cResDescription').val(),
+                       propertyType: $('#selectPropertyType').val()
+                   };
+            console.log(formData);
+                $.ajax({
+                    type: "POST",
+                    url:"{{url}}admin/properties/addNewProperty",
+                    data: formData,
+                    success: function (output) {
+                        var data = output.split("::");
+                        if (data[0] == "OK") {
+                            oTable.fnReloadAjax();
+                            HRS.notification(data[1], data[2]);
+                        }
+                        else if(data[0]=="FAIL") {
+                            HRS.notification(data[1], data[2]);
+                        }
+                    }
+                });
+            });
         });
     </script>
 {{/block}}
