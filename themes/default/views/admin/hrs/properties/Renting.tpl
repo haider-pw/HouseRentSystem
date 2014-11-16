@@ -1,4 +1,7 @@
 {{extends file='adminLayout.tpl'}}
+{{block name="header"}}
+    <title>{{$title}}</title>
+{{/block}}
 {{block name="content"}}
     <div class="outer">
         <div class="inner">
@@ -20,10 +23,10 @@
                                 <thead>
                                 <tr>
                                     <th>Residential ID</th>
-                                    <th data-class="expand">ResTypeID</th>
-                                    <th data-class="expand">VacID</th>
+                                    <th>ResTypeID</th>
+                                    <th>VacID</th>
                                     <th data-class="expand">Property No.</th>
-                                    <th data-class="expand">TypeName</th>
+                                    <th data-hide="phone">TypeName</th>
                                     <th data-hide="phone,tablet">Description</th>
                                     <th>Actions</th>
                                 </tr>
