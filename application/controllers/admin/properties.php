@@ -167,6 +167,37 @@ class Properties extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     }
+    function loadAllPropertyTypes(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $tbl = 'hrs_residential_type';
+                $data = ('ResTypeID,TypeName');
+                $value = $this->input->post('term');
+                if(isset($value)){
+                 //if term has some value and is not empty then this portion should execute.
+                    $field = 'TypeName';
+                    $result = $this->Common_Model->select_fields_where_like($tbl,$data,'',FALSE,$field,$value);
+                }
+                else{
+                    $result = $this->Common_Model->select_fields($tbl,$data,FALSE);
+                }
+                if($result===FALSE){
+                    $msg = 'FAIL::NO RECORD FOUND::warning';
+                    print_r(json_encode($msg));
+                }
+                else{
+                    print_r(json_encode($result));
+                }
+
+            }
+            else{
+                return($this->data['errorPage_500']);
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 
     function listProperties_DT($vacID = NULL)
     {
