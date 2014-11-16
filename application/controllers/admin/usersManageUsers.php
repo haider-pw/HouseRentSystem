@@ -52,7 +52,7 @@ class usersManageUsers extends Admin_Controller
         $this->parser->parse('admin/users/manage_users/ListUsers', $this->data);
     }
     function ListUsersGroups(){
-        $this->data['title'] = "List Users";
+        $this->data['title'] = "Manage Users Groups";
         $this->parser->parse('admin/users/manage_users/ListUsersGroups', $this->data);
     }
 

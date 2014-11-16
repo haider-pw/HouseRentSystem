@@ -312,17 +312,19 @@
                 //End of the CommonSelect2 function
 
                 //Show the Image when User uses the file input.
-                $('#file').change(function(e){
+                $('#file').change(function (e) {
                     var oFReader = new FileReader();
-                    oFReader.readAsDataURL(this.files[0]);
-                    var mimeType= this.files[0].type;
-                    if(mimeType!==''){
-                        var fileType = mimeType.split('/');
-                        if(fileType[0] == 'image' && (fileType[1] == 'jpg' || fileType[1] == 'png' || fileType[1] == 'gif' || fileType[1] == 'jpeg')){
-                            oFReader.onload = function (oFREvent) {
-                                //$('#preview').html('<img src="'+oFREvent.target.result+'">');
-                                $('#userDefaultAvatars').attr('src',oFREvent.target.result);
-                            };
+                    if (this.files[0] != undefined) {
+                        oFReader.readAsDataURL(this.files[0]);
+                        var mimeType = this.files[0].type;
+                        if (mimeType !== '') {
+                            var fileType = mimeType.split('/');
+                            if (fileType[0] == 'image' && (fileType[1] == 'jpg' || fileType[1] == 'png' || fileType[1] == 'gif' || fileType[1] == 'jpeg')) {
+                                oFReader.onload = function (oFREvent) {
+                                    //$('#preview').html('<img src="'+oFREvent.target.result+'">');
+                                    $('#userDefaultAvatars').attr('src', oFREvent.target.result);
+                                };
+                            }
                         }
                     }
                 });
