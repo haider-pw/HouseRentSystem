@@ -55,31 +55,31 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cResNo">Property No</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control required" name="resNo" placeholder="Property Number" id="cResNo">
+                                    <input type="text" class="form-control digits" name="resNo" placeholder="Auto Assigned" id="cResNo">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group" id="selectPropertyType_MainDiv">
                                 <label class="control-label col-lg-4">Type</label>
                                 <div class="col-lg-8" id="selectPropertyTypeDiv">
-                                    <input type='hidden' name='input' id='selectPropertyType'/>
+                                    <input type='hidden' name='input' class="required" id='selectPropertyType'/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cResRooms">Rooms</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control required" name="resRooms" placeholder="Total Rooms" id="cResRooms">
+                                    <input type="text" class="form-control required digits" name="resRooms" placeholder="Total Rooms" id="cResRooms">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cResKitchens">Kitchens</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control required" name="resKitchens" placeholder="Total Kitchens" id="cResKitchens">
+                                    <input type="text" class="form-control required digits" name="resKitchens" placeholder="Total Kitchens" id="cResKitchens">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cResWashrooms">Bathrooms</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control required" name="resWashrooms" placeholder="Total Washrooms" id="cResWashrooms">
+                                    <input type="text" class="form-control required digits" name="resWashrooms" placeholder="Total Washrooms" id="cResWashrooms">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
@@ -145,7 +145,15 @@
             commonSelect2(selector,url,id,text,minInputLength,placeholder);
 
             /* Function for Add Button on Add Property Modal*/
-            $('#AddPropertyBtn').on('click',function(){
+            $('#AddPropertyBtn').on('click',function(e){
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                var selector = $('#addNewPropertyForm');
+                HRS.formValidation(selector);
+                $('.digits').rules( "add", {
+                    digits:true
+                });
+                if(selector.valid()){
                    var formData = {
                      propertyNo:  $('#cResNo').val(),
                      totalRooms: $('#cResRooms').val(),
@@ -154,7 +162,6 @@
                        propertyDescription: $('#cResDescription').val(),
                        propertyType: $('#selectPropertyType').val()
                    };
-            console.log(formData);
                 $.ajax({
                     type: "POST",
                     url:"{{url}}admin/properties/addNewProperty",
@@ -170,7 +177,9 @@
                         }
                     }
                 });
+                }
             });
+            $('.select2-container').css("width","100%");
         });
     </script>
 {{/block}}

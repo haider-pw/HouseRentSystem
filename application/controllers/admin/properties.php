@@ -251,6 +251,13 @@ class Properties extends Admin_Controller
                 $totalKitchens = mysql_real_escape_string($this->input->post('totalKitchens'));
                 $propertyDescription = mysql_real_escape_string($this->input->post('propertyDescription'));
                 $currentDate = $this->data['dbCurrentDate'];
+                if(empty($propertyNo)){
+                    $tbl = 'hrs_residentials';
+                    $data =('ResID, max(ResNo) as ResNo');
+                    $getPropertyNo = $this->Common_Model->select_fields($tbl,$data,TRUE);
+                    $propertyNo = $getPropertyNo->ResNo;
+                    $propertyNo++;
+                }
 
                 //We need to do little Validations for Input to see if data is right for the Database.
                 if(!is_numeric($propertyNo)){
