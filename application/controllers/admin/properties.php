@@ -257,6 +257,7 @@ class Properties extends Admin_Controller
                     $getPropertyNo = $this->Common_Model->select_fields($tbl,$data,TRUE);
                     $propertyNo = $getPropertyNo->ResNo;
                     $propertyNo++;
+                    $propertyNo = str_pad($propertyNo,3,0,STR_PAD_LEFT);
                 }
 
                 //We need to do little Validations for Input to see if data is right for the Database.
@@ -304,6 +305,28 @@ class Properties extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     } //End of Add New Property Function
+
+    function deleteProperty(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $propertyID = $this->input->post('pID');
+                $tbl = 'hrs_residentials';
+                $condition = array(
+                    'ResID' => $propertyID
+                );
+                $result = $this->Common_Model->delete($tbl,$condition);
+                if($result === TRUE){
+                    echo "OK::Record Successfully Deleted::success";
+                }
+                elseif($result === FALSE){
+                    echo "FAIL:: Some Database Error, Record Could Not Be Deleted::error";
+                }
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 
     function addNewPropertyDealer(){
         if($this->input->is_ajax_request()){

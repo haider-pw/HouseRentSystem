@@ -179,6 +179,28 @@
                 });
                 }
             });
+            $('#ManageResidentials').on('click','.deleteBtnFunc',function(e){
+                e.preventDefault();
+                var ID = $(this).closest('tr').attr('data-id');
+                var propertyData = {
+                    pID: ID
+                };
+                $.ajax({
+                    url:"{{url}}admin/properties/deleteProperty",
+                    type:"POST",
+                    data:propertyData,
+                    success:function(output){
+                        var data = output.split("::");
+                        if (data[0] == "OK") {
+                            oTable.fnReloadAjax();
+                            HRS.notification(data[1], data[2]);
+                        }
+                        else if(data[0]=="FAIL") {
+                            HRS.notification(data[1], data[2]);
+                        }
+                    }
+                });
+            });
             $('.select2-container').css("width","100%");
         });
     </script>
