@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Created by PhpStorm.
- * User: HaiderHassan
+ * User: Syed Haider Hassan
  * Date: 2/4/14
  * Time: 4:09 PM
  */
@@ -251,6 +251,7 @@ class Properties extends Admin_Controller
                 $totalKitchens = mysql_real_escape_string($this->input->post('totalKitchens'));
                 $propertyDescription = mysql_real_escape_string($this->input->post('propertyDescription'));
                 $currentDate = $this->data['dbCurrentDate'];
+                $loggedInUser = $this->data['UserID'];
                 if(empty($propertyNo)){
                     $tbl = 'hrs_residentials';
                     $data =('ResID, max(ResNo) as ResNo');
@@ -289,7 +290,8 @@ class Properties extends Admin_Controller
                         'ResKitchens' => $totalKitchens,
                         'ResBathrooms' => $totalWashrooms,
                         'ResDescription' => $propertyDescription,
-                        'DateRegistered' => $currentDate
+                        'DateRegistered' => $currentDate,
+                        'RegisteredBy' => $loggedInUser
                     );
                     $result = $this->Common_Model->insert($tbl,$data);
                 }
@@ -312,7 +314,7 @@ class Properties extends Admin_Controller
             $propertyID = $this->input->post('pID');
                 if(!empty($propertyID) && is_numeric($propertyID)){
                     $tbl = 'hrs_residentials';
-                    $data = ('ResNo,ResRooms,ResKitchens,ResBathrooms,ResDescription');
+                    $data = ('ResNo,ResRooms,ResKitchens,ResBathrooms,ResDescription,ResTypeID');
                     $where = array(
                         'ResID' =>$propertyID
                     );
@@ -329,6 +331,63 @@ class Properties extends Admin_Controller
     function updateProperty(){
         if($this->input->is_ajax_request()){
             if($this->input->post()){
+                $propertyType = mysql_real_escape_string($this->input->post('propertyType'));
+                $propertyNo = mysql_real_escape_string($this->input->post('propertyNo'));
+                $totalWashrooms = mysql_real_escape_string($this->input->post('totalBathrooms'));
+                $totalRooms = mysql_real_escape_string($this->input->post('totalRooms'));
+                $totalKitchens = mysql_real_escape_string($this->input->post('totalKitchens'));
+                $propertyDescription = mysql_real_escape_string($this->input->post('propertyDescription'));
+                $propertyID = mysql_real_escape_string($this->input->post('PID'));
+                $currentDate = $this->data['dbCurrentDate'];
+                $loggedInUser = $this->data['UserID'];
+
+                //We need to do little Validations for Input to see if data is right for the Database.
+                if(empty($propertyNo) || !is_numeric($propertyNo)){
+                    echo "FAIL::Property Number Must Be Numeric Value::error";
+                    return;
+                }
+                if(isset($totalRooms) && !is_numeric($totalRooms)){
+                    echo "FAIL::Rooms Should Be a Numeric Value::error";
+                    return;
+                }
+                if(isset($totalKitchens) && !is_numeric($totalKitchens)){
+                    echo "FAIL::Kitchens Must Be a Numeric Value::error";
+                    return;
+                }
+                if(isset($totalWashrooms) && !is_numeric($totalWashrooms)){
+                    echo "FAIL::Washrooms Must Be a Numeric Value::error";
+                    return;
+                }
+                //Now Here the Main Working Functions Starts if Everything on Top Worked Fine.
+                if(isset($propertyNo) && isset($totalRooms) && isset($propertyType)){
+                    $tbl = 'hrs_residentials';
+                     $data = array(
+                         'ResNo' => $propertyNo,
+                         'ResRooms' => $totalRooms,
+                         'ResKitchens' => $totalKitchens,
+                         'ResBathrooms' => $totalWashrooms,
+                         'ResDescription' => $propertyDescription,
+                         'DateUpdated' => $currentDate,
+                         'UpdatedBy' => $loggedInUser,
+                         'ResTypeID' => $propertyType
+                     );
+                    $fields = array(
+                        'ResID' => $propertyID
+                    );
+                    $result = $this->Common_Model->update($tbl,$fields,$data);
+                    if($result === true){
+                        echo 'OK::Record Successfully Updated::success';
+                        return;
+                    }
+                    else{
+                        echo 'FAIL::Some Database Error, Record Could Not Be Updated::error';
+                        return;
+                    }
+                }
+                else{
+                    echo"FAIL::Fill the Form Correctly::error";
+                    return;
+                }
 
             }
         }
