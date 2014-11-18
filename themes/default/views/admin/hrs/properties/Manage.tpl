@@ -97,7 +97,65 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal --><!-- /#Edit Button Modal -->
+    </div><!-- /.modal --><!-- /#Add New Property Modal -->
+
+    {{*Edit Property modal*}}
+    <div id="editPropertyModal_ManageProperties" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Edit Property</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="body collapse in" id="div-1">
+                        <form class="form-horizontal" id="addNewPropertyForm">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="eResNo">Property No</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control digits" name="resNo" placeholder="Auto Assigned" id="eResNo">
+                                </div>
+                            </div><!-- /.form-group -->
+                            <div class="form-group" id="selectPropertyType_MainDiv">
+                                <label class="control-label col-lg-4">Type</label>
+                                <div class="col-lg-8" id="selectPropertyTypeDiv">
+                                    <input type='hidden' name='input' class="required" id='selectPropertyType'/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="eResRooms">Rooms</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control required digits" name="resRooms" placeholder="Total Rooms" id="eResRooms">
+                                </div>
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="eResKitchens">Kitchens</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control required digits" name="resKitchens" placeholder="Total Kitchens" id="eResKitchens">
+                                </div>
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="eResWashrooms">Bathrooms</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control required digits" name="resWashrooms" placeholder="Total Washrooms" id="eResWashrooms">
+                                </div>
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="eResDescription">Description</label>
+                                <div class="col-lg-8">
+                                    <textarea name="resDescription" id="eResDescription" placeholder="Type any Description Related to the Property" class="form-control"></textarea>
+                                </div>
+                            </div><!-- /.form-group -->
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="updatePropertyBtn">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- /#Edit Property Modal -->
 {{/block}}
 {{block name="scripts"}}
     {{js('datatables/fnReloadAjax.js')}}
@@ -177,6 +235,8 @@
                         }
                     }
                 });
+                    //If Data is Valid and is being posted to the given URL then close the Modal.
+                    $('#addNewPropertyModal_ManageProperties').modal('hide');
                 }
             });
             $('#ManageResidentials').on('click','.deleteBtnFunc',function(e){
@@ -200,6 +260,67 @@
                         }
                     }
                 });
+            });
+            //When Edit Button on the Table is Clicked this Below Function Should Execute.
+            $('#ManageResidentials').on('click','.editBtnFunc',function(e){
+                e.preventDefault();
+                var ID = $(this).closest('tr').attr('data-id');
+                $('#editPropertyModal_ManageProperties').modal('show');
+                var propertyData = {
+                    pID: ID
+                };
+                $.ajax({
+                    url:"{{url}}admin/properties/editProperty",
+                    type:"POST",
+                    data:propertyData,
+                    dataType:"JSON",
+                    success:function(response){
+                        if(!($.isEmptyObject(response))){
+                            $.each(response,function(key,value){
+                                $('#eResNo').val(value.ResNo);
+                                $('#eResRooms').val(value.ResRooms);
+                                $('#eResKitchens').val(value.ResKitchens);
+                                $('#eResWashrooms').val(value.ResBathrooms);
+                                $('#eResDescription').val(value.ResDescription);
+                            });
+                        }
+                    }
+                });
+            });
+            //When Update Button on the Edit Modal is Clicked, this Below Function Should Execute.
+            $('#updatePropertyBtn').on('click',function(e){
+                e.preventDefault();
+                console.log('update button is working');
+                var selector = $('#addNewPropertyForm');
+                HRS.formValidation(selector);
+                $('.digits').rules( "add", {
+                    digits:true
+                });
+                if(selector.valid()) {
+                    var formData = {
+                        propertyNo: $('#cResNo').val(),
+                        totalRooms: $('#cResRooms').val(),
+                        totalKitchens: $('#cResKitchens').val(),
+                        totalBathrooms: $('#cResWashrooms').val(),
+                        propertyDescription: $('#cResDescription').val(),
+                        propertyType: $('#selectPropertyType').val()
+                    };
+                    $.ajax({
+                        url: "{{url}}admin/properties/updateProperty",
+                        data: formData,
+                        type: "POST",
+                        success: function (output) {
+                            var data = output.split("::");
+                            if (data[0] == "OK") {
+                                oTable.fnReloadAjax();
+                                HRS.notification(data[1], data[2]);
+                            }
+                            else if (data[0] == "FAIL") {
+                                HRS.notification(data[1], data[2]);
+                            }
+                        }
+                    });
+                }
             });
             $('.select2-container').css("width","100%");
         });

@@ -306,6 +306,34 @@ class Properties extends Admin_Controller
         }
     } //End of Add New Property Function
 
+    function editProperty(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+            $propertyID = $this->input->post('pID');
+                if(!empty($propertyID) && is_numeric($propertyID)){
+                    $tbl = 'hrs_residentials';
+                    $data = ('ResNo,ResRooms,ResKitchens,ResBathrooms,ResDescription');
+                    $where = array(
+                        'ResID' =>$propertyID
+                    );
+                    $result = $this->Common_Model->select_fields_where($tbl,$data,$where);
+                    print_r(json_encode($result));
+                    return;
+                }
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
+    function updateProperty(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+
+            }
+        }
+    }
+
     function deleteProperty(){
         if($this->input->is_ajax_request()){
             if($this->input->post()){
