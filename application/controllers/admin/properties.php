@@ -252,6 +252,9 @@ class Properties extends Admin_Controller
             $result = json_encode($result);
             print_r($result);
         }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
     }
     function addNewProperty(){
         if($this->input->is_ajax_request()){
@@ -606,5 +609,67 @@ class Properties extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
 
+    }
+
+    function listPropertiesWithUtilities_DT($utilityTypeID=''){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $data = ('R.ResID,R.ResNo,RT.TypeName,R.ResDescription,U.Number,UT.UName');
+                $pTable = "hrs_residentials R";
+                $joins = array(
+                    array(
+                        'table' => 'hrs_residential_type RT',
+                        'condition' => 'RT.ResTypeID=R.ResTypeID',
+                        'type' => 'INNER'
+                    ),
+                    array(
+                        'table' => 'hrs_residential_utilities RU',
+                        'condition' => 'RU.ResID=R.ResID',
+                        'type' => 'LEFT'
+                    ),
+                    array(
+                        'table' => 'hrs_utilities U',
+                        'condition' => 'U.UtilityID=RU.UtilityID',
+                        'type' => 'LEFT'
+                    ),
+                    array(
+                        'table' =>'hrs_utility_type UT',
+                        'condition' => 'UT.UTID=U.UtilityTypeID',
+                        'type' => 'LEFT'
+                    )
+                );
+                if (isset($utilityTypeID) && $utilityTypeID > 0 && $utilityTypeID !== NULL) {
+                    $where = array(
+                        'UT.UTID' => $utilityTypeID
+                    );
+                    $addColumn = '';
+                    $result = $this->Common_Model->select_fields_joined_DT($data, $pTable, $joins, $where, $addColumn, $unsetColumn = '');
+                } else {
+                    $result = $this->Common_Model->select_fields_joined_DT($data, $pTable, $joins, $where = '', $addColumn = '', $unsetColumn = '');
+                }
+                $result = json_decode($result,true);
+                foreach($result['aaData'] as $key => $row){
+/*                    if($row[2] === '1'){
+                        $column = "<a href='#' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
+                        array_push($result['aaData'][$key],$column);
+                    }
+                    elseif($row[2] === '2'){
+                        $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                        array_push($result['aaData'][$key],$column);
+                    }*/
+                    $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                    array_push($result['aaData'][$key],$column);
+                }
+                $result = json_encode($result);
+                print_r($result);
+            }
+            else{
+                redirect($this->data['errorPage_500']);
+            }
+
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
     }
 }

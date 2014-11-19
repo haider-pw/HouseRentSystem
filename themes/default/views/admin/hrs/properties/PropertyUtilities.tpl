@@ -15,7 +15,7 @@
                             <div class="icons">
                                 <i class="fa fa-table"></i>
                             </div>
-                            <h5>Property Renting</h5>
+                            <h5>Property Utilities</h5>
                             <div style="float:right; margin-right:10px; margin-top: 5px;">
                                 <input type='hidden' name='selectUtilityType' id='selectUtilityType'/>
                             </div>
@@ -27,7 +27,9 @@
                                     <th>Residential ID</th>
                                     <th data-class="expand">Property No.</th>
                                     <th data-hide="phone">TypeName</th>
-                                    <th data-hide="phone,tablet">Description</th>
+                                    <th data-hide="phone">Property Description</th>
+                                    <th data-hide="phone">Meter No</th>
+                                    <th data-hide="phone">Utility Type</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -71,31 +73,19 @@
             //End of the CommonSelect2 function
 
             //Data Tables Script Here.
-            var selector = $('#PropertyRenting');
-            var url = "{{base_url()}}admin/properties/listProperties_DT/";
+            var selector = $('#PropertyUtilities');
+            var url = "{{base_url()}}admin/properties/listPropertiesWithUtilities_DT/";
             var aoColumns =  [
                 /* ResidentialID */   {
                     "bVisible":    false,
                     "bSortable":   false,
                     "bSearchable": false
                 },
-                /* Property TypeID/ Residential TypeID */  {
-                    "bVisible":    false,
-                    "bSortable":   false,
-                    "bSearchable": false
-                },
-                /* Vacancy Type ID */  {
-                    "bVisible":    false,
-                    "bSortable":   false,
-                    "bSearchable": false
-                },
                 /* Property Number*/  null,
                 /* Property Type */ null,
-                /* VacancyType */  {
-                    "bVisible":    true,
-                    "bSortable":   false,
-                    "bSearchable": false
-                },
+                /* Property Description */ null,
+                /* Meter Number */ null,
+                /* Utility Type */ null,
                 /* Actions */  null
             ];
             var RowCallBack = "";
