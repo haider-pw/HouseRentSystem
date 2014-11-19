@@ -39,6 +39,18 @@ class Properties extends Admin_Controller
         }
     }
 
+    function PropertyUtilities()
+    {
+        $UserID = $this->data['UserID'];
+        if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
+        $this->data['title'] = "Property Utilities";
+        $this->parser->parse('admin/hrs/properties/PropertyUtilities', $this->data);
+        }
+        else {
+            redirect($this->data['errorPage_403']);
+        }
+    }
+
     function AssignTenantProperty($residentialID){
         $UserID = $this->data['UserID'];
         if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
@@ -559,5 +571,40 @@ class Properties extends Admin_Controller
                 }
             }
         }
+    }
+
+    /**
+     * @loadAllUtilities This Function should Load All the Utilities.
+     */
+    function loadAllUtilities(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $tbl = 'hrs_utility_type';
+                $data = ('UTID,UName');
+                $value = $this->input->post('term');
+                if(isset($value)){
+                    //if term has some value and is not empty then this portion should execute.
+                    $field = 'UName';
+                    $result = $this->Common_Model->select_fields_where_like($tbl,$data,'',FALSE,$field,$value);
+                }
+                else{
+                    $result = $this->Common_Model->select_fields($tbl,$data,FALSE);
+                }
+                if($result===FALSE){
+                    $msg = 'FAIL::NO RECORD FOUND::warning';
+                    print_r(json_encode($msg));
+                }
+                else {
+                    print_r(json_encode($result));
+                }
+            }
+            else{
+                redirect($this->data['errorPage_500']);
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+
     }
 }
