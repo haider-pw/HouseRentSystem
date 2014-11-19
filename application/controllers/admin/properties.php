@@ -117,6 +117,9 @@ class Properties extends Admin_Controller
                 }
                 print_r(json_encode($array));
             }
+            else{
+                redirect($this->data['errorPage_500']);
+            }
         }
         else{
             redirect($this->data['errorPage_403']);
@@ -579,7 +582,7 @@ class Properties extends Admin_Controller
     /**
      * @loadAllUtilities This Function should Load All the Utilities.
      */
-    function loadAllUtilities(){
+    function loadAllUtilityTypes(){
         if($this->input->is_ajax_request()){
             if($this->input->post()){
                 $tbl = 'hrs_utility_type';
@@ -593,13 +596,27 @@ class Properties extends Admin_Controller
                 else{
                     $result = $this->Common_Model->select_fields($tbl,$data,FALSE);
                 }
-                if($result===FALSE){
-                    $msg = 'FAIL::NO RECORD FOUND::warning';
-                    print_r(json_encode($msg));
+
+                if($result !== FALSE){
+                    //We got the result of all the Utility types, but we need 1 more type that we need to have in dropdown, "Show All"
+                    //First the result is coming in Object Array, We First need to change it to normal Array.
+                    $array = json_decode(json_encode($result), true);
+                    //Now As Array Has been changed to Normal Array, we can merge our static array data to the original array.
+                    $staticDataArray = array(
+                        'UTID' => '0',
+                        'UName' => 'Show All'
+                    );
+                    //using array_push to merge arrays.
+                    array_push($array,$staticDataArray);
+                    //finally printing the combined array in json.
                 }
-                else {
-                    print_r(json_encode($result));
+                else{
+                    $array[] = array(
+                        'UTID' => '0',
+                        'UName' => 'Show All'
+                    );
                 }
+                print_r(json_encode($array));
             }
             else{
                 redirect($this->data['errorPage_500']);

@@ -52,7 +52,7 @@
 
             {{*The Selector for Selecting the Utility Type*}}
             var selector = $('#selectUtilityType');
-            var url = "{{base_url()}}admin/properties/loadAllUtilities/";
+            var url = "{{base_url()}}admin/properties/loadAllUtilityTypes/";
             var id = "UTID";
             var text = "UName";
             var minInputLength = 0;
@@ -62,9 +62,9 @@
             //End of the CommonSelect2 function
 
             //Doing Some Function if select2 has selected some item
-            $('#selectVacancyType').on("select2-selecting", function(e) {
-                var VacancyType = e.val;
-                url = "{{base_url()}}admin/properties/listProperties_DT/"+VacancyType;
+            selector.on("select2-selecting", function(e) {
+                var UtilityType = e.val;
+                url = "{{base_url()}}admin/properties/listPropertiesWithUtilities_DT/"+UtilityType;
                 //$('#ManageFormsInGroups').dataTable().api().ajax.url(url).load();
                 //oTable.fnReloadAjax('google.com');
                 oTable.fnDestroy();
