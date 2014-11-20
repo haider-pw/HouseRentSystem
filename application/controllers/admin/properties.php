@@ -666,16 +666,14 @@ class Properties extends Admin_Controller
                 }
                 $result = json_decode($result,true);
                 foreach($result['aaData'] as $key => $row){
-/*                    if($row[2] === '1'){
-                        $column = "<a href='#' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
+                    if($row[4] === NULL || empty($row[4]) || empty($row[5]) || $row[5] === NULL){
+                        $column = "<a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-plus fa-fw fa-2x'></i></a>";
                         array_push($result['aaData'][$key],$column);
                     }
-                    elseif($row[2] === '2'){
-                        $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                    elseif($row[4] !== null && $row[5] !== null ){
+                        $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-list-alt fa-fw fa-2x'></i></a><a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
                         array_push($result['aaData'][$key],$column);
-                    }*/
-                    $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
-                    array_push($result['aaData'][$key],$column);
+                    }
                 }
                 $result = json_encode($result);
                 print_r($result);
