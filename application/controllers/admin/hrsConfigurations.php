@@ -80,6 +80,31 @@ class hrsConfigurations extends Admin_Controller
     function editUtilityType(){
         if($this->input->is_ajax_request()){
             if($this->input->post()){
+                $utilityTypeID = mysql_real_escape_string($this->input->post('ID'));
+                if(isset($utilityTypeID) && is_numeric($utilityTypeID) && $utilityTypeID>0){
+                    $tbl = 'hrs_utility_type';
+                    $data = ('UName,UDescription');
+                    $condition = array(
+                        'UTID' => $utilityTypeID
+                    );
+                    $result = $this->Common_Model->select_fields_where($tbl,$data,$condition,FALSE,'','','');
+                    if($result !== FALSE){
+                        echo json_encode($result);
+                        return;
+                    }
+                }
+            }else{
+                redirect($this->data['errorPage_500']);
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
+
+    function updateUtilityType(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
                 $utilityTypeID = mysql_real_escape_string(htmlspecialchars($this->input->post('UT')));
                 $utilityTypeName = mysql_real_escape_string(htmlspecialchars($this->input->post('UTName')));
                 $utilityTypeDescription = mysql_real_escape_string(htmlspecialchars($this->input->post('UTDescription')));

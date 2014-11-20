@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="cUtilityTypeName">Utility Type</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" name="cUtilityTypeName required" placeholder="Type Name" id="cUtilityTypeName">
+                                    <input type="text" class="form-control required" name="cUtilityTypeName" placeholder="Type Name" id="cUtilityTypeName">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
@@ -89,7 +89,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="eUtilityTypeName">Utility Type</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" name="eUtilityTypeName required" placeholder="Type Name" id="eUtilityTypeName">
+                                    <input type="text" class="form-control required" name="eUtilityTypeName" placeholder="Type Name" id="eUtilityTypeName">
                                 </div>
                             </div><!-- /.form-group -->
                             <div class="form-group">
@@ -133,13 +133,14 @@
         //End Of dataTables Script..
         $('#AddUtilityTypeBtn').on('click', function (e) {
             e.preventDefault();
-            var formData = {
-              UTName: $('#cUtilityTypeName').val(),
-              UTDescription: $('#cUtilityDescription').val()
-            };
             var selector = $('#addNewUtilityTypeForm');
             HRS.formValidation(selector);
             if(selector.valid()){
+                console.log('im working also');
+                var formData = {
+                    UTName: $('#cUtilityTypeName').val(),
+                    UTDescription: $('#cUtilityDescription').val()
+                };
             $.ajax({
                url: "{{url}}/admin/hrsConfigurations/addUtilityType",
                 data: formData,
@@ -164,8 +165,8 @@
             var UTID = $(this).closest('tr').attr('data-id');
             var formData = {
                 UT: UTID,
-                UTName: $('#eUtilityTypeName'),
-                UTDescription: $('#eUtilityDescription')
+                UTName: $('#eUtilityTypeName').val(),
+                UTDescription: $('#eUtilityDescription').val()
             };
             var selector = $('#editNewUtilityTypeForm');
             HRS.formValidation(selector);
@@ -188,6 +189,25 @@
                     }
                 });
             }
+        });
+
+        $('#ManageUtilityTypes').on('click','.editBtnFunc', function (e) {
+            e.preventDefault();
+            var UTID = $(this).closest('tr').attr('data-id');
+            var data = {
+                ID :UTID
+            };
+            //Ajax Call to Get the Edit Modal Data for the Currently Selected Row.
+            $.ajax({
+               url:"{{url}}/admin/hrsConfigurations/editUtilityType",
+               dataType:"json",
+               type: "POST",
+                data:data,
+                success: function (returnedData) {
+
+                }
+                
+            });
         });
 
         $('#ManageUtilityTypes').on('click','.deleteBtnFunc', function (e) {
