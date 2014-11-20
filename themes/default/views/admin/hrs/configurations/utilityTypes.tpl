@@ -15,7 +15,7 @@
                                 <i class="fa fa-table"></i>
                             </div>
                             <h5>Manage Utility Types</h5>
-                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a data-original-title="" href="#addNewPropertyModal_ManageProperties" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Property</a></div>
+                            <div style="float:right; margin-right:10px; margin-top: 5px;"><a data-original-title="" href="#addNewUtilityTypeModal" data-toggle="modal" class="btn btn-metis-5 btn-sm btn-grad btn-rect">Add New Utility Type</a></div>
                         </header>
                         <div class="body" id="collapse4">
                             <table id="ManageUtilityTypes" class="table table-bordered table-condensed table-hover table-striped">
@@ -40,6 +40,40 @@
 
     {{*Hidden Models Below for Actions of the View*}}
 
+    {{*Add New Utility Type Modal*}}
+    <div id="addNewUtilityTypeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><i style='color: #666666' class='fa fa-edit fa-fw fa-1x'></i>Add Property</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="body collapse in" id="div-1">
+                        <form class="form-horizontal" id="addNewUtilityTypeForm" accept-encoding="utf-8">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="cUtilityTypeName">Utility Type</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" name="cUtilityTypeName" placeholder="Type Name" id="cUtilityTypeName">
+                                </div>
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="cUtilityDescription">Description</label>
+                                <div class="col-lg-8">
+                                    <textarea name="cUtilityDescription" id="cUtilityDescription" placeholder="Type any Description Related to the Utility Type" class="form-control"></textarea>
+                                </div>
+                            </div><!-- /.form-group -->
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="AddUtilityTypeBtn">Add</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- /#Add New Utility Type Modal -->
+
 {{/block}}
 {{block name="scripts"}}
     {{js('datatables/fnReloadAjax.js')}}
@@ -62,6 +96,29 @@
         ];
         commonDataTables(selector,url,aoColumns);
         //End Of dataTables Script..
+        $('#AddUtilityTypeBtn').on('click', function (e) {
+            e.preventDefault();
+            var formData = {
+              UTName: $('#cUtilityTypeName').val(),
+              UTDescription: $('#cUtilityDescription').val()
+            };
+            $.ajax({
+               url: "{{url}}/admin/hrsConfigurations/addUtilityType",
+                data: formData,
+                type: "POST",
+                success: function (output) {
+                    var data = output.split('::');
+                    if(data[0]==="OK"){
+                        oTable.fnReloadAjax();
+                        HRS.notification(data[1],data[2]);
+                        $('#addNewUtilityTypeModal').modal('hide');
+                    }
+                    else if(data[0]==="FAIL"){
+                        HRS.notification(data[1],data[2]);
+                    }
+                }
+            });
+        });
     });
 </script>
 {{/block}}

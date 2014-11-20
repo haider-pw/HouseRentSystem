@@ -37,4 +37,8 @@ class My_Controller extends CI_Controller{
     function hashPassword($password) {
         return md5($password);
     }
+    //when using output from database, using this function will automatically display special characters as it is on page.
+    function htmlEnc($string){
+        return htmlspecialchars($string, ENT_QUOTES, 'utf-8');
+    }
 }

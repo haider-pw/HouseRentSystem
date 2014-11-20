@@ -45,4 +45,35 @@ class hrsConfigurations extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     }
+
+    function addUtilityType(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $utilityTypeName = htmlspecialchars($this->input->post('UTName'));
+                $utilityTypeDescription = mysql_real_escape_string(htmlspecialchars($this->input->post('UTDescription')));
+                if(empty($utilityTypeName)){
+                    echo 'FAIL::Please Fill The Form Correctly::error';
+                    return;
+                }
+                $tbl = 'hrs_utility_type';
+                $data = array(
+                    'UName' => $utilityTypeName,
+                    'UDescription' =>$utilityTypeDescription
+                );
+                $result = $this->Common_Model->insert($tbl,$data);
+                if($result>0){
+                    echo "OK::Record Successfully Added::success";
+                }
+                else{
+                    echo "FAIL::Some Database Error,Record Could Not Be Added::error";
+                }
+            }
+            else{
+                redirect($this->data['errorPage_500']);
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 }
