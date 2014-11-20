@@ -667,11 +667,11 @@ class Properties extends Admin_Controller
                 $result = json_decode($result,true);
                 foreach($result['aaData'] as $key => $row){
                     if($row[4] === NULL || empty($row[4]) || empty($row[5]) || $row[5] === NULL){
-                        $column = "<a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                        $column = "<a href='#' class='assignUtilityToProperty'><i style='color: #ff0000' class='fa fa-plus fa-fw fa-2x'></i></a>";
                         array_push($result['aaData'][$key],$column);
                     }
                     elseif($row[4] !== null && $row[5] !== null ){
-                        $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-list-alt fa-fw fa-2x'></i></a><a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                        $column = "<a href='#' class='showUtilityDetailsForProperty'><i style='color: #3e8f3e' class='fa fa-list-alt fa-fw fa-2x'></i></a><a href='#' class='assignUtilityToProperty'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
                         array_push($result['aaData'][$key],$column);
                     }
                 }

@@ -8,6 +8,7 @@
         {{$Menu[$row['MenuOrder']]['FormName'] = $row['FormName']}}
         {{$Menu[$row['MenuOrder']]['FormPath'] = $row['FormPath']}}
         {{$Menu[$row['MenuOrder']]['FormCIPath'] = $row['FormCIPath']}}
+        {{$Menu[$row['MenuOrder']]['MenuIcon'] = $row['MenuIcon']}}
         {{foreach $menus as $key => $subrow}}
             {{if $subrow['ParentID'] == $row['MenuID']}}
                 {{$Menu[$row['MenuOrder']]['SubMenu'][$subrow['MenuOrder']]['SubName'] = $subrow['MenuName']}}
@@ -32,13 +33,13 @@
         <li {{checkActiveClassMainMenu($FormCIPath[1])}}>
             {{if isset($MainMenu['SubMenu'])}}
             <a href="javascript:;">
-                <i class="fa fa-dashboard"></i>
+                <i class="fa {{$MainMenu['MenuIcon']}}"></i>
                 <span class="link-title">{{$MainMenu['Name']}}</span>
                 <span class="fa arrow"></span>
             </a>
             {{else}}
                 <a href="{{url}}{{$MainMenu['FormCIPath']}}">
-                    <i class="fa fa-dashboard"></i> {{$MainMenu['Name']}}</a>
+                    <i class="fa {{$MainMenu['MenuIcon']}}"></i> {{$MainMenu['Name']}}</a>
             {{/if}}
             {{if isset($MainMenu['SubMenu'])}}
             <ul>
