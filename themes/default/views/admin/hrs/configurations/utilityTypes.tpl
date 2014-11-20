@@ -86,6 +86,7 @@
                 <div class="modal-body">
                     <div class="body collapse in" id="div-1">
                         <form class="form-horizontal" id="editUtilityTypeForm" accept-encoding="utf-8">
+                            <input type="hidden" id="eUtilityTypeID" style="display: none;"/>
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="eUtilityTypeName">Utility Type</label>
                                 <div class="col-lg-8">
@@ -162,13 +163,12 @@
         });
         $('#updateUtilityTypeBtn').on('click', function (e) {
             e.preventDefault();
-            var UTID = $(this).closest('tr').attr('data-id');
             var formData = {
-                UT: UTID,
+                UT: $('#eUtilityTypeID').val(),
                 UTName: $('#eUtilityTypeName').val(),
                 UTDescription: $('#eUtilityDescription').val()
             };
-            var selector = $('#editNewUtilityTypeForm');
+            var selector = $('#editUtilityTypeForm');
             HRS.formValidation(selector);
             if (selector.valid()) {
                 $.ajax({
@@ -180,8 +180,8 @@
                         if (data[0] === "OK") {
                             oTable.fnReloadAjax();
                             HRS.notification(data[1], data[2]);
-                            $('#editNewUtilityTypeModal').modal('hide');
-                            $("#editNewUtilityTypeForm")[0].reset();
+                            $('#editUtilityTypeModal').modal('hide');
+                            $("#editUtilityTypeForm")[0].reset();
                         }
                         else if (data[0] === "FAIL") {
                             HRS.notification(data[1], data[2]);
@@ -203,8 +203,14 @@
                dataType:"json",
                type: "POST",
                 data:data,
-                success: function (returnedData) {
-
+                success: function (response) {
+                    if(!($.isEmptyObject(response))){
+                        $.each(response,function(key,value){
+                            $('#eUtilityTypeID').val(value.UTID);
+                            $('#eUtilityTypeName').val(value.UName);
+                            $('#eUtilityDescription').val(value.UDescription);
+                        });
+                    }
                 }
                 
             });

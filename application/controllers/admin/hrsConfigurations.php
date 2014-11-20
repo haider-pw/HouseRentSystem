@@ -83,7 +83,7 @@ class hrsConfigurations extends Admin_Controller
                 $utilityTypeID = mysql_real_escape_string($this->input->post('ID'));
                 if(isset($utilityTypeID) && is_numeric($utilityTypeID) && $utilityTypeID>0){
                     $tbl = 'hrs_utility_type';
-                    $data = ('UName,UDescription');
+                    $data = ('UTID,UName,UDescription');
                     $condition = array(
                         'UTID' => $utilityTypeID
                     );
@@ -124,7 +124,15 @@ class hrsConfigurations extends Admin_Controller
                 $fields = array(
                     'UTID' => $utilityTypeID
                 );
-                $this->Common_Model->update($tbl,$fields,$data);
+                $result = $this->Common_Model->update($tbl,$fields,$data);
+                if($result === true){
+                    echo"OK::Record Successfully Added::success";
+                    return;
+                }
+                else{
+                    echo "FAIL::Some Database Error, Record Could Not Be Added.";
+                    return;
+                }
             }
             else{
                 redirect($this->data['errorPage_500']);
