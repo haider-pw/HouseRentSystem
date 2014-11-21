@@ -164,7 +164,7 @@ function createTenant_Action(){
             $where = array(
                 'IsActive' => '1'
             );
-            $addColumn = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
+            $addColumn = "<a href='#' data-toggle='modal' class='detailsBtnFunc'><i style='color: #3e8f3e' class='fa fa-arrow-right fa-fw fa-2x'></i></a><a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
             $result = $this->Common_Model->select_fields_joined_DT($data, $PTable, $joins, $where, $addColumn);
             echo $result;
         }
@@ -184,7 +184,7 @@ function createTenant_Action(){
                 )
             );
             $where = ('T.`TenantID` IS NULL');
-            $addColumn = "<a href='#editBtnModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
+            $addColumn = "";
             $result = $this->Common_Model->select_fields_joined_DT($data, $PTable, $joins, $where, $addColumn);
             echo $result;
         }

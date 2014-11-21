@@ -65,7 +65,6 @@
                                                 <th data-class="expand">Full Name</th>
                                                 <th data-hide="phone">Username</th>
                                                 <th data-hide="phone,tablet">CNIC</th>
-                                                <th>Actions</th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -275,8 +274,7 @@
             },
             /* Full Name */  null,
             /* Username */  null,
-            /* CNIC */  null,
-            /* Actions */  null
+            /* CNIC */  null
         ];
         commonDataTables(selector,url,aoColumns);
         //End Of dataTables Script..
