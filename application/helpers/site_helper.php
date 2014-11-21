@@ -5,6 +5,21 @@
  * Date: 8/26/14
  * Time: 9:39 PM
  */
+
+
+if(!function_exists('checkActiveClassAdminTabs')) {
+
+    function checkActiveClassAdminTabs($tabName){
+        $CI =& get_instance();
+        $sessionTabName = $CI->session->userdata('activetb');
+        if(strtolower($sessionTabName)===strtolower($tabName)){
+            $activeClass = 'class="active"';
+            return $activeClass;
+        }
+        //return strtolower($menuName);
+    }
+}//End of Function CheckUserLanguage
+
 if(!function_exists('checkActiveClassMainMenu')) {
 
     function checkActiveClassMainMenu($menuName){

@@ -91,6 +91,7 @@ class usersManagePermissions extends Admin_Controller
             $table = 'sys_forms_in_groups';
             if($groupID==='0'){
                 echo "FAIL::You Must Select the User Group First.::error";
+                return;
             }
             elseif($groupID>0){
                 //If the state is true (ON switch), then record will be inserted in table
