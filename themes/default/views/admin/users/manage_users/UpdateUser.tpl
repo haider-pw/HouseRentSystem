@@ -79,6 +79,12 @@
                                                         </div>
                                                     </div><!-- /.form-group -->
                                                     <div class="form-group">
+                                                        <label class="control-label col-lg-2" for="fatherName">Father Name</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" class="form-control required" name="fatherName" placeholder="Father Name" value="{{$UserData[0]->FatherName}}" id="fatherName">
+                                                        </div>
+                                                    </div><!-- /.form-group -->
+                                                    <div class="form-group">
                                                         <label class="control-label col-lg-2" for="username">Username</label>
                                                         <div class="col-lg-10">
                                                             <input type="text" class="form-control required" name="username" placeholder="Username" value="{{$UserData[0]->Username}}" id="username">

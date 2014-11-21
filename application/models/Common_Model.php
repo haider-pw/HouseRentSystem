@@ -230,7 +230,7 @@ class Common_Model extends MY_Model{
         //echo $this->db->last_query();
         $affectedRows = $this->db->affected_rows();
         if($affectedRows){
-            return $affectedRows;
+            return TRUE;
         }
         else{
             return $this->db->_error_message();

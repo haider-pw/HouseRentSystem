@@ -177,6 +177,7 @@ class usersManageUsers extends Admin_Controller
             if($this->input->post()){
                 $username = $this->input->post('username');
                 $fullName = $this->input->post('fullName');
+                $fatherName = $this->input->post('fatherName');
                 $email = $this->input->post('userEmail');
                 $mobile = $this->input->post('mobileNo');
                 $cnic = $this->input->post('cnic');
@@ -199,6 +200,7 @@ class usersManageUsers extends Admin_Controller
                         $data = array(
                             'Username' => $username,
                             'FullName' => $fullName,
+                            'FatherName' => $fatherName,
                             'Email'  => $email,
                             'Password' => $pass,
                             'Mobile' => $mobile,
@@ -207,21 +209,25 @@ class usersManageUsers extends Admin_Controller
                             'GroupID' => $userGroupID
                         );
                         $result = $this->Common_Model->update_query($table,$field,$userID,$data);
-                        if($result=true){
+                        if($result === TRUE){
                             echo "OK::Record Successfully Updated::success";
+                            return;
                         }
                         else{
                             echo "FAIL::Some Database Error, Record Could Not be Updated::success";
+                            return;
                         }
                     }
                     else{
-                        echo "password do not match with confirm password";
+                        echo "FAIL::Password do not match with confirm password::error";
+                        return;
                     }
                 }
                 elseif($currentPass==''){
                     $data = array(
                         'Username' => $username,
                         'FullName' => $fullName,
+                        'FatherName' => $fatherName,
                         'Email'  => $email,
                         'Mobile' => $mobile,
                         'CNIC'   => $cnic,
@@ -229,11 +235,13 @@ class usersManageUsers extends Admin_Controller
                         'GroupID' => $userGroupID
                     );
                     $result = $this->Common_Model->update_query($table,$field,$userID,$data);
-                    if($result=true){
+                    if($result === TRUE){
                         echo "OK::Record Successfully Updated::success";
+                        return;
                     }
                     else{
                         echo "FAIL::Some Database Error, Record Could Not be Updated::success";
+                        return;
                     }
                 }
             }
