@@ -87,6 +87,12 @@
                                                         <input type="text" class="form-control required" name="fullName" placeholder="Full Name" id="fullName">
                                                     </div>
                                                 </div><!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2" for="fatherName">Father Name</label>
+                                                            <div class="col-lg-10">
+                                                                <input type="text" class="form-control required" name="fatherName" placeholder="Father Name" id="fatherName">
+                                                            </div>
+                                                        </div><!-- /.form-group -->
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2" for="username">Username</label>
                                                     <div class="col-lg-10">
@@ -201,10 +207,11 @@
                                 //data.append(file);
                             var formData = new FormData();
                             formData.append('fullName', $('#fullName').val());
+                            formData.append('fatherName', $('#fatherName').val());
                             formData.append('username', $('#username').val());
                             formData.append('userEmail', $('#email').val());
                             formData.append('cnic', $('#cnic').val());
-                            formData.append('MobileNo', $('#mobileNo').val());
+                            formData.append('mobileNo', $('#mobileNo').val());
                             formData.append('pass', $('#pass').val());
                             formData.append('pass2', $('#passVerification').val());
                             formData.append('theme', $('#theme').val());

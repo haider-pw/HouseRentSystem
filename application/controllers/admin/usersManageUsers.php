@@ -74,6 +74,7 @@ class usersManageUsers extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
                 $fullName = $this->input->post('fullName');
+                $fatherName = $this->input->post('fatherName');
                 $username = $this->input->post('username');
                 $email = $this->input->post('userEmail');
                 $cnic = $this->input->post('cnic');
@@ -88,6 +89,7 @@ class usersManageUsers extends Admin_Controller
                         'UserName' => $username,
                         'Password' => $pass,
                         'FullName' => $fullName,
+                        'FatherName' => $fatherName,
                         'Email' => $email,
                         'Mobile' => $mobile,
                         'CNIC' => $cnic,
