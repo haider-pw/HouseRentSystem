@@ -26,10 +26,36 @@ class hrsTenants extends Admin_Controller{
             redirect($this->data['errorPage_403']);
         }
     }
-    function Details(){
+    function Details($tenantID){
         $UserID = $this->data['UserID'];
-        if(is_admin($UserID) === TRUE || is_allowed($UserID) ===TRUE ){
+        if(is_admin($UserID) === TRUE || is_allowed($UserID) === TRUE ){
             $this->data['title'] = 'Tenant Details';
+            if(!isset($tenantID) || !($tenantID>0)){
+                redirect($this->data['errorPage_403']);
+                return;
+            }
+            $this->data['TID'] = $tenantID;
+
+//            Need to Query in Database to get the Tenant Details to show inside the view.
+            $PTable = 'hrs_tenants';
+            $TenantData = ('UserID, Username, FullName, FatherName, CNIC, Email, GroupID, GroupName');
+            $joins = array(
+                array(
+                    'table' => 'users_users',
+                    'condition' => 'hrs_tenants.UserID = users_users.UserID',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'users_groups',
+                    'condition' => 'users_users.GroupID = users_groups.GroupID',
+                    'jointype' => 'INNER'
+                )
+            );
+            $where = array(
+                'TenantID' =>$tenantID
+            );
+            $result = $this->Common_Model->select_fields_joined($TenantData,$PTable,$joins,$where,'');
+            $this->data['TenantData'] = $result;
             $this->parser->parse('admin/hrs/tenants/TenantDetails', $this->data);
         }else{
             redirect($this->data['errorPage_403']);
