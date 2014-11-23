@@ -45,13 +45,35 @@
                                                         <span class="user-name">Syed Haider Hassan</span>
                                                     </div>
                                                     <div class="list-group">
-                                                        <a href="#" class="list-group-item disabled">
-                                                            Cras justo odio
+                                                        <a href="#" class="list-group-item row">
+                                                            <div class="col-lg-12" style="text-align: center;font-weight: bold;">
+                                                                <span> Administrator</span>
+                                                            </div>
                                                         </a>
-                                                        <a href="#" class="list-group-item">Administrator</a>
-                                                        <a href="#" class="list-group-item"><b>CNIC:</b> 17301-5856870-1</a>
-                                                        <a href="#" class="list-group-item">Cell: 03348123456</a>
-                                                        <a href="#" class="list-group-item">Last Login: Never</a>
+                                                        <a href="#" class="list-group-item row">
+                                                            <div class="col-lg-3">
+                                                            <b >CNIC:</b>
+                                                            </div>
+                                                            <div class="col-lg-9">
+                                                                <span> 17301-5856870-1</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" class="list-group-item row">
+                                                            <div class="col-lg-3">
+                                                                <b >Cell:</b>
+                                                            </div>
+                                                            <div class="col-lg-9">
+                                                                <span> 03348123456</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" class="list-group-item row">
+                                                            <div class="col-lg-3">
+                                                                <b>Last Login: </b>
+                                                            </div>
+                                                            <div class="col-lg-9">
+                                                                <span> Never </span>
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
