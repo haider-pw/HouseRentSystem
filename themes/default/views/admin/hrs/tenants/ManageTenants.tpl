@@ -311,6 +311,12 @@
             });
         });
 
+//        We need to see the Details for the Seletected Tenants, Following Function should Take us to the Tenant Details Page.
+    $('#ManageTenants').on('click','.detailsBtnFunc', function (e) {
+        e.preventDefault();
+        var TenantID = $(this).closest('tr').attr('data-id');
+        window.location = "{{url}}admin/hrsTenants/Details/"+TenantID;
+    });
     });
     </script>
 {{/block}}
