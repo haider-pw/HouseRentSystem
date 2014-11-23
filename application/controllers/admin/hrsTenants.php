@@ -26,6 +26,15 @@ class hrsTenants extends Admin_Controller{
             redirect($this->data['errorPage_403']);
         }
     }
+    function Details(){
+        $UserID = $this->data['UserID'];
+        if(is_admin($UserID) === TRUE || is_allowed($UserID) ===TRUE ){
+            $this->data['title'] = 'Tenant Details';
+            $this->parser->parse('admin/hrs/tenants/TenantDetails', $this->data);
+        }else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 
 /*//////////////////////////////////////////////////////////////////////
 ////////////////////Functions for the Above Views/////////////////////
