@@ -38,7 +38,7 @@ class hrsTenants extends Admin_Controller{
 
 //            Need to Query in Database to get the Tenant Details to show inside the view.
             $PTable = 'hrs_tenants';
-            $TenantData = ('UserID, Username, FullName, FatherName, CNIC, Email, GroupID, GroupName');
+            $TenantData = ('Username, FullName, FatherName, CNIC, Email, Mobile, GroupName , LastActivity');
             $joins = array(
                 array(
                     'table' => 'users_users',

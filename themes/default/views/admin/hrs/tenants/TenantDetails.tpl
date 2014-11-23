@@ -29,7 +29,8 @@
                                             {{*Panel Code Here*}}
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">Syed Haider Hassan</h3>
+                                                    {{*<pre>{{var_dump($TenantData)}}</pre>*}}
+                                                    <h3 class="panel-title">{{$TenantData[0]->FullName}}</h3>
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="row">
@@ -42,12 +43,12 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        <span class="user-name">Syed Haider Hassan</span>
+                                                        <span class="user-name">{{$TenantData[0]->FullName}}</span>
                                                     </div>
                                                     <div class="list-group">
                                                         <a href="#" class="list-group-item row">
                                                             <div class="col-lg-12" style="text-align: center;font-weight: bold;">
-                                                                <span> Administrator</span>
+                                                                <span>{{$TenantData[0]->GroupName}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -55,7 +56,7 @@
                                                             <b >CNIC:</b>
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                <span> 17301-5856870-1</span>
+                                                                <span>{{$TenantData[0]->CNIC}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -63,7 +64,7 @@
                                                                 <b >Cell:</b>
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                <span> 03348123456</span>
+                                                                <span>{{$TenantData[0]->Mobile}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -71,7 +72,13 @@
                                                                 <b>Last Login: </b>
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                <span> Never </span>
+                                                                <span>
+                                                                    {{if $TenantData[0]->LastActivity|default:FALSE}}
+                                                                        {{$TenantData[0]->LastActivity}}
+                                                                        {{else}}
+                                                                        Never
+                                                                        {{/if}}
+                                                                     </span>
                                                             </div>
                                                         </a>
                                                     </div>
