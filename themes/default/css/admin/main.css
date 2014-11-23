@@ -2759,3 +2759,11 @@ div.row span.user-name{
     margin: 10px;
     text-align: center;
 }
+
+
+/*=======================Tenant Details Page=====================================*/
+.customWellBox{
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}

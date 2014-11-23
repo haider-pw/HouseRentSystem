@@ -89,8 +89,40 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     {{*Details View Start Here*}}
+                                                    <div class="well well-sm customWellBox">
+<div class="row">
+                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                            <span class="fa fa-tags" style="color: darkred; font-size: 16pt;" aria-hidden="true"></span> <h3 style="display: inline-block">0</h3>
+                                                            <p style="font-weight: bold;margin-left: 10px;">Payments Late</p>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                            <span class="fa fa-tags" style="color: darkorange; font-size: 16pt;" aria-hidden="true"></span><h3 style="display: inline-block">0</h3>
+                                                            <p style="font-weight: bold;margin-left: 10px;">Payments Pending</p>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                            <span class="fa fa-tags" style="color: #338f33; font-size: 16pt;" aria-hidden="true"></span> <h3 style="display: inline-block">0</h3>
+                                                            <p style="font-weight: bold;margin-left: 10px;">Payments Paid</p>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                            <span class="fa fa-envelope" style="color: black; font-size: 16pt;" aria-hidden="true"></span> <h3 style="display: inline-block">0</h3>
+                                                            <p style="font-weight: bold;margin-left: 10px;">Notices Sent</p>
+                                                        </div>
+</div>
+                                                    </div>
+                                                    {{*Panel Here which Should Hold a Table/Grid*}}
+                                                    <div class="row" style="margin-top:20px;">
+                                                        <div class="col-lg-12">
+                                                            <div class="panel panel-primary">
+                                                                <div class="panel-heading">
+                                                                    <div class="panel-title">Payments (month - month)</div>
+                                                                </div>
+                                                                ...
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     {{*Details Views Ends Here*}}
                                                 </div>
+
                                             </div>
                                         </div>
                                         {{*End of Right Section Division*}}
