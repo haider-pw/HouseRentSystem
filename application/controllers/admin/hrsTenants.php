@@ -280,4 +280,67 @@ function createTenant_Action(){
             redirect($this->data['errorPage_403']);
         }
     }
+
+    function listTenantPaymentDetails_DT()
+    {
+        if ($this->input->is_ajax_request()) {
+            $PTable = 'hrs_tenants T';
+            $data = ('PaymentID,PaymentReceived,DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining');
+            $joins=array(
+                array(
+                    'table' => 'hrs_tenant_residential TR',
+                    'condition' => 'T.TenantID = TR.TenantID',
+                    'type' => 'INNER'
+                ),
+                array(
+                    'table' => 'hrs_residentials R',
+                    'condition' => 'TR.ResID = R.ResID',
+                    'type' => 'INNER'
+                ),
+                array(
+                    'table' => 'hrs_payments P',
+                    'condition' => 'T.TenantID = P.TenantID',
+                    'type' => 'INNER'
+                )
+            );
+            $where = array(
+                'T.IsActive' => '1'
+            );
+            $result = $this->Common_Model->select_fields_joined_DT($data,$PTable,$joins,$where,'','');
+            $result = json_decode($result,true);
+            foreach($result['aaData'] as $key => $row){
+                if($row[7]==='0' || $row[1]===$row[6]){
+                $row[1] = 'PAID';
+                    $array = array(
+                        1 => $row[1]
+                    );
+                    $result['aaData'][$key] = array_replace($result['aaData'][$key],$array);
+                    } else {
+                    $expiry_date = $row[2];
+                    $current_date = $this->data['dbCurrentDate'];
+                    if($expiry_date<$current_date){
+                        $row[1] = '<span aria-hidden="true" style="color: darkred; font-size: 16pt; text-align: center;display: block;" class="fa fa-tags"></span>';
+                        $array = array(
+                            1 => $row[1]
+                        );
+                    }
+                    else{
+                        $row[1] = '<span aria-hidden="true" style="color: black; font-size: 16pt; text-align: center;display: block;" class="fa fa-tags"></span>';
+                        $array = array(
+                            1 => $row[1]
+                        );
+                    }
+                    $result['aaData'][$key] = array_replace($result['aaData'][$key],$array);
+                }
+
+            }
+            $result['sColumns'] = str_replace('PaymentReceived','Status',$result['sColumns']);
+//            echo "<pre>";
+            print_r(json_encode($result));
+//            echo "</pre>";
+            return;
+        } else {
+            redirect($this->data['errorPage_403']);
+        }
+    }
 }

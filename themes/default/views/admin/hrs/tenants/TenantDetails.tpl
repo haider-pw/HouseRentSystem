@@ -123,7 +123,29 @@
                                                                 <div class="panel-heading">
                                                                     <div class="panel-title">Payments (month - month)</div>
                                                                 </div>
-                                                                ...
+                                                                {{*Main Grid Here*}}
+                                                                <table id="TenantPaymentDetails" class="table table-bordered table-condensed table-hover table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>PaymentID</th>
+                                                                        <th data-class="expand">Status</th>
+                                                                        <th data-hide="phone">Due Date</th>
+                                                                        <th data-hide="phone,tablet">Property</th>
+                                                                        <th data-hide="phone,tablet">Period Start</th>
+                                                                        <th data-hide="phone,tablet">Period End</th>
+                                                                        <th data-hide="phone">Due</th>
+                                                                        <th data-hide="phone,tablet">Remaining</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tfoot>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th colspan="7">Total Remaining:</th>
+                                                                    </tr>
+                                                                    </tfoot>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                {{*End of Main Grid*}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -150,7 +172,31 @@
 {{/block}}
 {{block name="scripts"}}
     {{js('holder/holder.js')}}
+    {{js('datatables/fnReloadAjax.js')}}
     <script>
+        var oTable;
+        $('document').ready(function (e) {
+            oTable = '';
+            //Data Tables Script Here.
+            var selector = $('#TenantPaymentDetails');
+            var url = "{{base_url()}}admin/hrsTenants/listTenantPaymentDetails_DT/";
+            var aoColumns =  [
+                /* Payment ID */   {
+                    "bVisible":    false,
+                    "bSortable":   false,
+                    "bSearchable": false
+                },
+                /* Status */  null,
+                /* Due Date */  null,
+                /* Property */  null,
+                /* Period Start */  null,
+                /* Period End */  null,
+                /* Due */  null,
+                /* Remaining */  null
 
+            ];
+            commonDataTablesWithFooter(selector,url,aoColumns);
+            //End Of dataTables Script..
+        });
     </script>
 {{/block}}

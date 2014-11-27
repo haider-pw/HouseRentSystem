@@ -2767,3 +2767,12 @@ div.row span.user-name{
     margin: 0px;
     text-align: center;
 }
+.tableFooter{
+    background: none repeat scroll 0 0 #428bca;
+    color: white;
+    padding-right: 20px;
+}
+.tableFooter th{
+text-align: right;
+    padding-right: 10px !important;
+}

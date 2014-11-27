@@ -75,6 +75,94 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
         }
     });
 }
+//This Below DataTables Function Should have Footer..
+function commonDataTablesWithFooter(selector,url,aoColumns,RowCallBack,DrawCallBack){
+    var responsiveHelper;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone : 480
+    };
+    oTable = selector.dataTable({
+        sPaginationType: 'bootstrap',
+        oLanguage      : {
+            sLengthMenu: '_MENU_ records per page'
+        },
+        "autoWidth" : false,
+        "aoColumns":aoColumns,
+        "bServerSide":true,
+        "bProcessing":true,
+        "sDom" : '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>',
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "sAjaxSource": url,
+        "iDisplayLength": 6,
+        bLengthChange: false,
+        'fnServerData'   : function(sSource, aoData, fnCallback){
+            $.ajax({
+                'dataType': 'json',
+                'type': 'POST',
+                'url': url,
+                'data': aoData,
+                'success': fnCallback
+            }); //end of ajax
+        },
+        'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            $(nRow).attr("data-id",aData[0]);
+            if(typeof RowCallBack !== "undefined"){
+                eval(RowCallBack);
+            }
+            responsiveHelper.createExpandIcon(nRow);
+            return nRow;
+        },
+        fnPreDrawCallback: function () {
+            var nTrs = selector.find('tbody tr');
+            // Enumerate all rows
+            var sum = 0;
+            for (var i = 0; i < nTrs.length; i++) {
+                var iDisplayIndex = oSettings._iDisplayStart + i;
+                var dataIndex = oSettings.aiDisplay[iDisplayIndex];
+                sum += oSettings.aoData[dataIndex]._aData.PaymentRemaining;
+            }
+            // Insert sum at the end
+            selector.find(' tbody tr:last').after('<p>whats up</p>');
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper) {
+                responsiveHelper = new ResponsiveDatatablesHelper(selector, breakpointDefinition);
+            }
+        },
+        fnDrawCallback : function (oSettings) {
+            // Respond to windows resize.
+            responsiveHelper.respond();
+            if(typeof DrawCallBack !== "undefined"){
+                eval(DrawCallBack);
+            }
+        },
+        "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+            /*
+             * Calculate the total market share for all browsers in this table (ie inc. outside
+             * the pagination)
+             */
+            var iTotalMarket = 0;
+            for ( var i=0 ; i<aaData.length ; i++ )
+            {
+                iTotalMarket += aaData[i][7]*1;
+            }
+
+            /* Calculate the market share for browsers on this page */
+            var iPageMarket = 0;
+            for ( var i=iStart ; i<iEnd ; i++ )
+            {
+                iPageMarket += aaData[ aiDisplay[i] ][7]*1;
+            }
+
+            /* Modify the footer row to match what we want */
+            var nCells = nRow.getElementsByTagName('th');
+            nRow.setAttribute('class','tableFooter');
+            nCells[0].innerHTML = 'Total Remaining : '+parseInt(iPageMarket)+'('+parseInt(iTotalMarket)+')';
+            //nCells[0].css('text-align','center')
+        }
+    });
+}
 
 function RefreshTable(tableId, urlData)
 	{
