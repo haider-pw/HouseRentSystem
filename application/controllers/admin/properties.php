@@ -39,6 +39,17 @@ class Properties extends Admin_Controller
         }
     }
 
+    function propertyDetails($propertyID)
+    {
+        $UserID = $this->data['UserID'];
+        if(is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE){
+
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
+
     function PropertyUtilities()
     {
         $UserID = $this->data['UserID'];

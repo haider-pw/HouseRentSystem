@@ -121,7 +121,10 @@
                                                         <div class="col-lg-12">
                                                             <div class="panel panel-primary">
                                                                 <div class="panel-heading">
-                                                                    <div class="panel-title">Payments (month - month)</div>
+                                                                    <div class="row">
+                                                                        <div class="panel-title col-xs-6" style="display: inline-block;">Payments (month - month)</div>
+                                                                        <div class="customPanelHeaderSearch col-xs-6"><input type="text" class="form-control" placeholder="Search..."> </div>
+                                                                    </div>
                                                                 </div>
                                                                 {{*Main Grid Here*}}
                                                                 <table id="TenantPaymentDetails" class="table table-bordered table-condensed table-hover table-striped">

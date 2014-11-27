@@ -2776,3 +2776,7 @@ div.row span.user-name{
 text-align: right;
     padding-right: 10px !important;
 }
+.customPanelHeaderSearch{
+    display: inline-block;
+    float:right;
+}
