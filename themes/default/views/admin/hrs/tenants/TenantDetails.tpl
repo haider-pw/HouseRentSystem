@@ -171,7 +171,6 @@
         </div>
     </div>
     {{*End of the Main View*}}
-    {{*Just for Update*}}
 {{/block}}
 {{block name="scripts"}}
     {{js('holder/holder.js')}}
