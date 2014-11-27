@@ -42,10 +42,10 @@ class Properties extends Admin_Controller
     function propertyDetails($propertyID)
     {
         $UserID = $this->data['UserID'];
-        if(is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE){
-
-        }
-        else{
+        if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
+            $this->data['title'] = "Property Details";
+            $this->parser->parse('admin/hrs/properties/PropertyDetails', $this->data);
+        } else {
             redirect($this->data['errorPage_403']);
         }
     }
@@ -255,7 +255,7 @@ class Properties extends Admin_Controller
             $result = json_decode($result,true);
             foreach($result['aaData'] as $key => $row){
                 if($row[2] === '1'){
-                    $column = "<a href='#' class='userDetailsFunc'><i style='color: #666666' class='fa fa-user fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#' class='propertyDetailsFunc'><i style='color: #666666' class='fa fa-home fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key],$column);
                 }
                 elseif($row[2] === '2'){

@@ -123,7 +123,7 @@
                 }
             });
         });
-        selector.on('click','propertyDetailsFunc', function (e) {
+        selector.on('click','.propertyDetailsFunc', function (e) {
             var resID = $(this).parent('tr').attr('data-id');
             window.location.replace('{{url}}admin/properties/propertyDetails/'+resID);
         });
