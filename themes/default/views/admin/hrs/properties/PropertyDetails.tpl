@@ -10,7 +10,6 @@
         <div class="inner">
             {{*Property Details Main Section Starts Here*}}
             <div class="row ui-sortable">
-
                 <div class="col-lg-12">
                     <div class="box">
                         <header>
@@ -43,13 +42,13 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        <span class="user-name">H-001</span>
+                                                        <span class="user-name">{{$PropertyData[0]->ResNo}}</span>
                                                     </div>
                                                     <div class="list-group">
                                                         <a href="#" class="list-group-item row">
                                                             <div class="col-lg-12"
                                                                  style="text-align: center;font-weight: bold;">
-                                                                <span>House</span>
+                                                                <span>{{$PropertyData[0]->TypeName}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -57,7 +56,7 @@
                                                                 <b>Rooms:</b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span>4</span>
+                                                                <span>{{$PropertyData[0]->ResRooms}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -65,7 +64,7 @@
                                                                 <b>Kitchens:</b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span>1</span>
+                                                                <span>{{$PropertyData[0]->ResKitchens}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -73,7 +72,7 @@
                                                                 <b>Washrooms:</b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span>2</span>
+                                                                <span>{{$PropertyData[0]->ResBathrooms}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
@@ -81,7 +80,7 @@
                                                                 <b>Registered On: </b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span> DateRegistered </span>
+                                                                <span> {{$PropertyData[0]->DateRegistered}} </span>
                                                             </div>
                                                         </a>
                                                     </div>

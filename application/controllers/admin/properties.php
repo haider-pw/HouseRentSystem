@@ -47,8 +47,30 @@ class Properties extends Admin_Controller
                 redirect($this->data['errorPage_500']);
                 return;
             }
-            $this->data['title'] = "Property Details";
+
+            // Need to Query in Database to get the Property Details to show inside the view.
+            $PTable = 'hrs_residentials R';
+            $PropertyData = ('ResNo, RT.TypeName, ResRooms, ResKitchens, ResBathrooms, DateRegistered');
+            $joins = array(
+                array(
+                    'table' => 'hrs_residential_type RT',
+                    'condition' => 'R.ResTypeID = RT.ResTypeID',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'hrs_vacancy_type VT',
+                    'condition' => 'R.VacID = VT.VacID',
+                    'jointype' => 'INNER'
+                )
+            );
+            $where = array(
+                'R.ResID' =>$propertyID
+            );
+            $result = $this->Common_Model->select_fields_joined($PropertyData,$PTable,$joins,$where,'');
+            $result[0]->ResNo = 'PN-'.$result[0]->ResNo;
+            $this->data['PropertyData'] = $result;
             $this->data['propertyID'] = $propertyID;
+            $this->data['title'] = "Property Details";
             $this->parser->parse('admin/hrs/properties/PropertyDetails', $this->data);
         } else {
             redirect($this->data['errorPage_403']);
@@ -254,7 +276,7 @@ class Properties extends Admin_Controller
                     $column = "<a href='#' class='propertyDetailsFunc'><i style='color: #666666' class='fa fa-home fa-fw fa-2x'></i></a><a href='#' id='deleteBtn' class='removeTenantFromPropertyFunc'><i style='color: #ff0000' class='fa fa-minus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key], $column);
                 } elseif ($row[2] === '2') {
-                    $column = "<a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
+                    $column = "<a href='#' class='propertyDetailsFunc'><i style='color: #666666' class='fa fa-home fa-fw fa-2x'></i></a><a href='#' class='assignTenantToPropertyFunc'><i style='color: #3e8f3e' class='fa fa-plus fa-fw fa-2x'></i></a>";
                     array_push($result['aaData'][$key], $column);
                 }
             }
@@ -687,7 +709,7 @@ class Properties extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
                 $PTable = 'hrs_residentials R';
-                $data = ('T.TenantID,IsActive,FullName,FatherName,CNIC,Mobile,DateAssigned,DateRevoked');
+                $data = ('T.TenantID,TR.IsActive,FullName,FatherName,CNIC,Mobile,DateAssigned,DateRevoked');
                 $joins = array(
                     array(
                         'table' => 'hrs_tenant_residential TR',

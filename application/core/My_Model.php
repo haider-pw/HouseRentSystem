@@ -8,8 +8,15 @@
  */
 class MY_Model extends CI_Model {
 
+    /**
+     * @var array $modelData Contains Data Related to Model Data.
+     */
+    public $modelData = array();
+
     function __construct(){
         parent::__construct();
+        $this->modelData['UserID'] = $this->session->userdata('UserID');
+        $this->modelData['dbCurrentDate'] = date("Y-m-d H:i:s");
     }
 
     function get($table,$where=array(),$single=FALSE) {

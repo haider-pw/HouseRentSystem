@@ -13,7 +13,11 @@ class PropertiesModel extends Common_Model
         parent::__construct();
     }
     function assignTenantToProperty($PTable,$data){
-        $this->db->select('TRID')->from('hrs_tenant_residential')->where('ResID',$data['ResID']);
+        $TRWhere = array(
+            'ResID' => $data['ResID'],
+            'IsActive' => '1'
+        );
+        $this->db->select('TRID')->from('hrs_tenant_residential')->where($TRWhere);
         $query = $this->db->get();
         $records = $query->num_rows();
         if(isset($records) && $records>0){
@@ -45,7 +49,13 @@ class PropertiesModel extends Common_Model
         $condition = array(
             'ResID' => $resID
         );
-        $this->db->delete('hrs_tenant_residential', $condition);
+        $TRData = array(
+            'DateRevoked' => $this->modelData['dbCurrentDate'],
+            'RevokedBy' => $this->modelData['UserID'],
+            'IsActive' => (int)'0'
+        );
+        $this->db->update('hrs_tenant_residential',$TRData, $condition);
+
         //Now We Will Update Residential Info
         $this->db->where('ResID', $resID);
         $resData = array(
