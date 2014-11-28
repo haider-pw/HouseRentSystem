@@ -43,7 +43,12 @@ class Properties extends Admin_Controller
     {
         $UserID = $this->data['UserID'];
         if (is_admin($UserID) == TRUE || is_allowed($UserID) == TRUE) {
+            if(!isset($propertyID) || !($propertyID>0)){
+                redirect($this->data['errorPage_500']);
+                return;
+            }
             $this->data['title'] = "Property Details";
+            $this->data['propertyID'] = $propertyID;
             $this->parser->parse('admin/hrs/properties/PropertyDetails', $this->data);
         } else {
             redirect($this->data['errorPage_403']);

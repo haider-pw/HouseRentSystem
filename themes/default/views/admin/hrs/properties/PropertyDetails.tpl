@@ -204,7 +204,7 @@
             oTable = '';
             //Data Tables Script Here.
             var selector = $('#TenantPaymentDetails');
-            var url = "{{url}}admin/properties/listPropertyTenantsHistory_DT/";
+            var url = "{{url}}admin/properties/listPropertyTenantsHistory_DT/{{$propertyID}}";
             var aoColumns =  [
                 /* Tenant ID */   {
                     "bVisible":    false,
@@ -220,7 +220,8 @@
                 /* DateRevoked */  null
 
             ];
-            commonDataTablesWithFooter(selector,url,aoColumns);
+            var sDom = '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>';
+            commonDataTablesCustomDOM(selector,url,aoColumns,sDom);
             //End Of dataTables Script..
         });
     </script>

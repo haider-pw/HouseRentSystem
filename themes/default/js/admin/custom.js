@@ -75,6 +75,60 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
         }
     });
 }
+//This Below DataTables Function Will Have Customize DOM..
+function commonDataTablesCustomDOM(selector,url,aoColumns,sDom,RowCallBack,DrawCallBack){
+    var responsiveHelper;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone : 480
+    };
+    oTable = selector.dataTable({
+        sPaginationType: 'bootstrap',
+        oLanguage      : {
+            sLengthMenu: '_MENU_ records per page'
+        },
+        "autoWidth" : false,
+        "aoColumns":aoColumns,
+        "bServerSide":true,
+        "bProcessing":true,
+        "sDom" : sDom,
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "sAjaxSource": url,
+        "iDisplayLength": 6,
+        "aLengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
+        'fnServerData'   : function(sSource, aoData, fnCallback){
+            $.ajax({
+                'dataType': 'json',
+                'type': 'POST',
+                'url': url,
+                'data': aoData,
+                'success': fnCallback
+            }); //end of ajax
+        },
+        'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            $(nRow).attr("data-id",aData[0]);
+            if(typeof RowCallBack !== "undefined"){
+                eval(RowCallBack);
+            }
+            responsiveHelper.createExpandIcon(nRow);
+            return nRow;
+        },
+        fnPreDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper) {
+                responsiveHelper = new ResponsiveDatatablesHelper(selector, breakpointDefinition);
+            }
+        },
+        fnDrawCallback : function (oSettings) {
+            // Respond to windows resize.
+            responsiveHelper.respond();
+            if(typeof DrawCallBack !== "undefined"){
+                eval(DrawCallBack);
+            }
+        }
+    });
+}
 //This Below DataTables Function Should have Footer..
 function commonDataTablesWithFooter(selector,url,aoColumns,RowCallBack,DrawCallBack){
     var responsiveHelper;
