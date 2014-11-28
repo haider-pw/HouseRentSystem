@@ -144,6 +144,7 @@
                                                         </div>
                                                     </div>
                                                     {{*Panel Here which Should Hold a Table/Grid*}}
+                                                    {{*Tenant History Related to Current Property Grid*}}
                                                     <div class="row" style="margin-top:20px;">
                                                         <div class="col-lg-12">
                                                             <div class="panel panel-primary">
@@ -178,6 +179,38 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {{*End of Current Property Tenant History*}}
+                                                    <div class="row" style="margin-top:20px;">
+                                                        <div class="col-lg-12">
+                                                            <div class="panel panel-primary">
+                                                                <div class="panel-heading">
+                                                                    <div class="row">
+                                                                        <div class="panel-title col-xs-6"
+                                                                             style="display: inline-block;">Property Utilities
+                                                                        </div>
+                                                                        <div class="customPanelHeaderSearch col-xs-6">
+                                                                            <input type="text" class="form-control"
+                                                                                   placeholder="Search..."></div>
+                                                                    </div>
+                                                                </div>
+                                                                {{*Main Grid Here*}}
+                                                                <table id="CurrentPropertyUtilities"
+                                                                       class="table table-bordered table-condensed table-hover table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>UtilityID</th>
+                                                                        <th data-class="expand">Utility</th>
+                                                                        <th data-hide="phone">Meter No</th>
+                                                                        <th data-hide="phone">Consumer No</th>
+                                                                        <th data-hide="phone,tablet">Registered Under</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                {{*End of Main Grid*}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     {{*Details Views Ends Here*}}
                                                 </div>
 
@@ -202,7 +235,7 @@
         var oTable;
         $(document).ready(function (e) {
             oTable = '';
-            //Data Tables Script Here.
+            //Current Property Tenants History List Data Tables Script Here.
             var selector = $('#TenantPaymentDetails');
             var url = "{{url}}admin/properties/listPropertyTenantsHistory_DT/{{$propertyID}}";
             var aoColumns =  [
@@ -222,6 +255,24 @@
             ];
             var sDom = '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>';
             commonDataTablesCustomDOM(selector,url,aoColumns,sDom);
+            //End Of dataTables Script..
+
+            //Current Property Utilities List Data Tables Script Here.
+            var utilitiesSelector = $('#CurrentPropertyUtilities');
+            var utilitiesURL = "{{url}}admin/properties/listPropertyUtilities_DT/{{$propertyID}}";
+            var aoColumns =  [
+                /* Utility ID */   {
+                    "bVisible":    false,
+                    "bSortable":   false,
+                    "bSearchable": false
+                },
+                /* Utility Type */  null,
+                /* Meter No */  null,
+                /* Consumer No */  null,
+                /* Registered Under */  null
+            ];
+            var sDom = '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>';
+            commonDataTablesCustomDOM(utilitiesSelector,utilitiesURL,aoColumns,sDom);
             //End Of dataTables Script..
         });
     </script>

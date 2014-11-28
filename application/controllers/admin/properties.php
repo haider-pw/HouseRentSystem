@@ -718,4 +718,36 @@ class Properties extends Admin_Controller
             redirect($this->data['errorPage_403']);
         }
     }
+    function listPropertyUtilities_DT($propertyID){
+        if($this->input->is_ajax_request()){
+            if($this->input->post()){
+                $PTable = 'hrs_utilities U';
+                $data = ('U.UtilityID,UName,Number,ConsumerNo,UtilityRegisteredUnderNameOf');
+                $joins = array(
+                    array(
+                        'table' => 'hrs_utility_type UT',
+                        'condition' => 'U.UtilityTypeID = UT.UTID',
+                        'type' => 'INNER'
+                    ),
+                    array(
+                        'table' => 'hrs_residential_utilities RU',
+                        'condition' => 'U.UtilityID = RU.UtilityID',
+                        'type' => 'INNER'
+                    )
+                );
+                $where = array(
+                  'RU.ResID' => $propertyID
+                );
+                $result = $this->Common_Model->select_fields_joined_DT($data,$PTable,$joins,$where,'','');
+                print_r($result);
+                return;
+            }
+            else{
+                redirect($this->data['errorPage_500']);
+            }
+        }
+        else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
 }
