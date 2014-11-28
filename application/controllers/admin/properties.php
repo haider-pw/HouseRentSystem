@@ -68,6 +68,24 @@ class Properties extends Admin_Controller
             );
             $result = $this->Common_Model->select_fields_joined($PropertyData,$PTable,$joins,$where,'');
             $result[0]->ResNo = 'PN-'.$result[0]->ResNo;
+            $dateRegistered = $result[0]->DateRegistered;
+            $result[0]->DateRegistered = date("d M Y", strtotime($dateRegistered));
+
+            //Get Info for Page Top Bar.
+            $tbl = 'hrs_tenant_residential';
+            $data = ('TenantID,IsActive');
+            $where = array(
+                'ResID' => $propertyID
+            );
+
+            $tenantsResidential = $this->Common_Model->select_fields_where($tbl,$data,$where);
+            $countResult = json_decode(json_encode($tenantsResidential),true);
+            $somevariable = array_count_values(array_column($countResult, 'IsActive'));
+            print_r($countResult);
+            echo "<br />";
+            print_r($tenantsResidential);
+            echo "<br />";
+            print_r($somevariable);
             $this->data['PropertyData'] = $result;
             $this->data['propertyID'] = $propertyID;
             $this->data['title'] = "Property Details";

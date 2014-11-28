@@ -1,4 +1,4 @@
-House Rent System, which i am developing is my personal site which i am first time trying with smarty and codeigniter combination. I am well aware of codeigniter as i have worked with it for quite a time, but on other hand smarty is new to me.
+House Rent System, which i am developing is my personal site which i am first time trying with Smarty and Codeigniter combination. I am well aware of Codeigniter as i have worked with it for quite a time, but on other hand smarty is new to me.
 
 So this project is for my learning purpose, and hopefully it will be completed someday :)
 
@@ -7,11 +7,13 @@ Syed Haider Hassan.
 
 --------------------
 Update:
-Project is a Combination of:
+<b>Project is a Combination of:</b>
 CodeIgniter
 Smarty Templates
+jQuery
 Datatables
 DataTables-responsive
 select2 jQuery
 JQuery-validate
 BootStrap
+Jasny BootStrap
