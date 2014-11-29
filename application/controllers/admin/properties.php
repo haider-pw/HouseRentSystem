@@ -68,24 +68,38 @@ class Properties extends Admin_Controller
             );
             $result = $this->Common_Model->select_fields_joined($PropertyData,$PTable,$joins,$where,'');
             $result[0]->ResNo = 'PN-'.$result[0]->ResNo;
+            //Showing Date in User Friendly Format on Page.
             $dateRegistered = $result[0]->DateRegistered;
             $result[0]->DateRegistered = date("d M Y", strtotime($dateRegistered));
 
-            //Get Info for Page Top Bar.
+            /////=====Get Info for Page Top Bar=========\\\\\\.
+            //Tenants Info.
             $tbl = 'hrs_tenant_residential';
-            $data = ('TenantID,IsActive');
+            $data = ('IsActive');
             $where = array(
                 'ResID' => $propertyID
             );
 
             $tenantsResidential = $this->Common_Model->select_fields_where($tbl,$data,$where);
-            $countResult = json_decode(json_encode($tenantsResidential),true);
-            $somevariable = array_count_values(array_column($countResult, 'IsActive'));
-            print_r($countResult);
-            echo "<br />";
-            print_r($tenantsResidential);
-            echo "<br />";
-            print_r($somevariable);
+            if(!empty($tenantsResidential)){
+                $tenantsResidentialAssociatedArray = json_decode(json_encode($tenantsResidential),true);
+                $countTenants = array_count_values(array_column($tenantsResidentialAssociatedArray, 'IsActive'));
+                $result[0]->ActiveTenant = $countTenants[1];
+                $result[0]->InActiveTenants = $countTenants[0];
+            }
+            else{
+                $result[0]->ActiveTenant = '0';
+                $result[0]->InActiveTenants = '0';
+            }
+            $tbl= 'hrs_residential_utilities';
+            $data = ('COUNT(UtilityID) Utilities');
+            $where =array(
+                'ResID' => $propertyID
+            );
+            $utilitiesResidential = $this->Common_Model->select_fields_where($tbl,$data,$where);
+            $result[0]->Utilities = $utilitiesResidential[0]->Utilities;
+            //Get Active and InActive Tenants from the Result.
+
             $this->data['PropertyData'] = $result;
             $this->data['propertyID'] = $propertyID;
             $this->data['title'] = "Property Details";

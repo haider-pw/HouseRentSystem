@@ -105,7 +105,7 @@
                                                                       style="color: #138b0c; font-size: 16pt;"
                                                                       aria-hidden="true"></span>
 
-                                                                <h3 style="display: inline-block">0</h3>
+                                                                <h3 style="display: inline-block">{{$PropertyData[0]->ActiveTenant}}</h3>
 
                                                                 <p style="font-weight: bold;margin-left: 10px;">Active
                                                                     Tenant</p>
@@ -115,7 +115,7 @@
                                                                       style="color: #797a73; font-size: 16pt;"
                                                                       aria-hidden="true"></span>
 
-                                                                <h3 style="display: inline-block"> 0</h3>
+                                                                <h3 style="display: inline-block"> {{$PropertyData[0]->InActiveTenants}}</h3>
 
                                                                 <p style="font-weight: bold;margin-left: 10px;">InActive
                                                                     Tenants</p>
@@ -125,7 +125,7 @@
                                                                       style="color: #b57b06; font-size: 16pt;"
                                                                       aria-hidden="true"></span>
 
-                                                                <h3 style="display: inline-block">0</h3>
+                                                                <h3 style="display: inline-block">{{$PropertyData[0]->Utilities}}</h3>
 
                                                                 <p style="font-weight: bold;margin-left: 10px;">
                                                                     Utilities</p>
