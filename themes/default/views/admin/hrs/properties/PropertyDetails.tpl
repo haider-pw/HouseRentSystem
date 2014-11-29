@@ -243,7 +243,7 @@
                     "bSortable":   false,
                     "bSearchable": false
                 },
-                /* Status */  null,
+                /* Status */ null,
                 /* FullName */  null,
                 /* FatherName */  null,
                 /* CNIC */  null,
@@ -253,7 +253,8 @@
 
             ];
             var sDom = '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>';
-            commonDataTablesCustomDOM(selector,url,aoColumns,sDom);
+            var sort = '[[1,"desc"]]';
+            commonDataTablesCustomDOM(selector,url,aoColumns,sDom,sort);
             //End Of dataTables Script..
 
             //Current Property Utilities List Data Tables Script Here.
@@ -271,7 +272,8 @@
                 /* Registered Under */  null
             ];
             var sDom = '<"H"r>t<"F"<"row"<"col-xs-6" i> <"col-xs-6" p>>>';
-            commonDataTablesCustomDOM(utilitiesSelector,utilitiesURL,aoColumns,sDom);
+            var sort = '[[0,"asc"]]';
+            commonDataTablesCustomDOM(utilitiesSelector,utilitiesURL,aoColumns,sDom,sort);
             //End Of dataTables Script..
         });
     </script>

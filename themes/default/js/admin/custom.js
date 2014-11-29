@@ -76,14 +76,13 @@ function commonDataTables(selector,url,aoColumns,RowCallBack,DrawCallBack){
     });
 }
 //This Below DataTables Function Will Have Customize DOM..
-function commonDataTablesCustomDOM(selector,url,aoColumns,sDom,RowCallBack,DrawCallBack){
+function commonDataTablesCustomDOM(selector,url,aoColumns,sDom,sort,RowCallBack,DrawCallBack){
     var responsiveHelper;
     var breakpointDefinition = {
         tablet: 1024,
         phone : 480
     };
     oTable = selector.dataTable({
-        sPaginationType: 'bootstrap',
         oLanguage      : {
             sLengthMenu: '_MENU_ records per page'
         },
@@ -93,6 +92,7 @@ function commonDataTablesCustomDOM(selector,url,aoColumns,sDom,RowCallBack,DrawC
         "bProcessing":true,
         "sDom" : sDom,
         "bJQueryUI": true,
+        "aaSorting": eval(sort),
         "sPaginationType": "full_numbers",
         "sAjaxSource": url,
         "iDisplayLength": 6,

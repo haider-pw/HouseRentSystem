@@ -762,8 +762,24 @@ class Properties extends Admin_Controller
                 $where = array(
                     'R.ResID' => $propertyID
                 );
-                $result = $this->Common_Model->select_fields_joined_DT($data, $PTable, $joins, $where, '', '');
-                print_r($result);
+                $orderBy = "desc";
+                $orderByColumn = "TR.IsActive";
+                $result = $this->Common_Model->select_fields_joined_DT($data, $PTable, $joins, $where, '', '',$orderBy,$orderByColumn);
+                $resultAssociatedArray = json_decode($result,true);
+                //Replace 0 with InActive and Replace 1 with Active.
+                foreach($resultAssociatedArray['aaData'] as $key=>$value){
+                    if($value[1] === '0'){
+                        $array = array(
+                            1 => '<span class="label label-default">InActive</span>'
+                        );
+                    } elseif($value[1] === '1'){
+                        $array = array(
+                            1 => '<span class="label label-success">Active</span>'
+                        );
+                    }
+                    $resultAssociatedArray['aaData'][$key] = array_replace($resultAssociatedArray['aaData'][$key],$array);
+                }
+                print_r(json_encode($resultAssociatedArray));
                 return;
             } else {
                 redirect($this->data['errorPage_503']);
