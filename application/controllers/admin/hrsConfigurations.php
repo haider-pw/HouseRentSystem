@@ -33,8 +33,14 @@ class hrsConfigurations extends Admin_Controller
             if($this->input->post()){
                 $tbl = 'hrs_utility_type';
                 $data = ('UTID,UName,UDescription');
-                $addColumn = "<a href='#editUtilityTypeModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
-                $result = $this->Common_Model->select_fields_joined_DT($data,$tbl,'','',$addColumn,'');
+                //$addColumn = "<a href='#editUtilityTypeModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>";
+                $editColumnData = "";
+                $editColumnName = "";
+                $addColumns = array(
+                    'Actions' => "<a href='#editUtilityTypeModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>",
+                    'CheckBoxes' => "<input type='checkbox'>"
+                );
+                $result = $this->Common_Model->select_fields_joined_DT($data,$tbl,'','',$addColumns,'',$editColumnName,$editColumnData);
                 print_r($result);
             }
             else{

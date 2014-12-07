@@ -55,6 +55,7 @@ public function login(){
 
     public function loginFailed(){
         $data = NULL; // if needed any data then will use in this to forward to template
-        $this->parser->parse('user_management/failed_login.tpl',$data);
+        //$this->parser->parse('user_management/failed_login.tpl',$data);
+        redirect($this->data['errorPage_401']);
     }
 }

@@ -330,7 +330,7 @@ class Common_Model extends MY_Model{
     }
 
     //Common DataTables Queries
-    function select_fields_joined_DT($data, $PTable, $joins = '', $where = '', $addColumn = '',$unsetColumn='')
+    function select_fields_joined_DT($data, $PTable, $joins = '', $where = '', $addColumn = '',$unsetColumn='',$editColumnName = '',$editColumnData = '')
     {
         $this->datatables->select($data);
         if ($unsetColumn != '') {
@@ -347,7 +347,14 @@ class Common_Model extends MY_Model{
         }
 
         if ($addColumn != '') {
-            $this->datatables->add_column("Actions", $addColumn);
+            foreach($addColumn as $columnKey=>$columnValue ){
+                $this->datatables->add_column($columnKey,$columnValue);
+            }
+/*            $this->datatables->add_column("Actions", $addColumn);
+            $this->datatables->add_column("CheckBoxes", '<input type="checkbox">');*/
+        }
+        if($editColumnData !== '' && $editColumnName !== ''){
+            $this->datatables->edit_column($editColumnName, $editColumnData,'data');
         }
 
         $result = $this->datatables->generate();

@@ -21,6 +21,7 @@
                             <table id="ManageUtilityTypes" class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
                                 <tr>
+                                    <th><input type="checkbox" id="UtilityTypesCheckAll" value="" />&nbsp;All</th>
                                     <th>Utility ID</th>
                                     <th data-class="expand">Utility Type Name</th>
                                     <th data-hide="phone">Description</th>
@@ -121,16 +122,34 @@
         var selector = $('#ManageUtilityTypes');
         var url = "{{base_url()}}admin/hrsConfigurations/listUtilityTypes_DT/";
         var aoColumns =  [
-            /* ID */   {
+            {
+                "mData": "CheckBoxes",
+                "bSortable": false,
+                "bSearchable": false
+            },
+           /* ID */   {
+                "mData": "UTID",
                 "bVisible":    false,
                 "bSortable":   false,
                 "bSearchable": false
             },
-            /* Utility Type Name */  null,
-            /* Description */  null,
-            /* Actions */  null,
+            /* Utility Type Name */  {
+                "mData": "UName"
+            },
+            /* Description */  {
+                "mData": "UDescription"
+            },
+            /* Actions */  {
+                "mData": "Actions"
+            }
         ];
         commonDataTables(selector,url,aoColumns);
+
+        //Little Script for CheckBox in Datatables.
+        $("#UtilityTypesCheckAll").click(function () {
+            $('#ManageUtilityTypes tbody input[type="checkbox"]').prop('checked', this.checked);
+        });
+
         //End Of dataTables Script..
         $('#AddUtilityTypeBtn').on('click', function (e) {
             e.preventDefault();
