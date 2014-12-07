@@ -40,7 +40,7 @@ class hrsConfigurations extends Admin_Controller
                     'Actions' => "<a href='#editUtilityTypeModal' data-toggle='modal' class='editBtnFunc'><i style='color: #666666' class='fa fa-pencil fa-fw fa-2x'></i></a><a href='#' class='deleteBtnFunc'><i style='color: #ff0000' class='fa fa-times fa-fw fa-2x'></i></a>",
                     'CheckBoxes' => "<input type='checkbox'>"
                 );
-                $result = $this->Common_Model->select_fields_joined_DT($data,$tbl,'','',$addColumns,'',$editColumnName,$editColumnData);
+                $result = $this->Common_Model->select_fields_joined_checkboxes_DT($data,$tbl,'','',$addColumns,'',$editColumnName,$editColumnData);
                 print_r($result);
             }
             else{

@@ -21,8 +21,8 @@
                             <table id="ManageUtilityTypes" class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="UtilityTypesCheckAll" value="" />&nbsp;All</th>
                                     <th>Utility ID</th>
+                                    <th><input type="checkbox" id="UtilityTypesCheckAll" value="" />&nbsp;All</th>
                                     <th data-class="expand">Utility Type Name</th>
                                     <th data-hide="phone">Description</th>
                                     <th>Actions</th>
@@ -30,6 +30,7 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                            <button type="button" id="testButton">Test For CheckBoxes.</button>
                         </div>
                     </div>
                 </div>
@@ -122,17 +123,18 @@
         var selector = $('#ManageUtilityTypes');
         var url = "{{base_url()}}admin/hrsConfigurations/listUtilityTypes_DT/";
         var aoColumns =  [
-            {
-                "mData": "CheckBoxes",
-                "bSortable": false,
-                "bSearchable": false
-            },
-           /* ID */   {
+            /* ID */   {
                 "mData": "UTID",
                 "bVisible":    false,
                 "bSortable":   false,
                 "bSearchable": false
             },
+            {
+                "mData": "CheckBoxes",
+                "bSortable": false,
+                "bSearchable": false
+            },
+
             /* Utility Type Name */  {
                 "mData": "UName"
             },
@@ -143,11 +145,24 @@
                 "mData": "Actions"
             }
         ];
-        commonDataTables(selector,url,aoColumns);
+        var HiddenColumnID = 'UTID';
+        commonDataTablesWithCheckBoxes(selector,url,aoColumns,HiddenColumnID);
 
         //Little Script for CheckBox in Datatables.
         $("#UtilityTypesCheckAll").click(function () {
             $('#ManageUtilityTypes tbody input[type="checkbox"]').prop('checked', this.checked);
+        });
+
+        $('#testButton').on('click', function (e) {
+            var UTID = $(this).closest('tr').attr('data-id');
+            var ids = new Array();
+            var array = $('#ManageUtilityTypes input:checked');
+            $.each(array, function (i, e) {
+                if ($(e).attr("id") != 'UtilityTypesCheckAll') {
+                    ids.push($(e).closest('tr').attr('data-id'))
+                }
+            });
+            console.log(ids);
         });
 
         //End Of dataTables Script..
