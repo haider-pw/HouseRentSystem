@@ -192,6 +192,7 @@ if (defined('ENVIRONMENT'))
 	}
 
 // The path to the "views" folder
+$view_folder = (isset($view_folder)) ? $view_folder : null;
 if ( ! is_dir($view_folder))
 {
     if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.'/'))

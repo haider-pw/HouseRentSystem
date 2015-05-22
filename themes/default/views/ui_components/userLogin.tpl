@@ -12,7 +12,7 @@
             <div class="dropdown-menu">
                 <ul>
                     <li>Settings</li>
-                    <li onclick="adminPanelRequest()">Administration</li>
+                    <li id="adminPanelRequest">Administration</li>
                     <li onclick="logout()">Log Out</li>
                 </ul>
             </div>
@@ -32,10 +32,10 @@
             });
         }
 
-        function adminPanelRequest(){
+        $('#adminPanelRequest').on('click',function(){
             var pathToRedirect = "{{userLoggedInRedirectPath($UserGroupID)}}";
             window.location.href = "{{url}}" + pathToRedirect;
-        }
+        });
     </script>
 {{else}}
     <form class="navbar-form navbar-right" method="post" action="{{url}}user_management/userLogin/login">
