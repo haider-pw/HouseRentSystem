@@ -125,7 +125,7 @@
         });
         selector.on('click','.propertyDetailsFunc', function (e) {
             var resID = $(this).parents('tr').attr('data-id');
-            window.location.replace('{{url}}admin/properties/propertyDetails/'+resID);
+            window.location.href='{{url}}admin/properties/propertyDetails/'+resID;
         });
     });
 </script>

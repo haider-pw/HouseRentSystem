@@ -84,8 +84,8 @@ class Properties extends Admin_Controller
             if(!empty($tenantsResidential)){
                 $tenantsResidentialAssociatedArray = json_decode(json_encode($tenantsResidential),true);
                 $countTenants = array_count_values(array_column($tenantsResidentialAssociatedArray, 'IsActive'));
-                $result[0]->ActiveTenant = $countTenants[1];
-                $result[0]->InActiveTenants = $countTenants[0];
+                $result[0]->ActiveTenant = (isset($countTenants[1])?$countTenants[1]:0);
+                $result[0]->InActiveTenants = (isset($countTenants[0])?$countTenants[0]:0);
             }
             else{
                 $result[0]->ActiveTenant = '0';

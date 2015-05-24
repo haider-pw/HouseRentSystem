@@ -170,7 +170,6 @@ if (!function_exists('GetUserProfileImage')){
             }else{
                 return base_url().'uploads/users/d/defaultAvatar.jpg';
             }
-
         }
         elseif($userAvatar === 'defaultAvatar.jpg'){
             return base_url().'uploads/users/d/defaultAvatar.jpg';
