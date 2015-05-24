@@ -298,7 +298,7 @@ function createTenant_Action(){
     {
         if ($this->input->is_ajax_request()) {
             $PTable = 'hrs_tenants T';
-            $data = ('PaymentID,PaymentReceived,DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining');
+            $data = array('PaymentID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
             $joins=array(
                 array(
                     'table' => 'hrs_tenant_residential TR',
@@ -319,7 +319,7 @@ function createTenant_Action(){
             $where = array(
                 'T.IsActive' => '1'
             );
-            $result = $this->Common_Model->select_fields_joined_DT($data,$PTable,$joins,$where,'','');
+            $result = $this->common_model->select_fields_joined_DT($data,$PTable,$joins,$where,'','');
             $result = json_decode($result,true);
             foreach($result['aaData'] as $key => $row){
                 if($row[7]==='0' || $row[1]===$row[6]){

@@ -332,7 +332,12 @@ class common_model extends MY_Model{
     //Common DataTables Queries
     function select_fields_joined_DT($data, $PTable, $joins = '', $where = '', $addColumn = '',$unsetColumn='')
     {
-        $this->datatables->select($data);
+        if(is_array($data)){
+            $this->datatables->select($data[0],$data[1]);
+        }else{
+            $this->datatables->select($data);
+        }
+
         if ($unsetColumn != '') {
         $this->datatables->unset_column($unsetColumn);
         }
