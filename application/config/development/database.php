@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'webteezy.com';
 $db['default']['username'] = 'webteezy';
-$db['default']['password'] = '3WJ~w*#d=xCv';
+$db['default']['password'] = '-------';
 $db['default']['database'] = 'houserentsystem';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
