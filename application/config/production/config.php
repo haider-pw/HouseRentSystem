@@ -37,7 +37,7 @@ $config['base_url']	= 'http://webteezy.com/demos/hrs/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php?';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ $config['index_page'] = 'index.php?';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'QUERY_STRING';
+$config['uri_protocol']	= 'AUTO';
 
 /*
 |--------------------------------------------------------------------------

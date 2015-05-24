@@ -14,7 +14,7 @@ class Properties extends Admin_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('hrs/PropertiesModel');
+        $this->load->model('hrs/propertiesmodel');
     }
 
     function ManageProperties()
