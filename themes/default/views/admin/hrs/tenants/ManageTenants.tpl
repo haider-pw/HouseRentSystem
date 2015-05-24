@@ -155,7 +155,6 @@
             var TenantID = $(this).closest('tr').attr('data-id');
             //console.log(FormID);
             window.location.href = '{{url}}/admin/hrsTenants/UpdateTenant/'+TenantID;
-
         });
 
         //Delete Button in DataTables

@@ -2780,3 +2780,8 @@ text-align: right;
     display: inline-block;
     float:right;
 }
+
+/*=============DataTable Long Description Text To Be short ellipsis=====================*/
+table td{
+    white-space: normal;
+}

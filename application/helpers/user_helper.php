@@ -164,7 +164,13 @@ if (!function_exists('GetUserProfileImage')){
         $userAvatar = $result->Avatar;
         //return $userAvatar;
         if($userAvatar!=='defaultAvatar.jpg'){
-            return base_url().'uploads/users/'.$CurrentUserID.'/'.$userAvatar;
+            $fileRelativePath = 'uploads/users/'.$CurrentUserID.'/'.$userAvatar;
+            if(file_exists($fileRelativePath)){
+                return base_url().'uploads/users/'.$CurrentUserID.'/'.$userAvatar;
+            }else{
+                return base_url().'uploads/users/d/defaultAvatar.jpg';
+            }
+
         }
         elseif($userAvatar === 'defaultAvatar.jpg'){
             return base_url().'uploads/users/d/defaultAvatar.jpg';
