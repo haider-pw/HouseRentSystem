@@ -152,32 +152,9 @@
         //Edit Button in DataTables
         $('#ManageTenants').on('click', '.editBtnFunc', function(e){
             e.preventDefault();
-            var FormID = $(this).closest('tr').attr('data-id');
+            var TenantID = $(this).closest('tr').attr('data-id');
             //console.log(FormID);
-
-            $.ajax({
-                type:"post",
-                url:"",
-                dataType:"json",
-                success:function(response){
-                    if(!($.isEmptyObject(response))){
-                        $.each(response,function(key,value){
-                            $("#formName").val(value.FormName);
-                            $("#formPath").val(value.FormPath);
-                            $("#formCIPath").val(value.FormCIPath);
-                            if(value.IsMenuLink !=='0'){
-                                $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-off');
-                                $("#isMenuLink").parent().parent().addClass('bootstrap-switch-on');
-                            }
-                            else{
-                                $("#isMenuLink").parent().parent().removeClass('bootstrap-switch-on');
-                                $("#isMenuLink").parent().parent().addClass('bootstrap-switch-off');
-                            }
-                        });
-                    }
-                    $("#formID").val(FormID);
-                }
-            }); //---  End of $.ajax  ---//
+            window.location.href = '{{url}}/admin/hrsTenants/UpdateTenant/'+TenantID;
 
         });
 

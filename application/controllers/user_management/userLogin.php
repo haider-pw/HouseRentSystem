@@ -6,7 +6,7 @@
  * Time: 1:13 AM
  */
 
-class userLogin extends My_Controller{
+class userLogin extends MY_Controller{
     function __construct(){
         parent::__construct();
     }

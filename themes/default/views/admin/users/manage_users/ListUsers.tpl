@@ -107,15 +107,6 @@
                 e.preventDefault();
                 var UserID = $(this).closest('tr').attr('data-id');
                 window.location.replace('{{url}}/admin/usersManageUsers/UpdateUser/'+UserID);
-/*                //Ajax to send Value to the Server
-                    $.ajax({
-                        type:"post",
-                        url:"{{base_url()}}admin/usersManageUsers/UpdateUser_Action/"+UserID,
-                        dataType:'json',
-                        success: function(data){
-                            console.log(data[0].UserID);
-                        }
-                    }); //---  End of $.ajax  ---//*/
             });
 //            End of Edit/Update Function
         });

@@ -26,6 +26,19 @@ class hrsTenants extends Admin_Controller{
             redirect($this->data['errorPage_403']);
         }
     }
+    function UpdateTenant($TenantID){
+        $UserID = $this->data['UserID'];
+        if(is_admin($UserID)== TRUE || is_allowed($UserID) == TRUE){
+            //Need to Get User ID for Tenant ID
+            $where=array(
+              'TenantID' => $TenantID
+            );
+            $UserInfo = $this->common_model->select_fields_where('hrs_tenants','UserID',$where,TRUE);
+           redirect('admin/usersManageUsers/UpdateUser/'.$UserInfo->UserID);
+        }else{
+            redirect($this->data['errorPage_403']);
+        }
+    }
     function Details($tenantID){
         $UserID = $this->data['UserID'];
         if(is_admin($UserID) === TRUE || is_allowed($UserID) === TRUE ){

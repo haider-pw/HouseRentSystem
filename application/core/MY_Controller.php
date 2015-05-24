@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 /**
- * @property Common_Model $Common_Model It resides all the methods which can be used in most of the controllers.
+ * @property common_model $common_model It resides all the methods which can be used in most of the controllers.
  * @property datatables $datatables It resides all the methods which can be used in most of the controllers.
  */
 class MY_Controller extends CI_Controller{
@@ -22,7 +22,7 @@ class MY_Controller extends CI_Controller{
         $this->data['errorPage_403'] = 'errorPages/error_403';
         $this->data['errorPage_404'] = 'errorPages/error_404';
         $this->data['errorPage_500'] = 'errorPages/error_500';
-        $this->load->model('Common_Model');
+        $this->load->model('common_model');
         $this->load->model('users_management/login_check');
         $this->parser->set_theme('default');
         $this->data['themeName'] = 'default';
