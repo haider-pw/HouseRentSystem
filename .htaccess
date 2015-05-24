@@ -5,6 +5,7 @@ DirectoryIndex index.php
 	RewriteEngine on
 
 	RewriteBase /projects/HouseRentSystem
+	#RewriteBase /demos/hrs
     # Hide the application and system directories by redirecting the request to index.php
     RewriteRule ^(application|system|\.svn) index.php?/$1 [L]
     RewriteCond %{REQUEST_FILENAME} !-f
