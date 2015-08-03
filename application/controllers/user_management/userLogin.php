@@ -27,7 +27,7 @@ public function login(){
             'Username' => $username,
             'Password' => $password
         );
-        $result = $this->Common_Model->login($where);
+        $result = $this->common_model->login($where);
         // if the user successfully logged in, then result will be TRUE
         if($result===TRUE){
             redirect($sourcePage); // redirect to the main URI of the Site for the current

@@ -298,7 +298,7 @@ function createTenant_Action(){
     {
         if ($this->input->is_ajax_request()) {
             $PTable = 'hrs_tenants T';
-            $data = array('PaymentID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
+            $data = array('P.PaymentID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
             $joins=array(
                 array(
                     'table' => 'hrs_tenant_residential TR',
@@ -311,9 +311,19 @@ function createTenant_Action(){
                     'type' => 'INNER'
                 ),
                 array(
-                    'table' => 'hrs_payments P',
-                    'condition' => 'T.TenantID = P.TenantID',
+                    'table' => 'hrs_payment_record PR',
+                    'condition' => 'T.TenantID = PR.TenantID',
                     'type' => 'INNER'
+                ),
+                array(
+                    'table' => 'hrs_payments P',
+                    'condition' => 'PR.RecordID = P.RecordID',
+                    'type' => 'LEFT'
+                ),
+                array(
+                    'table' => 'hrs_payment_due_status PDS',
+                    'condition' => 'P.PaymentID = PDS.PaymentID',
+                    'type' => 'LEFT'
                 )
             );
             $where = array(
