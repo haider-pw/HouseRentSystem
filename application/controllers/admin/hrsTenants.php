@@ -298,7 +298,7 @@ function createTenant_Action(){
     {
         if ($this->input->is_ajax_request()) {
             $PTable = 'hrs_tenants T';
-            $data = array('P.PaymentID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
+            $data = array('PR.RecordID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
             $joins=array(
                 array(
                     'table' => 'hrs_tenant_residential TR',
@@ -342,13 +342,13 @@ function createTenant_Action(){
                     $expiry_date = $row[2];
                     $current_date = $this->data['dbCurrentDate'];
                     if($expiry_date<$current_date){
-                        $row[1] = '<span aria-hidden="true" style="color: darkred; font-size: 16pt; text-align: center;display: block;" class="fa fa-tags"></span>';
+                        $row[1] = '<span aria-hidden="true" style="color: darkred; font-size: 16pt; text-align: center;display: block; cursor:pointer" class="fa fa-tags paymentInfo"></span>';
                         $array = array(
                             1 => $row[1]
                         );
                     }
                     else{
-                        $row[1] = '<span aria-hidden="true" style="color: black; font-size: 16pt; text-align: center;display: block;" class="fa fa-tags"></span>';
+                        $row[1] = '<span aria-hidden="true" style="color: black; font-size: 16pt; text-align: center;display: block; cursor: pointer" class="fa fa-tags paymentInfo"></span>';
                         $array = array(
                             1 => $row[1]
                         );

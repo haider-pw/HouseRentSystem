@@ -199,6 +199,16 @@
             ];
             commonDataTablesWithFooter(selector,url,aoColumns);
             //End Of dataTables Script..
-        });
+
+
+
+            //Option To Redirect to Payment Details
+            selector.on('click','.paymentInfo',function(e){
+                var paymentRecordID = $(this).parents('tr').attr('data-id');
+                window.location.href= "{{base_url()}}admin/payments/details/"+paymentRecordID
+                console.log(paymentRecordID);
+            });
+
+        });//End of Document Ready Function
     </script>
 {{/block}}

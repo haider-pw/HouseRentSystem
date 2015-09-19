@@ -17,4 +17,8 @@ class payments extends Admin_Controller
         $this->data['title'] = "Payment Invoice";
         $this->parser->parse('admin/hrs/payments/invoice', $this->data);
     }
+    public function details($paymentRecordID){
+        $this->data['title'] = "Payment Details";
+        $this->parser->parse('admin/hrs/payments/PaymentDetails',$this->data);
+    }
 }
