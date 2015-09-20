@@ -168,7 +168,12 @@ class common_model extends MY_Model{
 
     function select_fields_joined($data, $PTable, $joins,$where='',$groupBy = '')
     {
-        $this->db->select($data);
+        if(is_array($data)){
+            $this->db->select($data[0],$data[1]);
+        }else{
+            $this->db->select($data);
+        }
+
 
         $this->db->from($PTable);
         foreach ($joins as $k => $v){

@@ -104,7 +104,7 @@
                                                            <div class="form-group">
                                                                 <label class="control-label col-lg-2" for="fullName">PaymentID</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control required" name="paymentID" value="{{$UserData[0]->FullName}}" disabled="disabled">
+                                                                    <input type="text" class="form-control required" name="paymentID" value="{{$paymentDetails->PaymentID}}" disabled="disabled">
                                                                 </div>
                                                             </div><!-- /.form-group -->
                                                             <div class="form-group">
@@ -137,11 +137,14 @@
                                                                 <td>Rent payment for 12/05/14 - 01/04/15</td>
                                                                 <td>Rs12,000</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td style="text-align: right">(Payment) Muhammad Asif · 11/26/14</td>
-                                                                <td>(Rs6,000.00)</td>
-                                                            </tr>
+
+                                                            {{foreach from=$paymentDetails->Payments item=row}}
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td style="text-align: right">(Payment) {{$row['DateReceived']}} </td>
+                                                                    <td style="text-align: right">{{$row['Amount']}}</td>
+                                                                </tr>
+                                                            {{/foreach}}
                                                             <tr>
                                                                 <td></td>
                                                                 <td style="text-align: right">Total Amount Due:</td>
