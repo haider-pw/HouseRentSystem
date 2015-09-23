@@ -44,45 +44,29 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        <span class="user-name">{{$PropertyData[0]->ResNo}}</span>
+                                                        <a href="{{url}}admin/properties/propertyDetails/{{$paymentDetails->ResID}}"><span class="user-name">{{$paymentDetails->ResNo}}</span></a>
                                                     </div>
                                                     <div class="list-group">
                                                         <a href="#" class="list-group-item row">
                                                             <div class="col-lg-12"
                                                                  style="text-align: center;font-weight: bold;">
-                                                                <span>{{$PropertyData[0]->TypeName}}</span>
+                                                                <span>{{$paymentDetails->ResType}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
                                                             <div class="col-lg-4">
-                                                                <b>Rooms:</b>
+                                                                <b>Tenant:</b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span>{{$PropertyData[0]->ResRooms}}</span>
+                                                                <span>{{$paymentDetails->TenantName}}</span>
                                                             </div>
                                                         </a>
                                                         <a href="#" class="list-group-item row">
                                                             <div class="col-lg-4">
-                                                                <b>Kitchens:</b>
+                                                                <b>Month/Year:</b>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <span>{{$PropertyData[0]->ResKitchens}}</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" class="list-group-item row">
-                                                            <div class="col-lg-4">
-                                                                <b>Washrooms:</b>
-                                                            </div>
-                                                            <div class="col-lg-8">
-                                                                <span>{{$PropertyData[0]->ResBathrooms}}</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" class="list-group-item row">
-                                                            <div class="col-lg-4">
-                                                                <b>Registered On: </b>
-                                                            </div>
-                                                            <div class="col-lg-8">
-                                                                <span> {{$PropertyData[0]->DateRegistered}} </span>
+                                                                <span>{{$paymentDetails->PaymentMonthYear}}</span>
                                                             </div>
                                                         </a>
                                                     </div>
@@ -110,13 +94,13 @@
                                                             <div class="form-group">
                                                                 <label class="control-label col-lg-2" for="fatherName">Due Date</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control required" name="dueDate" placeholder="Due Date" value="{{$UserData[0]->FatherName}}">
+                                                                    <input type="text" class="form-control required" name="dueDate" placeholder="Due Date" value="{{$paymentDetails->DueDate}}">
                                                                 </div>
                                                             </div><!-- /.form-group -->
                                                             <div class="form-group">
                                                                 <label class="control-label col-lg-2" for="username">Amount Outstanding</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control required" name="amountOutstanding" placeholder="Username" value="{{$UserData[0]->Username}}" id="username">
+                                                                    <input type="text" class="form-control required" name="amountOutstanding" placeholder="Username" value="{{$paymentDetails->TotalOutstanding}}" id="username">
                                                                 </div>
                                                             </div><!-- /.form-group -->
                                                     </form>
@@ -132,31 +116,35 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>Rent</td>
-                                                                <td>Rent payment for 12/05/14 - 01/04/15</td>
-                                                                <td>Rs12,000</td>
-                                                            </tr>
+                                                            {{foreach from=$paymentDetails->Dues key=k item=row}}
+                                                                <tr>
+                                                                    <td>{{$k}}</td>
+                                                                    <td>{{$row['Description']}}</td>
+                                                                    <td>{{$row['Amount']}}</td>
+                                                                </tr>
+                                                            {{/foreach}}
 
                                                             {{foreach from=$paymentDetails->Payments item=row}}
                                                                 <tr>
                                                                     <td></td>
                                                                     <td style="text-align: right">(Payment) {{$row['DateReceived']}} </td>
-                                                                    <td style="text-align: right">{{$row['Amount']}}</td>
+                                                                    <td style="text-align: right">(Rs{{$row['Amount']}})</td>
                                                                 </tr>
                                                             {{/foreach}}
                                                             <tr>
                                                                 <td></td>
                                                                 <td style="text-align: right">Total Amount Due:</td>
-                                                                <td style="font-weight: bold;">Rs12,000</td>
-                                                            </tr>                                                            <tr>
+                                                                <td style="font-weight: bold;">Rs{{$paymentDetails->TotalPaymentsDue}}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td></td>
                                                                 <td style="text-align: right">Total Amount Paid:</td>
-                                                                <td style="font-weight: bold;">(Rs6,000.00)</td>
-                                                            </tr>                                                            </tr>                                                            <tr>
+                                                                <td style="font-weight: bold;">(Rs{{$paymentDetails->TotalPaymentsReceived}})</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td></td>
                                                                 <td style="text-align: right">Total Amount Outstanding: </td>
-                                                                <td style="font-weight: bold;">Rs6,000.00</td>
+                                                                <td style="font-weight: bold;">Rs{{$paymentDetails->TotalOutstanding}}</td>
                                                             </tr>
                                                             </tbody>
                                                         </table>

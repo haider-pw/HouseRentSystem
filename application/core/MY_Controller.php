@@ -32,6 +32,7 @@ class MY_Controller extends CI_Controller{
         $this->data['UserGroupName'] = CheckUserGroupName($this->data['UserGroupID']);
         $this->data['UserProfileImage'] = GetUserProfileImage($this->data['UserID']);
         $this->data['dbCurrentDate'] = date("Y-m-d H:i:s");
+            $this->data['ResIdentification'] = "PN-";
         }
 }
     function hashPassword($password) {

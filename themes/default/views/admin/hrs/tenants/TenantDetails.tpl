@@ -181,7 +181,7 @@
             oTable = '';
             //Data Tables Script Here.
             var selector = $('#TenantPaymentDetails');
-            var url = "{{base_url()}}admin/hrsTenants/listTenantPaymentDetails_DT/";
+            var url = "{{base_url()}}admin/hrsTenants/listTenantPaymentDetails_DT/{{$TenantData[0]->TenantID}}";
             var aoColumns =  [
                 /* Payment ID */   {
                     "bVisible":    false,

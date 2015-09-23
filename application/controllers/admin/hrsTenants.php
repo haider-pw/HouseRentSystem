@@ -51,7 +51,7 @@ class hrsTenants extends Admin_Controller{
 
 //            Need to Query in Database to get the Tenant Details to show inside the view.
             $PTable = 'hrs_tenants';
-            $TenantData = ('Username, FullName, FatherName, CNIC, Email, Mobile, GroupName , LastActivity');
+            $TenantData = ('TenantID, Username, FullName, FatherName, CNIC, Email, Mobile, GroupName , LastActivity');
             $joins = array(
                 array(
                     'table' => 'users_users',
@@ -294,9 +294,12 @@ function createTenant_Action(){
         }
     }
 
-    function listTenantPaymentDetails_DT()
+    function listTenantPaymentDetails_DT($TenantID = NULL)
     {
         if ($this->input->is_ajax_request()) {
+            if(!is_numeric($TenantID) || empty($TenantID)){
+                return false;
+            }
             $PTable = 'hrs_tenants T';
             $data = array('PR.RecordID,PaymentReceived,DATE_FORMAT(DueDate,"%d-%M-%Y") AS DueDate,ResNo,PeriodStart,PeriodEnd,TotalDues,PaymentRemaining',false);
             $joins=array(
@@ -327,7 +330,8 @@ function createTenant_Action(){
                 )
             );
             $where = array(
-                'T.IsActive' => '1'
+                'T.IsActive' => '1',
+                'T.TenantID' => $TenantID
             );
             $result = $this->common_model->select_fields_joined_DT($data,$PTable,$joins,$where,'','');
             $result = json_decode($result,true);
